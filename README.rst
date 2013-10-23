@@ -1,4 +1,26 @@
 
+===========================
+About
+===========================
+
+The ContactDB project was initiated to cover the need for a tool 
+to maintain contacts for CSIRT teams. The first POC was designed 
+based on specification of a few CERT team including CERT.at, 
+CERT.pt and CERT.be.
+
+
+===========================
+(Expected) Features
+===========================
+
+* Secure implementation
+* Easy and modular web interface
+* Integration with 3rd party tools like AbuseHelper
+* Support for a large range of fields like Geo Data...
+* Support for GPG public key storage
+* Delegation (an organisation can keep his contact info up-to-date)
+* ...
+
 
 ===========================
 How to get the source code
