@@ -1,0 +1,14 @@
+<h1>Add Source</h1>
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<form action="{% url addsource %}" method="post">
+{% csrf_token %}
+<label for="source">Source:</label>
+<input type="text" name="source" id="source" />
+<br/>
+<label for="reliability">Reliability:</label>
+<input type="text" name="reliability" id="reliability" value="0.0"/>
+<br/>
+<input type="submit" value="Add" />
+</form>

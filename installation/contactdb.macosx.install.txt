@@ -1,0 +1,150 @@
+
+Author: L. Aaron Kaplan <kaplan@cert.at>
+Last modified: 2013/01/29 
+
+
+
+HOW TO INSTALL the Django AH contactdb
+======================================
+
+
+PREREQUISITES
+=============
+
+Python2.7
+py27-psycopg2
+py27-django
+south			(http://south.readthedocs.org/en/latest/about.html)
+tastypie 		(http://django-tastypie.readthedocs.org/)
+py27-gnupg
+postgresql91 or higher
+
+OPTIONAL pyyaml (http://pyyaml.org/) 	- used for YAML RESTful output
+OPTIONAL lxml   (http://lxml.de/)  		- used for XML RESTful output
+
+
+On OS X:
+sudo port install postgresql91-server
+sudo port install postgresql91
+sudo port install py27-django
+sudo port install py27-gnupg
+sudo port install py27-psycopg2
+sudo port install py27-pil
+sudo easy_install geopy
+sudo port install py27-south
+sudo port install py27-tastypie
+sudo port install py27-lxml
+sudo port install py27-yaml
+
+Note: in case you had some issues with installing postgresql on OS X , you can can also try the Mac OS X package provided on postgresql.org
+
+
+
+Setting up the Database
+=======================
+
+$ sudo su -
+# su - postgres
+
+$ createuser -s contactdb
+$ createdb contactdb
+
+
+
+
+
+Creating the DB structure
+=========================
+$ ./manage.py syncdb
+
+
+
+Edit the settings.py file to suite your needs
+=============================================
+
+$ vi AHDjango/settings.py
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': 'contactdb',                      # Or path to database file if using sqlite3.
+        'USER': 'aaron',                      # Not used with sqlite3.
+        'PASSWORD': '',                  # Not used with sqlite3.
+        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
+^^^^^^^^^^^^^^^ change these values
+        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
+    }
+}
+
+
++ pyc cleanup
+
+
+
+Install Tastypie (REST-API)
+==========================
+http://tastypieapi.org/
+
+Install using Pip: pip install django-tastypie
+Add to installed apps: INSTALLED_APPS += ['tastypie']
+Syncdb: ./manage.py syncdb
+Create your resource(s)
+Hook them up in the URLconf
+
+
+
+Set your environment variables to use UTF-8
+===========================================
+export LANG="en_EN.UTF-8"
+export LC_COLLATE="en_EN.UTF-8"
+export LC_CTYPE="en_EN.UTF-8"
+export LC_MESSAGES="en_EN.UTF-8"
+export LC_MONETARY="en_EN.UTF-8"
+export LC_NUMERIC="en_EN.UTF-8"
+export LC_TIME="en_EN.UTF-8"
+export LC_ALL=
+
+export CONTACTDB_HOME=$(pwd)
+
+Fill in the DB values
+=====================
+
+$ ./initialize-db.sh
+
+
+Fetch the TI database: 
+
+you need to have access to the internal TIW website for this. Ask Trusted Introducer for access in case you are member but don't have access yet.
+It requires a client certificate.
+
+Please use the "new" format: https://tiw.trusted-introducer.org/directory/ti-l2-info.v2.csv
+
+Import the TI database into the contactdb:
+
+% cd contrib
+% ./TI-import.py < ti-l2-info.v2.csv > foo.sql
+% psql contactdb < foo.sql
+
+
+
+Start the local Django server
+============================
+$ ./manage.py runserver
+
+connect your browser to http://localhost:8000/admin
+
+You should see lots of data in the Organisations table
+
+Test the RESTful API
+===================
+
+http://localhost:8000/api/v1/?format=json
+http://localhost:8000/api/v1/country/?format=json&limit=1000
+
+See the API document for details.
+
+
+
+
+
+

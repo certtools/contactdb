@@ -1,0 +1,4 @@
+jobmap.kml
+out.json - json file output from kmlcertmap.py
+page.html - sample page using out.json
+pagekml.html - sample page displaying a KML file

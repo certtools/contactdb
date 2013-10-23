@@ -1,0 +1,10 @@
+<h1>Search</h1>
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<form action="{% url search %}" method="post">
+{% csrf_token %}
+<label for="country_name">Country Name:</label>
+<input type="text" name="country_name" id="country_name" />
+<input type="submit" value="Search" />
+</form>

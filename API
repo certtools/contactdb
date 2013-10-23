@@ -1,0 +1,6 @@
+
+http://localhost:8000/api/v1/countries/?format=json&limit=10000&country_name__contains=FRA
+http://localhost:8000/api/v1/countries/?format=json&limit=10000&country_name__startswith=BE
+http://localhost:8000/api/v1/countries/?format=json&limit=10000
+http://localhost:8000/api/v1/airports/?format=json&limit=10000
+

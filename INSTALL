@@ -1,0 +1,53 @@
+Contributors:
+L. Aaron Kaplan <kaplan@cert.at>
+Tomás Lima <tomas.lima@cert.pt>
+
+Last modified:
+2013/09/19 
+
+
+
+PREREQUISITES
+=============
+
+Database:
+- PostgreSQL 9 (or higher)
+
+Python:
+- Python2.7
+
+Python Modules:
+- Psycopg2 
+- Django
+- South
+- Tastypie Django
+- GnuPG
+- python imaging library "pil": http://www.pythonware.com/products/pil/
+
+Optional Python Modules:
+- PyYAML (used for YAML RESTful output)
+- lxml   (used for XML RESTful output)
+
+
+
+INSTALL
+=======
+
+OS X installation:		see installation/contactdb.macosx.install.txt
+Ubuntu 12.04 installation:	run installation/contactdb.ubuntu.install.sh
+
+
+NOTE on old versions of tastypie
+===============================
+
+There seems to be an issue with tastypie together with django 1.5x.
+Just simply go and edit resources.py in tastypie 
+
+Old:
+from django.db.models.sql.constants import QUERY_TERMS, LOOKUP_SEP
+
+New:
+from django.db.models.constants import LOOKUP_SEP
+from django.db.models.sql.constants import QUERY_TERMS
+
+See also this post: http://stackoverflow.com/questions/15408255/cannot-import-name-lookup-sep

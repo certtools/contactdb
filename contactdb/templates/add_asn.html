@@ -1,0 +1,14 @@
+<h1>Add ASN</h1>
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<form action="{% url addasn %}" method="post">
+{% csrf_token %}
+<label for="asn">AS Number:</label>
+<input type="text" name="asn" id="asn" />
+<br/>
+<label for="asname">AS Name:</label>
+<input type="text" name="asname" id="asname" />
+<br/>
+<input type="submit" value="Add" />
+</form>
