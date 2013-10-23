@@ -32,8 +32,12 @@ You can get the source code at
 
   $ git clone git@github.com:ddurvaux/contactdb.git
 
-The private version is available at: 
-$ git clone git@git.lo-res.org:/home/git/contactdb.git
+The private version is available at:: 
+
+  $ git clone git@git.lo-res.org:/home/git/contactdb.git
+
+Note: the private repo contains importers and data which is not public at the moment. 
+That's why we have a private repo as well. The source code is the same however.
 
 
 If you want to make some changes do it like this:
