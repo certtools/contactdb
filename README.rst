@@ -1,4 +1,8 @@
 
+===========================
+What is it?
+===========================
+
 
 ===========================
 How to get the source code
@@ -31,11 +35,11 @@ In case it does not work, contact aaron@lo-res.org
 Starting the contactdb 
 ==========================
 
-# make sure that you can download PGP keys to a keyring
+# make sure that you can download PGP keys to a keyring::
 
-cd <installdirectory>
-export CONTACTDB_HOME=$(pwd)
-mkdir $CONTACTDB_HOME/.gnupg/ && chmod 700 $CONTACTDB_HOME/.gnupg
+  cd <installdirectory>
+  export CONTACTDB_HOME=$(pwd)
+  mkdir $CONTACTDB_HOME/.gnupg/ && chmod 700 $CONTACTDB_HOME/.gnupg
 
 
 
