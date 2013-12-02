@@ -5,33 +5,37 @@
 GENERAL
 =============
 
-clean up the mess in scripts/* db/* contrib/* and unify it
+clean up the mess in scripts/* db/* contrib/* and unify it -> aaron
 
 =============
 Model
 =============
 
-* fix m-to-n relationship CERT to country. Some CERTs are responsible for multiple countries. 
-* fix m-to-n relationship CERT to URL
-* fix 1-n relationship between Organisation and email addresses
-* fix 1-n relationship between Organisation and tel#s
-* 1-n relationship Person to IM system (Skype, jabber,...)
-* parse address correctly (should we split it up?) -> better to get it directly from TI. 
-  DONE / decided: we have one address field. This has all the address info in it. We don't try to be smarter in separating the different parts of an address (house number, zip code etc... that's too complex).
+* fix m-to-n relationship CERT to country. Some CERTs are responsible for multiple countries.  --> YES   (Aaron)
+* fix m-to-n relationship CERT to URL       --> NO, make it a string list
+* fix 1-n relationship between Organisation and email addresses --> NO, make it a string list       (Mauro)
+* fix 1-n relationship between Organisation and tel#s --> NO, make it a string list     (Mauro)
+* 1-n relationship Person to IM system (Skype, jabber,...)  --> NO, make it a string list   (Mauro) 
+
 * parse all TI fields and fill them into the DB
-* geolocate at Organisation INSERT time: use the google API?
+* geolocate at Organisation INSERT time: use the google API? (==> for making a map) (Aaron)
 
 PGP
 -----
-* fix 1-n: multiple addresses per PGP key,   DONE
-* fetch unknown PGP keys from the keyserver or the TI keyring
-* fix 1-n: multiple keys per person / org
+* fix 1-n relationship between Person/Org and keys (multiple) (Mauro)
+* fix 1-n: multiple addresses per PGP key,   --> (Mauro), make a string list out of email addresses. Because having two tables is cumbersome.
+* fetch unknown PGP keys from the keyserver or the TI keyring (Aaron provides it as a function)
 
 ==========
 API
 ==========
-* define REST API in a document
-* implement best match search algo: given an IP address, ASN, netblock or country code, give me best abuse email contact
+* define REST API in a document (needs discussion)
+* Queries:
+  a) given an IP address,ASN, domain, netblock or country code, give me the best matching abuse email address
+  b) given an IP address,ASN, domain, netblock or country code, give me all the data that you have in JSON format or CSV
+* implement best match search algo: given an IP address, ASN, domain, netblock or country code, give me best abuse email contact
+
+LATER:
 * permission system for the RESTful API? How to do it? ACLs or unix-style rwx-rwx-rwx for each path element of the RESTful URL?
 * think about who can see what part of the tree / DB? Permission system
 
