@@ -18,13 +18,13 @@ Model
 * 1-n relationship Person to IM system (Skype, jabber,...)  --> NO, make it a string list   (Mauro) 
 
 * parse all TI fields and fill them into the DB
-* geolocate at Organisation INSERT time: use the google API? (==> for making a map) (Aaron)
+* geolocate at Organisation INSERT time: use the google API? (==> for making a map) (Stefan Lenzhofer)
 
 PGP
 -----
 * fix 1-n relationship between Person/Org and keys (multiple) (Mauro)
 * fix 1-n: multiple addresses per PGP key,   --> (Mauro), make a string list out of email addresses. Because having two tables is cumbersome.
-* fetch unknown PGP keys from the keyserver or the TI keyring (Aaron provides it as a function)
+* fetch unknown PGP keys from the keyserver or the TI keyring (Stefan Lenzhofer provides it as a function)
 
 ==========
 API
