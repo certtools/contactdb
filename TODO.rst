@@ -18,7 +18,7 @@ Model
 * 1-n relationship Person to IM system (Skype, jabber,...)  --> NO, make it a string list   (Mauro) 
 
 * parse all TI fields and fill them into the DB
-* geolocate at Organisation INSERT time: use the google API? (==> for making a map) (Stefan Lenzhofer)
+* geolocate at Organisation INSERT time: use the google API? (==> for making a map) (Stefan Lenzhofer, based on klcertmap.py)
 
 PGP
 -----
