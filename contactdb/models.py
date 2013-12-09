@@ -8,6 +8,7 @@ from django.db.models.signals import post_save
 import datetime
 from django.utils import timezone
 
+from contactdb.fields import JSONField, JSONListToNewlineField, JSONListToNewlineWidget
 
 # Create your models here.
 
@@ -82,11 +83,11 @@ class Organisation(models.Model):
 
     # XXX FIXME: country can be m-to-n!
     country = models.ForeignKey(Countrycode)
-    phone = models.CharField(max_length=128)
-    emergency_phone = models.CharField(max_length=128, null=True, blank=True)
-    fax = models.CharField(max_length=128, null=True, blank=True)
+    phone = JSONField(form_class=JSONListToNewlineField)
+    emergency_phone = JSONField(form_class=JSONListToNewlineField)
+    fax = JSONField(form_class=JSONListToNewlineField)
     other_communication = models.CharField(max_length=1000, null=True, blank=True)
-    email = models.EmailField(max_length=256)
+    email = JSONField(form_class=JSONListToNewlineField)
     website = models.URLField(max_length=1000, verbose_name="Website URL", null=True, blank=True)
     timezone = models.CharField(max_length=10, null=True, blank=True)   # XXX FIXME: later have a real time zone field
     business_hh_start = models.TimeField(verbose_name="Business hours start", null=True, blank=True)
@@ -97,7 +98,6 @@ class Organisation(models.Model):
     confirmed = models.BooleanField("Confirmed to exist", null=False, default=False, blank=False)
     active = models.BooleanField("Still active", null=False, default=False, blank=False)
     source = models.ForeignKey(Source, null=True, blank=True)
-
 
     ti_url = models.CharField(max_length=1000, verbose_name="TI URL", null=True, blank=True)  # link to the TI DB
     first_url = models.CharField(max_length=1000, verbose_name="FIRST.org URL", null=True, blank=True)  # link to the  DB
@@ -142,10 +142,10 @@ class Person(models.Model):
     orgPocType  = models.CharField(max_length=30, null=True, blank=True)    # very pocandora specific!!
     title = models.CharField(max_length=100, null=True, blank=True)
     pic = models.ImageField(upload_to="/static/person/pics/")
-    phone = models.CharField(max_length=128)
-    emergency_phone = models.CharField(max_length=128, null=True, blank=True)
-    fax = models.CharField(max_length=128, null=True, blank=True)
-    email = models.EmailField(max_length=256)
+    phone = JSONField(form_class=JSONListToNewlineField)
+    emergency_phone = JSONField(form_class=JSONListToNewlineField)
+    fax = JSONField(form_class=JSONListToNewlineField)
+    email = JSONField(form_class=JSONListToNewlineField)
     pgp_key = models.ForeignKey(PGPKey, null=True, blank=True)
     im = models.CharField(max_length=256, verbose_name="Instant Messenger ID", null=True, blank=True)   # instant messenger
     website = models.URLField(max_length=1000, verbose_name="Website URL", null=True, blank=True)
