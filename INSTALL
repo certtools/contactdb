@@ -23,6 +23,7 @@ Python Modules:
 - Tastypie Django
 - GnuPG
 - python imaging library "pil": http://www.pythonware.com/products/pil/
+- python gnupg library
 
 Optional Python Modules:
 - PyYAML (used for YAML RESTful output)
