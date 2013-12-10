@@ -23,6 +23,7 @@ Python Modules:
 - Tastypie Django
 - GnuPG
 - python imaging library "pil": http://www.pythonware.com/products/pil/
+- python-geopy (has a dependency to python-beautifulsoup)
 - python gnupg library
 
 Optional Python Modules:
