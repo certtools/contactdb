@@ -1,17 +1,20 @@
-from django.db import models
-
 # Create your models here.
-
+from django.db import models
+from django.utils import timezone
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
+import django.core.validators
+
+validate_url = django.core.validators.URLValidator()
+validate_email = django.core.validators.validate_email
 
 import datetime
-from django.utils import timezone
 
-from contactdb.fields import JSONField, JSONListToNewlineField, JSONListToNewlineWidget
+from contactdb.fields import JSONField
+from contactdb.forms.fields import JSONListToNewlineField
+from contactdb.forms.widgets import JSONListToNewlineWidget
 
 # Create your models here.
-
 
 MEDIA_ROOT = '/var/www/upload/'
 MEDIA_URL = "/upload/"
@@ -87,7 +90,7 @@ class Organisation(models.Model):
     emergency_phone = JSONField(form_class=JSONListToNewlineField)
     fax = JSONField(form_class=JSONListToNewlineField)
     other_communication = models.CharField(max_length=1000, null=True, blank=True)
-    email = JSONField(form_class=JSONListToNewlineField)
+    email = JSONField(form_class=JSONListToNewlineField, validator=validate_email)
     website = models.URLField(max_length=1000, verbose_name="Website URL", null=True, blank=True)
     timezone = models.CharField(max_length=10, null=True, blank=True)   # XXX FIXME: later have a real time zone field
     business_hh_start = models.TimeField(verbose_name="Business hours start", null=True, blank=True)
