@@ -2,10 +2,30 @@ from django.http import HttpResponse
 from django.template import RequestContext, Context, loader
 from contactdb.models import Countrycode
 import contactdb.netobjects
+from django.contrib.auth.models import User, Group
+from rest_framework import viewsets
+from contactdb.serializers import UserSerializer, GroupSerializer
+
 
 # exception handling
 import sys
 import traceback
+
+class UserViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows users to be viewed or edited.
+    """
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+
+class GroupViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows groups to be viewed or edited.
+    """
+    queryset = Group.objects.all()
+    serializer_class = GroupSerializer
+
 
 def index(request):
     country_list = Countrycode.objects.all().order_by('-cc')
@@ -26,7 +46,7 @@ def search(request):
         c = RequestContext(request, {})
         t = loader.get_template("search.html")
         return HttpResponse(t.render(c))
-    
+
 def addasn(request):
     try:
         asn = request.POST["asn"]

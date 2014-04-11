@@ -1,0 +1,383 @@
+# Contact-DB lookups for CERTs
+
+# Terminology
+
+
+| Term     | Explanation                                            |
+|:---------|--------------------------------------------------------|
+| CERT     | Computer Emergency Response Team. Synonymous with CSIRT|
+| CSIRT    | Computer Security Incident Response Team               |
+| RIPE     | Reseaux Internet ... Europenne. http://www.ripe.net    | 
+| RIS      | Routing Information System |
+              
+
+# Intended Audience
+
+CERTs and IT security abuse handlers as well as professionals working on
+automating IT security incident handling.
+
+
+# Problem description and motivation
+
+CERTs - especially national CERTs - need to look up contact information very
+frequently for different objects on the Internet.  The frequency of lookups can
+be thousands or ten thousands of lookups per day, depending on the number of
+incidents a CERT will see.  Every lookup follows the same principle: given a
+network object such as an AS number, an IP address, a netblock, a domain or
+URL, the requestor wants to know the "best matching" abuse contact for the
+given network object. The intend is to inform the contact about a specific 
+IT security incident in his network or server.
+
+While existing databases such as the RIPE DB already provide a good mechanism
+to look up data, there are a few shortcomings which this document wants to
+discuss. Often enough these shortcomings resulted in re-implementation of this
+basic contact lookup functionality at multiple (national) CERTs.
+
+In addition, a "best matching" contact lookup algorithm must differ from
+country to country and organisation to organisation. Some organisations will
+have perfect or nearly perfect abuse contact lookup data available to them.
+Others organisations dealing with a large constituency (such as national CERTs
+serving a whole country) will face the problem of figuring out if a network
+object belongs to its constituency in the first place (for example is IP
+address a.b.c.d in my country?)
+
+We therefore conclude that abuse contact lookups should be seen as an iterative
+process where the most specific database is queried first and subsequent
+lookups are sent to different, less specific databases.
+A model for this lookup is given in section "A unified model for abuse contact lookups".
+
+
+ZZZZZZZZZZZZZZ
+
+
+
+# Overview of existing solutions
+
+# Shortcomings of existing solutions
+
+# Existing data sets
+
+## TI DB
+
+## FIRST DB
+
+## national CSIRT (CERT.org)
+
+## RIPE NCC Data Sets 
+
+RIPE NCC has a list of interesting data sets:
+  * registration data:
+    * RIPE DB
+    * Routing DB
+    * RIR Stats
+  * routing data collected by the 13 RIS route collectors
+  * active measurements done by the Atlas probes
+   
+
+The following sections look at these data sets in more detail.
+
+
+### registration data
+#### RIPE DB
+  The RIPE DB is ... XXXX insert Text by RIPE NCC ... insert Links, URLs to documentat... XXXX
+  XXX short overview of the data contained XXX
+
+Q: Source of the data?
+A:
+
+Q: Quality of the data? How often is the quality checked?
+A:
+
+ 
+Q: Can this data set be queried in batch?
+A:
+
+Q: If there is a batch query interface, is there an API?
+A: 
+
+Q: is there historic data and if so, how can it be queried?
+A: Available vir a RIPE stat: stat.ripe.net
+
+
+Notes:
+  --> interesting for CERTs: whowas service
+    --> should exist in stat.ripe.net 
+
+
+#### Routing DB
+
+XXX RIPE: please give a short description of the Routing DB data. What's there, what can people query ? What will they get out of it?
+XXX
+
+Q: Can this data set be queried in batch?
+A:
+
+Q: If there is a batch query interface, is there an API?
+A: 
+
+Q: is there historic data and if so, how can it be queried?
+A: Available vir a RIPE stat: stat.ripe.net
+
+Notes:
+   --> routing where was?
+     --> ripe stat
+	Question: is that queryiable via batch script?
+
+#### RIR Stats (mapping allocations/assignments to countries)
+
+
+  --> geolocation. Quelle? Bitte genau genau dokumentieren! stats file ist die
+  org, an die das vergeben wurde.  As CERTs we often have the problem that we
+  need to deliver reports to national CERTs. So the question of proper
+  geolocation comes immediately.  Maxmind seems to be the de-facto standard.
+  However, RIPE data is used as a basis for cymru IP-to-ASN.
+
+  We should document which geolocation solutions exist, how precise they are
+  and when to use which.  Sometimes an IP address is in a country A, the RIPE
+  entry for it points to an organisation in country B, maxmind will say it is
+  country C.
+
+  !!! super idee!!! geolocation history DB "wherewas?"
+  organisational country vs. ip address is in use in country X
+
+  --> google or sky hook wireless geolocation? Is it possible to get that data?
+  maybe Apple as well?
+  XXX insert CCC talk XXX
+
+  traceroute history of ATLAS? did something change?
+
+  Vorschlag: 
+   1) TI DB wird aufgeraeumt: 
+     a) ASN Felder, netblock, domains are being fetched from DBs (RIPE,  ccTLDs,...)
+      make a new column "as-we-think-your-constituency-is"
+     b) fix TI DB constituency fields syntax checks!
+     c) mail "as-we-think-your-constituency-is" field to CERTs, ask them to verify
+     d) share relevant data with RIPE, let them add that to their DB.
+	  add field: "this is the relevant CERT" or use the IRT object (link to it
+      in stats.ripe.net?)
+
+ 
+  !! Make document use-cases how CERTs , pentester, ... use contact lookups 
+   which data sources exist?
+
+  stat.ripe.net - can we (CERTs) have bulk access??
+
+
+### routing data collected by the 13 RIS route collectors
+
+### active measurements done by the Atlas probes
+ - build-in measurements (every probe does it):
+   - its own network configuration information
+   - current uptime, total uptime and uptime history
+   - RTT (round trip time) measurements (on IPv4) to the first and second hops
+     (think about the first two lines in your outgoing traceroutes)
+   - ping measurements to a number of predetermined destinations
+   - traceroute measurements to a number of predetermined destinations
+   - DNS queries to root DNS servers (others to come)
+   - SSL queries to a number of predetermined destinations
+
+--> all these are very interesting! However, I still need to discover different
+use cases for it. For example http://sniffmap.telcomap.org/# would be a nice
+use-case for tracerout measurments or SSL queries can give us data such as how
+good are the SSL certificates in a country?  BCP38 monitoring (T.Schreck idea)
+
+Interesting: monitoring: are things getting better overall? Or: alarms if
+something gets bad
+
+But none of these topics have anything to do with contact lookup.
+
+
+Concerning BCP38 measurement: there are concerns regarding measuring spoofed
+sourc IPs. Question: what happens if this falls into wrong hands?  Do we have a
+mechanism to clean this up? Should we measure this in the first place ?
+
+
+
+
+
+
+ - user-defined measurement
+   - ping/ping6
+   - traceroute/traceroute6
+   - DNS/DNS6
+   - SSLCert/SSLCert6
+
+--> same. 
+
+There might be some measurements (build-in as well as user-defined) that are not public!
+
+--- External Data Sets ---
+
+Then there are other data sets that we provide via RIPEstat but they don't originate from the RIPE NCC, like MaxMind's GeoIP data set, some blacklists... the benefit can be a consistent data interface.
+
+---
+
+
+
+
+# A unified model for abuse contact lookups
+
+
+## Netobjects
+
+Before looking at the propsed  algorithm and framework for contact lookups, we need to define some terms.
+There are two types of lookup paths that can occur: based on problem at hand, either a number-resource lookup (AS number, IP address, netblock) or name-based resource lookup path (domain, URL) needs to be chosen.
+
+We define a netobject as being an object of:
+
+* ASN (example: AS1901 or 1901)
+* netblock (CIDR notation) (example: 193.238.156.0/21)
+* domain, (example: microsoft.com)
+* hostname (fqdn) (example: www2.microsoft.com), or
+* IP address.
+
+A netobject can be any one of these (but not multiple at the same time).
+Should we need to specifically talk about a number-resource or a name-based resource, we will use these more specific termins. Otherwise, the term "netobject" will be used as a aggregated term.
+
+Based on the definition of a netobject we can now define functions on netobjects which shall return the desired information.
+
+XXX @aaron: FIXME: add ABNF syntax description here XXX
+
+
+
+## Functional specification
+
+There is an inherent hierarchy of asking first the most specific data sources
+and in case nothing is found, the algorithm shall move up to the least specific
+data sources. All contact lookups MAY be cached. Cache timeout values are TBD.
+
+### Lookup by ASN
+
+*	**Name**: contact\_by\_asn(asn)
+*	**Input**: ASN
+*	**Output**: best matching contact
+
+**Implementation**:
+
+1.	lookup most specific contact for this ASN in contactDB, if nothing found,...
+2.	lookup abuse@ for this ASN in whois, if nothing found,...
+3.	lookup general contact for this ASN in whois, if nothing found...
+4.	lookup the country of the ASN (team cymru or maxmind), then look up the national CERT of that country (for example via https://contacts.cert.at)
+
+### Lookup by domain name
+*	**Name**: contact\_by\_domain(domain)
+*	**Input**: hostname (fqdn) or domain name
+*	**Output**: best matching contact
+
+**Implementation (pseudo-code)**:
+
+	lookup domain in specific internal contactDB, if nothing found...  
+	IF (parameter == hostname):     
+	d = extract_domain(fqdn)  
+	ELSE d = parameter  
+	lookup domain_owner(d), and/or...  
+	lookup registrar_of(d)  
+	IF nothing_found and (parameter == hostname):     
+	i= lookup_ip_of_hostname(fqdn)    
+	lookup_hoster_of_ip(i) 
+
+NOTE: this lookup function actually might be a bit too specific. Depending on the use case you might want to look up only the domain owner or the registrar only.
+
+### Lookup by hostname
+*	**Name**: contact\_by\_hostname(fqdn)
+*	**Input**: hostname (fqdn)
+*	**Output**: best matching contact
+
+**Implementation**:
+
+	lookup domain in specific internal contactDB, if nothing found...  
+	d = extract_domain(fqdn)  
+	lookup domain_owner(d), and/or...  
+	lookup registrar_of(d) and/or...  
+	i= lookup_ip(s)_of_hostname(fqdn)  
+	lookup_hoster_of_ip(i)
+
+optional:
+
+    ds = lookup_other_domains_on_this_ip(i)  
+    lookup_domain_owners(ds)  
+    lookup_registrars(ds) 
+
+NOTE: again, as above, this function might be doing too much already. Depending on the circumstances, a use-case might only need the registrar or the domain owner or the hoster.
+
+### Lookup by netblock
+*	**Name**: contact\_by\_netblock(netblock)
+*	**Input**: netblock in CIDR notation (for example: 1.2.3.0/24 or 2a02:60:1:1::0/32)
+*	**Output**: best matching contact
+
+**Implementation**:
+
+	lookup contact for netblock in internal contactDB, if nothing found...  
+	lookup abuse@ in whois for the contact block, if nothing found...  
+	lookup whois contact for the netblock, if nothing found...  
+	lookup ASN  of netblock, call lookup_by_asn(ASN), if nothing found...  
+	lookup country code of netblock, then look up the national CERT of that country (for example via  https://contacts.cert.at) 
+
+
+###Lookup by IP address
+*	**Name**: contact\_by\_ip(ip)
+*	**Input**: ip address (v4 or v6)
+*	**Output**: best matching contact
+
+**Implementation**:
+
+	lookup contact for IP address  in internal contactDB, if nothing found...  
+	lookup most specific netblock of IP, call contact_by_netblock. If nothing found...  
+	optional: lookup less specific netblock of IP, call contact_by_netblock(). If nothing found...   
+	lookup ASN of IP address, call contact_by_asn. If nothing found...  
+	lookup country code of IP address, lookup contact of national CERT of country (for example via https://contacts.cert.at) 
+
+
+### Lookup by country
+*	**Name**: contact\_by\_country(country\_code)
+*	**Input**: ISO 2 letter country code
+*	**Output**: best matching contact
+
+**Implementation**:
+
+lookup country code in national CERT DB, return national CERT contact or "undef" if none found 
+
+###Lookup by TLD
+*	**Name**: contact\_by\_tld(domain or tld)
+*	**Input**: domain name or TLD
+*	**Output**: best matching contact
+
+**Implementation**:
+
+	IF TLD == ccTLD:     
+	return contact_by_country(ccTLD)  
+	ELSE lookup registrar of gTLD, 
+	if nothing found : 
+	return undef 
+
+
+
+
+
+# Other ideas
+
+==> can we (CERTs) get bulk access to stat.ripe.net (and to it's source data). Why?
+Sometimes we want to look up things in bulk *quickly*. Like really fast. For 1 million records or a billion log records (think: conficker.C apache log files)
+Sometimes we have an APT case where we *can not* ask any external data source about specific IPs because the mere act of querying could already reveal something.
+  (this mostly concerns CERTs which do ani-spying detection work)
+
+
+The contactDB lookups should be documented as a RFC I-D (apps area ??) . Because it should be a standard / recommendation for everybody.
+
+
+
+
+# meta
+  * this document helps in listing reqs for ripe ncc
+  * RIPE document machen. Evtl. auch als I-D
+  * ziele des documents: 
+
+   - best practice document fuer certs und datenlieferanten
+   - weitere datasets? FIRST, TI, interne AS2email
+  * issues:
+   - ip2country geolocation - wie machen? lizenz problem mit maxmind. 
+     - google ??
+     - einwand wilfried: es geht darum, wo der abuse-c ist. nicht wo der end-user physikalisch sitzt. Es sind verschiedene use-cases
+   - problem mit der datenqualitaet in der RIPE DB. Es geht nur: wo ist der urspruengliche contact fuers LIR
+   - incentives?? warum soll ich was eintragen?
+
