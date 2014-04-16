@@ -3,13 +3,13 @@
 # Terminology
 
 
-| Term     | Explanation                                            |
-|:---------|--------------------------------------------------------|
-| CERT     | Computer Emergency Response Team. Synonymous with CSIRT|
-| CSIRT    | Computer Security Incident Response Team               |
-| RIPE     | Reseaux Internet ... Europenne. http://www.ripe.net    | 
-| RIS      | Routing Information System |
-              
+| Term     | Explanation                                                               |
+|:---------|---------------------------------------------------------------------------|
+| CERT     | Computer Emergency Response Team. Synonymous with CSIRT                   |
+| CSIRT    | Computer Security Incident Response Team                                  |
+| RIPE NCC | Réseaux IP Européens Network Coordination Centre (http://www.ripe.net)    | 
+| RIS      | Routing Information Service                                               |
+            
 
 # Intended Audience
 
@@ -70,8 +70,8 @@ RIPE NCC has a list of interesting data sets:
     * RIPE DB
     * Routing DB
     * RIR Stats
-  * routing data collected by the 13 RIS route collectors
-  * active measurements done by the Atlas probes
+  * routing data collected by the 13 RIS route collectors (https://www.ripe.net/data-tools/stats/ris/)
+  * active measurements done by the Atlas probes (https://atlas.ripe.net)
    
 
 The following sections look at these data sets in more detail.
@@ -206,9 +206,10 @@ mechanism to clean this up? Should we measure this in the first place ?
 
 There might be some measurements (build-in as well as user-defined) that are not public!
 
---- External Data Sets ---
+### External Data Sets Served Via RIPEstat
 
-Then there are other data sets that we provide via RIPEstat but they don't originate from the RIPE NCC, like MaxMind's GeoIP data set, some blacklists... the benefit can be a consistent data interface.
+Then there are other data sets that we provide via RIPEstat but they don't originate from the RIPE NCC, 
+like MaxMind's GeoIP data set, some blacklists... the benefit can be a consistent data interface.
 
 ---
 
@@ -219,6 +220,10 @@ Then there are other data sets that we provide via RIPEstat but they don't origi
 
 
 ## Netobjects
+
+<!--
+Christian: We call them resources to distinguish it from whois objects.
+-->
 
 Before looking at the propsed  algorithm and framework for contact lookups, we need to define some terms.
 There are two types of lookup paths that can occur: based on problem at hand, either a number-resource lookup (AS number, IP address, netblock) or name-based resource lookup path (domain, URL) needs to be chosen.
@@ -352,15 +357,14 @@ lookup country code in national CERT DB, return national CERT contact or "undef"
 
 
 
-
-
 # Other ideas
 
 ==> can we (CERTs) get bulk access to stat.ripe.net (and to it's source data). Why?
 Sometimes we want to look up things in bulk *quickly*. Like really fast. For 1 million records or a billion log records (think: conficker.C apache log files)
 Sometimes we have an APT case where we *can not* ask any external data source about specific IPs because the mere act of querying could already reveal something.
   (this mostly concerns CERTs which do ani-spying detection work)
-
+  
+Christian: We are planned to develop an asynchronous request model which will make it possible that we serve requests that produce large result sets. 
 
 The contactDB lookups should be documented as a RFC I-D (apps area ??) . Because it should be a standard / recommendation for everybody.
 
