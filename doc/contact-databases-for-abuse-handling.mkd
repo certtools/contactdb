@@ -46,15 +46,12 @@ process where the most specific database is queried first and subsequent
 lookups are sent to different, less specific databases.
 A model for this lookup is given in section "A unified model for abuse contact lookups".
 
-<!--
 Christian:
 More/less specific lookups can also mean to query the same database but with 
 different parameter settings.
---//>
+:
 
 ZZZZZZZZZZZZZZ
-
-
 
 # Overview of existing solutions
 
@@ -97,41 +94,33 @@ via RIPEstat.
 
 ### Registration Data
 #### RIPE DB
-  The RIPE Database contains registration information for networks in the RIPE NCC service
-  region. It shows the organisations that hold the resources, where the allocation were made, 
-  and contact details for the networks.
+
+The RIPE Database contains registration information for networks in the RIPE NCC service region. It shows the organisations that hold the resources, where the allocation were made, and contact details for the networks.
   
-  The Database can be search by using the web interface (https://apps.db.ripe.net/search/query.html) 
-  or by directing your whois client to whois.ripe.net. A full-text search is also available
-  https://apps.db.ripe.net/search/full-text.html.
+The Database can be search by using the web interface (https://apps.db.ripe.net/search/query.html) or by directing your whois client to whois.ripe.net. A full-text search is also available 
+https://apps.db.ripe.net/search/full-text.html.
   
-  FAQ: http://www.ripe.net/data-tools/db/faq
-  Documentation: http://www.ripe.net/data-tools/support/documentation 
+FAQ: http://www.ripe.net/data-tools/db/faq
+Documentation: http://www.ripe.net/data-tools/support/documentation 
   
-  This data is accessible via RIPEstat as a widget and as a data call.
-  Widget API: https://stat.ripe.net/widget/registry-browser
-  Data API: https://stat.ripe.net/docs/data_api#RegistryBrowser
+This data is accessible via RIPEstat as a widget and as a data call.
+Widget API: https://stat.ripe.net/widget/registry-browser
+Data API: https://stat.ripe.net/docs/data_api#RegistryBrowser
   
   
 Q: Source of the data?
 A: 
-The data is created by the Registration Service at the RIPE NCC and by the resource holders
-following a defined scheme for objects and attributes.
+The data is created by the Registration Service at the RIPE NCC and by the resource holders following a defined scheme for objects and attributes.
 
 Q: Quality of the data? How often is the quality checked?
 A:
-Data quality is very important concern for the RIPE NCC and the quality of the registration
-data is usually high but it has to be reminded that the organisations that hold those 
-resources are responsible for updating their information which can not always be checked
-by the RIPE NCC.
+Data quality is very important concern for the RIPE NCC and the quality of the registration data is usually high but it has to be reminded that the organisations that hold those resources are responsible for updating their information which can not always be checked by the RIPE NCC.
 
  
 Q: Can this data set be queried in batch?
 A:
-RIPE Database APIs can be queried in batch but there is a limit if personal data is being
-fetched:
-- Number of personal data sets returned in queries from an IP address - 1000 per 24 hours
-(from "Accetable Use Policy" http://www.ripe.net/data-tools/support/documentation/aup)
+RIPE Database APIs can be queried in batch but there is a limit if personal data is being fetched:
+- Number of personal data sets returned in queries from an IP address - 1000 per 24 hours (from "Accetable Use Policy" http://www.ripe.net/data-tools/support/documentation/aup)
 
 This limit also applies for using RIPEstat but it is not per IP address but user account.
 
@@ -141,20 +130,19 @@ The command line interface (port 43) or RIPEstat can be used.
 
 Q: Is there historical data and if so, how can it be queried?
 A: 
-The RIPE Database interfaces provide a historical lookup feature based on versions, see
-https://labs.ripe.net/Members/kranjbar/proposal-to-display-history-of-objects-in-ripe-database
+The RIPE Database interfaces provide a historical lookup feature based on versions, see https://labs.ripe.net/Members/kranjbar/proposal-to-display-history-of-objects-in-ripe-database
 for details.
-In RIPEstat the data call for the Registry-Browser returns historical information for 
-each queried object but this requires the user to be logged in as a RIPE NCC member.
+In RIPEstat the data call for the Registry-Browser returns historical information for each queried object but this requires the user to be logged in as a RIPE NCC member.
 
 Notes:
   --> interesting for CERTs: whowas service
     --> should exist in stat.ripe.net 
-<!-- Christian: 
+
+Christian: 
 	 Whowas service I could only find for ARIN. For the RIPE DB this is basically
 	 the solution with versions (mentioned previous).
 	 I'm trying to find out if other RIRs provide similar services.
---//> 
+:
     
 
 
@@ -272,9 +260,9 @@ like MaxMind's GeoIP data set, some blacklists... the benefit can be a consisten
 
 ## Netobjects
 
-<!--
+
 Christian: We call them resources to distinguish it from whois objects.
--->
+
 
 Before looking at the propsed  algorithm and framework for contact lookups, we need to define some terms.
 There are two types of lookup paths that can occur: based on problem at hand, either a number-resource lookup (AS number, IP address, netblock) or name-based resource lookup path (domain, URL) needs to be chosen.
