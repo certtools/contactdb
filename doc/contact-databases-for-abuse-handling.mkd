@@ -148,23 +148,19 @@ Christian:
 
 #### Routing DB
 
-The RIPE Routing Registry is a sub-set of the RIPE Database and holds information about routing on the Internet. The routing information is stored in routing policy described in Autonomous System (AS) objects. The information in these AS objects show how a particular network is routed on the internet. 
+The RIPE Routing Registry is a sub-set of the RIPE Database and holds information about routing on the Internet. The routing information is stored in Autonomous System (AS) objects. The information in these AS objects show how a particular network is routed on the internet. 
 
 The RIPE Routing Registry is part of the Internet Routing Registry (http://www.ripe.net/data-tools/db/the-internet-routing-registry-history-and-purpose), a collection of databases that mirror each other.
 
 Sample output
-'''
-route:           140.78/16
-descr:           Sample Lan
-origin:          AS1205
-mnt-by:          AS1205-MNT
-mnt-by:          ACONET-LIR-MNT
+```
+route:           192.0.2.0/24
+descr:           TEST-NET-1
+origin:          ASXXXX
+mnt-by:          ASXXXX-MNT
+mnt-by:          YYYYY-LIR-MNT
 source:          RIPE # Filtered
-'''
-TODO: replace real values
- 
-What's there, what can people query ? What will they get out of it?
-
+```
 
 Q: Can this data set be queried in batch?
 A:
@@ -176,15 +172,14 @@ See RIPE DB
 
 Q: is there historic data and if so, how can it be queried?
 A:
-See RIPE DB
- 
+See RIPE DB (to be checked if history is available for route objects as well) 
 
 
-Notes:
-   --> routing where was?
 
 
 #### RIR Stats (mapping allocations/assignments to countries)
+
+This gives an high-level overview on the allocations RIRs give to local Internet registries (LIR).
 
 
   --> geolocation. Quelle? Bitte genau genau dokumentieren! stats file ist die
