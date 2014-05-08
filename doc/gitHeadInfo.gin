@@ -1,15 +1,15 @@
 \usepackage[%
-        shash={826ffd2},
-        lhash={826ffd2d1334107ade9c9aea424bf580fcef49de},
-        authname={Mauro Silva},
-        authemail={mauro.silva@fccn.pt},
-        authsdate={2014-01-08},
-        authidate={2014-01-08 13:42:40 +0000},
-        authudate={1389188560},
-        commname={Mauro Silva},
-        commemail={mauro.silva@fccn.pt},
-        commsdate={2014-01-08},
-        commidate={2014-01-08 13:42:40 +0000},
-        commudate={1389188560},
-        refnames={ (HEAD, origin/master, origin/HEAD, master)}
+        shash={5c41664},
+        lhash={5c41664b10cb1fda6d3955bc150fe97630c593b0},
+        authname={Christian Teuschel},
+        authemail={christian.teuschel@ripe.net},
+        authsdate={2014-05-08},
+        authidate={2014-05-08 09:56:34 +0200},
+        authudate={1399535794},
+        commname={Christian Teuschel},
+        commemail={christian.teuschel@ripe.net},
+        commsdate={2014-05-08},
+        commidate={2014-05-08 09:56:34 +0200},
+        commudate={1399535794},
+        refnames={ (HEAD, master)}
 ]{gitsetinfo}

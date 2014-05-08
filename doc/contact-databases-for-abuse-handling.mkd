@@ -7,9 +7,14 @@
 |:---------|---------------------------------------------------------------------------|
 | CERT     | Computer Emergency Response Team. Synonymous with CSIRT                   |
 | CSIRT    | Computer Security Incident Response Team                                  |
-| RIPE NCC | Réseaux IP Européens Network Coordination Centre (http://www.ripe.net)    | 
+| RIR      | Regional Internet Registry; see (1) for more details                    |
+| LIR      | Local Internet Registry; see (1) for more details                       |
+| RIPE NCC | RIR serving Europe, Central Asia and the Middle East; see (2)           | 
 | RIS      | Routing Information Service                                               |
-            
+
+
+(1) [http://www.ripe.net/internet-coordination/internet-governance/internet-technical-community/the-rir-system](http://www.ripe.net/internet-coordination/internet-governance/internet-technical-community/the-rir-system)         
+(2) [http://www.ripe.net](http://www.ripe.net)
 
 # Intended Audience
 
@@ -93,7 +98,10 @@ via RIPEstat.
 
 
 ### Registration Data
+
 #### RIPE DB
+
+Christian, 20014-05-08: Status = needs review
 
 The RIPE Database contains registration information for networks in the RIPE NCC service region. It shows the organisations that hold the resources, where the allocation were made, and contact details for the networks.
   
@@ -177,10 +185,124 @@ See RIPE DB (to be checked if history is available for route objects as well)
 
 
 
-#### RIR Stats (mapping allocations/assignments to countries)
+#### RIR statistics 
 
-This gives an high-level overview on the allocations RIRs give to local Internet registries (LIR).
+The RIR statistics summarize the current state of allocations and assignments of Internet number resources. They are intended to provide a snapshot of the status of Internet number resources, without any transactional or historical details.
 
+The statistics are primarily published as a text file by each RIR once a day. The statistics are usually available before 23:59:59 in the local time zone the RIR is in.
+
+The published statistics follow a standardised format which contains a header and a body.
+The header consists of a version line and a summary line.
+
+The format of the version line is:
+
+`version|registry|serial|records|startdate|enddate|UTCoffset`
+
+| Field      | Description                                                               |
+|:-----------|---------------------------------------------------------------------------| 
+| version    | format version number of this file, currently 2                           |
+| registry   | name of the producing RIR                                                 |
+| serial     | serial number of this file (within the creating RIR series)               |
+| records    | number of records in file, excluding blank lines, summary lines,          |
+|            | the version line and comments                                             |
+| startdate  | start date of time period yyyymmdd format                                 |
+| enddate    | end date of period in yyyymmdd format                                     |
+| UTCoffset  | offset from UTC (+/- hours) of local RIR producing file                   |
+
+
+The format of the summary line is:
+
+`registry|*|type|*|count|summary`
+
+| Field      | Description 
+|:-----------|---------------------------------------------------------------------------|
+| registry   | name of the producing RIR                                                 |
+| *          | an ASCII \* (unused field, retained for spreadsheet purposes)             |
+| type       | as defined in the format used for a record in the body                    |
+| count      | sum of the number of record lines of this type in the file                |
+| summary    | the ASCII string 'summary' (to distinguish a record line in the body)     |
+
+A record in the body follows this format:
+
+
+`registry|cc|type|start|value|date|status[|extenstions...]`
+
+| Field       | Description                                                              |
+|:------------|--------------------------------------------------------------------------|
+| registry    | name of the producing RIR                                                |
+| cc          | ISO 3166 2-letter code of the organization to which the allocation or    |
+|             | assignment was made                                                      |
+| type        | Type of Internet number resource represented in this record. One value   | 
+|             | from the set of defined strings:                                         |
+|             |   `{asn, ipv4, ipv6}`                                                    |
+| start       | In the case of records of type 'ipv4' or 'ipv6' this is the IPv4 or IPv6 |
+|             | 'first address' of the range.                                            |
+|             | In the case of an 16 bit AS number the format is the integer value in    |
+|             | the range 0 to 65535, in the case of a 32 bit ASN the value is in the    |
+|             | range 0 to 4294967296. No distinction is drawn between 16 and 32 bit ASN |
+|             | values in the range 0 to 65535.                                          | 
+| value       | In the case of IPv4 address the count of hosts for this range. This      |
+|             | count does not have to represent a CIDR range.                           |
+|             | In the case of an IPv6 address the value will be the CIDR prefix length  |
+|             | from the 'first address' value of \<start\>.                             |
+|             | In the case of records of type 'asn' the number is the count of AS from  |
+|             | this start value.                                                        |
+| date        | Date on this allocation/assignment was made by the RIR in the format     |
+|             | yyyymmdd.                                                                |
+|             | Where the allocation or assignment has been transferred from another     |
+|             | registry, this date represents the date of first assignment or           |
+|             | allocation as received in from the original RIR.                         |
+|             | It is noted that where records do not show a date of first assignment,   |
+|             | this can take the 0000/00/00 value.                                      |
+| status      | Type of allocation from the set:                                         |
+|             |  `{allocated, assigned}`                                                 |
+|             | This is the allocation or assignment made by the registry producing the  |
+|             | file and not any sub-assignment by other agencies.                       |
+| extensions  | Any extra data on a line is undefined, but should conform to use of the  |
+|             | field separator used above.                                              |
+
+
+The files are primarily accessible via each RIR FTP site:
+
+| RIR         | FTP site                                                                 |
+|:------------|--------------------------------------------------------------------------|
+| AFRINIC     | ftp://ftp.afrinic.net/pub/stats/afrinic/                                 |
+| APNIC       | ftp://ftp.apnic.net/pub/stats/apnic/                                     |
+| ARIN        | ftp://ftp.arin.net/pub/stats/arin/                                       |
+| LACNIC      | ftp://ftp.lacnic.net/pub/stats/lacnic/                                   |           
+| RIPE NCC    | ftp://ftp.ripe.net/pub/stats/ripencc/                                    |
+
+The general file name has this format:
+
+`delegated-<registry>-yyyymmdd`
+
+Data compression is optional. If compressed, the normal file suffix is used to denote the compression algorithm (.gz, .bz2, .zip etc).
+The most recent file must be available in a non-compressed form and has this file name:
+
+`delegated-<registry>-latest`
+
+There is not obligation on any registry to retain previous files, once a new file is available for public access but RIR usually keep an archive of previous files. 
+
+##### Note on the data quality and accuracy
+
+The RIR statistics are based on registration data that is maintained by the RIR itself which usually guarantees high data quality.
+The country code that is stated with the allocation/assignment is based on the location of the organisation holding the resource at the time the request was issued. It is not guaranteed that this location is kept up-to-date.
+Keep in mind that the nature of this data is registration related and not usage related. For usage related location information other providers are more suitable e.g. MaxMind GeoIP database.
+
+
+##### RIPEstat
+
+The RIR statistics are not directly retrievable via RIPEstat but there is a data call that provides a list of Internet number resources (IPv4, IPv6 and ASNs) per country:
+
+https://stat.ripe.net/docs/data_api#CountryResourceList
+
+E.g.: 
+Internet number resources for Germany
+`https://stat.ripe.net/data/country-resource-list/data.json?resource=de`
+
+### routing data collected by the 13 RIS route collectors
+
+RIPEstat?
 
   --> geolocation. Quelle? Bitte genau genau dokumentieren! stats file ist die
   org, an die das vergeben wurde.  As CERTs we often have the problem that we
@@ -219,7 +341,7 @@ This gives an high-level overview on the allocations RIRs give to local Internet
   stat.ripe.net - can we (CERTs) have bulk access??
 
 
-### routing data collected by the 13 RIS route collectors
+
 
 ### active measurements done by the Atlas probes
  - build-in measurements (every probe does it):
