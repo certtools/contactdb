@@ -124,23 +124,22 @@ Data API: https://stat.ripe.net/docs/data_api#RegistryBrowser
   
 MIRJAM: I suggest to take out all the Q's and A's and format these sections with sub headings (the same for each of these sections). Might be better readable.
 
-Source of the data:
+##### Source of the data:
 - The data is created and maintained by the RIPE NCC and by the resource holders following a defined scheme for objects and attributes (MIRJAM: What does this mean: "scheme..."?).
 
-Quality of the data and how often is the quality checked:
+##### Quality of the data and how often is the quality checked:
 - The data quality in the RIPE registry is very important for network operations and it one of the main tasks of the RIPE NCC. The RIPE NCC is frequently cecking the quality of the data and is working with the maintainers of the data to keep it up to date.
 
- 
-Data set available in batch:
+##### Data set available in batch:
 - RIPE Database APIs can be queried in batch but there is a limit if personal data is being fetched:
 	- Number of personal data sets returned in queries from an IP address - 1000 per 24 hours (from "Accetable Use Policy" http://www.ripe.net/data-tools/support/documentation/aup)
 
 This limit also applies for using RIPEstat but it is not per IP address per user account.
 
-API for batch query interface:
+##### API for batch query interface:
 - The command line interface (port 43) or RIPEstat can be used.
 
-Historical data:
+#### Historical data:
 - The RIPE Database interfaces provide a historical lookup feature based on versions, see https://labs.ripe.net/Members/kranjbar/proposal-to-display-history-of-objects-in-ripe-database
 for details.
 In RIPEstat the data call for the Registry-Browser returns historical information for each queried object but this requires the user to be logged in as a RIPE NCC member.
