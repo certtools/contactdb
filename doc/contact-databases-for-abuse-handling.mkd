@@ -25,18 +25,20 @@ test test
 # Problem description and motivation
 
 CERTs - especially national CERTs - need to look up contact information very
-frequently for different objects on the Internet.  The frequency of lookups can
+frequently for different objects (MIRJAM: replace with resources everywhere?
+Othewise confusion with RIPE DB objects) on the Internet.  The frequency of lookups can
 be thousands or ten thousands of lookups per day, depending on the number of
 incidents a CERT will see.  Every lookup follows the same principle: given a
 network object such as an AS number, an IP address, a netblock, a domain or
 URL, the requestor wants to know the "best matching" abuse contact for the
 given network object. The intend is to inform the contact about a specific 
-IT security incident in his network or server.
+IT security incident in his or her network or server.
 
 While existing databases such as the RIPE DB already provide a good mechanism
-to look up data, there are a few shortcomings which this document wants to
-discuss. Often enough these shortcomings resulted in re-implementation of this
-basic contact lookup functionality at multiple (national) CERTs.
+to look up data, there are other data sets that might be more suitable in certain cases. 
+These data sets are being discussed in this document. Often enough these shortcomings 
+resulted in re-implementation of this basic contact lookup functionality at multiple 
+(national) CERTs. (MIRJAM: Not sure what this means)
 
 In addition, a "best matching" contact lookup algorithm must differ from
 country to country and organisation to organisation. Some organisations will
@@ -44,7 +46,7 @@ have perfect or nearly perfect abuse contact lookup data available to them.
 Others organisations dealing with a large constituency (such as national CERTs
 serving a whole country) will face the problem of figuring out if a network
 object belongs to its constituency in the first place (for example is IP
-address a.b.c.d in my country?).
+address a.b.c.d used in my country?).
 
 We therefore conclude that abuse contact lookups should be seen as an iterative
 process where the most specific database is queried first and subsequent
@@ -54,7 +56,8 @@ A model for this lookup is given in section "A unified model for abuse contact l
 Christian:
 More/less specific lookups can also mean to query the same database but with 
 different parameter settings.
-:
+: (MIRJAM: How about more specific datasets so it doesn't get confused with more/less specific
+queries in the RIPE DB hierachy.)
 
 ZZZZZZZZZZZZZZ
 
@@ -72,21 +75,23 @@ ZZZZZZZZZZZZZZ
 
 ## RIPE NCC Data Sets 
 
-RIPE NCC has a list of interesting data sets:
-  * registration data:
-    * RIPE DB
-    * Routing DB
-    * RIR Stats
-  * routing data collected by the 13 RIS route collectors (https://www.ripe.net/data-tools/stats/ris/)
-  * active measurements done by the Atlas probes (https://atlas.ripe.net)
+RIPE NCC has a list of publicly available data sets that could be useful for CERTs:
+  * Registration data:
+    * RIPE DB (containing IP resource information and contact data)
+    * Routing DB (containing routing policy)
+    * Regional Internet Registry Statistics (which IP resources are allocated when and to whom)
+  * Routing data collected by the 13 Routing Information Service (RIS) route collectors (https://www.ripe.net/data-tools/stats/ris/)
+  * Active measurements done by the RIPE Atlas (https://atlas.ripe.net)
    
 
-The following sections look at these data sets in more detail.
+The following sections look at these data sets in more detail. All data sets described here 
+are publicly avilable and are made accessible via various interfaces.
 
-### RIPEstat
+### RIPEstat (MIRJAM: Maybe move after Registration data to be consistent with list above?)
 
-RIPEstat is an information system with the idea to unify the access to Internet number
-related data sets. It has multiple APIs ranging from a raw data centric Data API to a 
+RIPEstat is a web-based interface that provides everything you ever wanted to know about 
+IP address space, Autonomous System Numbers (ASNs), and related information for hostnames 
+and countries in one place. It has multiple APIs ranging from a raw data centric Data API to a 
 visualisation rich Widget API.
 For documentation and a description of all the APIs:
 
@@ -99,13 +104,15 @@ via RIPEstat.
 
 ### Registration Data
 
+MIRJAM: Include a sentence describing what The RIPE registry means and entails and refer to ripe-508.
+
 #### RIPE DB
 
 Christian, 20014-05-08: Status = needs review
 
-The RIPE Database contains registration information for networks in the RIPE NCC service region. It shows the organisations that hold the resources, where the allocation were made, and contact details for the networks.
+The RIPE Database contains registration information for networks in the RIPE NCC service region. It shows the organisations that hold the resources, the country the organisation is registered in, and contact details for the networks.
   
-The Database can be search by using the web interface (https://apps.db.ripe.net/search/query.html) or by directing your whois client to whois.ripe.net. A full-text search is also available 
+The Database can be searched by using the web interface (https://apps.db.ripe.net/search/query.html) or by directing your whois client to whois.ripe.net. A full-text search is also available 
 https://apps.db.ripe.net/search/full-text.html.
   
 FAQ: http://www.ripe.net/data-tools/db/faq
@@ -115,30 +122,26 @@ This data is accessible via RIPEstat as a widget and as a data call.
 Widget API: https://stat.ripe.net/widget/registry-browser
 Data API: https://stat.ripe.net/docs/data_api#RegistryBrowser
   
-  
-Q: Source of the data?
-A: 
-The data is created by the Registration Service at the RIPE NCC and by the resource holders following a defined scheme for objects and attributes.
+MIRJAM: I suggest to take out all the Q's and A's and format these sections with sub headings (the same for each of these sections). Might be better readable.
 
-Q: Quality of the data? How often is the quality checked?
-A:
-Data quality is very important concern for the RIPE NCC and the quality of the registration data is usually high but it has to be reminded that the organisations that hold those resources are responsible for updating their information which can not always be checked by the RIPE NCC.
+Source of the data:
+- The data is created and maintained by the RIPE NCC and by the resource holders following a defined scheme for objects and attributes (MIRJAM: What does this mean: "scheme..."?).
+
+Quality of the data and how often is the quality checked:
+- The data quality in the RIPE registry is very important for network operations and it one of the main tasks of the RIPE NCC. The RIPE NCC is frequently cecking the quality of the data and is working with the maintainers of the data to keep it up to date.
 
  
-Q: Can this data set be queried in batch?
-A:
-RIPE Database APIs can be queried in batch but there is a limit if personal data is being fetched:
-- Number of personal data sets returned in queries from an IP address - 1000 per 24 hours (from "Accetable Use Policy" http://www.ripe.net/data-tools/support/documentation/aup)
+Data set available in batch:
+- RIPE Database APIs can be queried in batch but there is a limit if personal data is being fetched:
+	- Number of personal data sets returned in queries from an IP address - 1000 per 24 hours (from "Accetable Use Policy" http://www.ripe.net/data-tools/support/documentation/aup)
 
-This limit also applies for using RIPEstat but it is not per IP address but user account.
+This limit also applies for using RIPEstat but it is not per IP address per user account.
 
-Q: If there is a batch query interface, is there an API?
-A: 
-The command line interface (port 43) or RIPEstat can be used.
+API for batch query interface:
+- The command line interface (port 43) or RIPEstat can be used.
 
-Q: Is there historical data and if so, how can it be queried?
-A: 
-The RIPE Database interfaces provide a historical lookup feature based on versions, see https://labs.ripe.net/Members/kranjbar/proposal-to-display-history-of-objects-in-ripe-database
+Historical data:
+- The RIPE Database interfaces provide a historical lookup feature based on versions, see https://labs.ripe.net/Members/kranjbar/proposal-to-display-history-of-objects-in-ripe-database
 for details.
 In RIPEstat the data call for the Registry-Browser returns historical information for each queried object but this requires the user to be logged in as a RIPE NCC member.
 
@@ -154,7 +157,7 @@ Christian:
     
 
 
-#### Routing DB
+#### Routing Registry
 
 The RIPE Routing Registry is a sub-set of the RIPE Database and holds information about routing on the Internet. The routing information is stored in Autonomous System (AS) objects. The information in these AS objects show how a particular network is routed on the internet. 
 
@@ -185,9 +188,9 @@ See RIPE DB (to be checked if history is available for route objects as well)
 
 
 
-#### RIR statistics 
+#### Regional Internet Registry (RIR) statistics 
 
-The RIR statistics summarize the current state of allocations and assignments of Internet number resources. They are intended to provide a snapshot of the status of Internet number resources, without any transactional or historical details.
+The RIR statistics provide an authoritative source of the status of all IP resources. It is maintained collectively by all RIRs. They are intended to provide a snapshot of the status of Internet number resources, without any transactional or historical details. (MIRJAM: Christian, I am not sure we need to sepcify this here. The most important fact is that this is the authoritative source for all IP resources, but that it doesn't provide a lot of details).
 
 The statistics are primarily published as a text file by each RIR once a day. The statistics are usually available before 23:59:59 in the local time zone the RIR is in.
 
