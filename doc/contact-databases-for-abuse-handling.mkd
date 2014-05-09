@@ -7,9 +7,9 @@
 |:---------|---------------------------------------------------------------------------|
 | CERT     | Computer Emergency Response Team. Synonymous with CSIRT                   |
 | CSIRT    | Computer Security Incident Response Team                                  |
-| RIR      | Regional Internet Registry; see (1) for more details                    |
-| LIR      | Local Internet Registry; see (1) for more details                       |
-| RIPE NCC | RIR serving Europe, Central Asia and the Middle East; see (2)           | 
+| RIR      | Regional Internet Registry; see (1) for more details                      |
+| LIR      | Local Internet Registry; see (1) for more details                         |
+| RIPE NCC | RIR serving Europe, Central Asia and the Middle East; see (2)             | 
 | RIS      | Routing Information Service                                               |
 
 
@@ -304,20 +304,47 @@ Internet number resources for Germany
 
 #### What is it?
 
-Internet routing data is significantly different from the registration data as the routing data shows the state of routing tables. It has to be noted
-that this is not a single routing table but rather each point on the Internet where the  adds its distinct vantage point.
+Internet routing data is significantly different from the registration data as the routing data shows the state of routing tables. It has to be noted that this is not a single routing table as each point from where routing data gets collected adds its distinct vantage point.
 
-The RIPE NCC collects and stores Internet routing data from several locations ( ) around the globe, using the Routing Information Service (RIS), 
+The RIPE NCC collects and stores Internet routing data since 2001 using RIS which is short for Routing Information Service. The RIS system consists of a network of route collectors (RRC) which are running a customised routing software (Quagga) to passively collect routing information from other networks that are connected to the RRC (peering).
+
+RIS: http://www.ripe.net/data-tools/stats/ris/
+
+#### Fetching The Data
+
+The RIS routing data can be accessed through the raw data files or via APIs the RIPE NCC provides.
+
+##### Raw Data
+
+The raw data files are a direct copy of the data that is being sent by the RRCs to a central storage location. These files come in two flavour, dumps and updates. 
+Dumps contain the entire routing table for the time the dump was created which is 3 times a day (every 8 hours) starting from midnight (00:00, 08:00 and 16:00 UTC).
+Updates contain BGP updates (announcements and withdrawals) aggregated over 5 minutes. 
+
+The links to the data files can be found on http://www.ripe.net/data-tools/stats/ris/ris-raw-data. The URL follows a simple pattern:
+
+`http://data.ris.ripe.net/<rrc_#>/` (e.g. http://data.ris.ripe.net/rrc01/ to access dumps and updates for RRC01)
+
+Dumps as well as updates are stored in MRT format which can be read by libbgdump, a library written in C by Dan Ardelean. More details on this library and where to download can be found on the page mentioned above.
+On the same page there is also a Python library state, PyBGPdump. Unfortunately this library has been reported to fail for some dump files. If Python support is necessary mrtparse (https://github.com/YoshiyukiYamauchi/mrtparse) might be an alternative.
 
 
+##### APIs
 
-This data is dif
+RIPEstat offers a couple of data calls which are based on the RIS routing data. This form of access is usually more convenient.
 
-### How to fetch it?
+* Resource-Overview
+* Routing-Status
+* Routing-History
+* Asn-Neighbours
+* Asn-Neighbours-History
+* BGPlay
+* Country-Routing-Statistics
 
--- raw
+Bulk access to these
 
--- RIPEstat
+A somehow similar but a bit more limited service is provided by RISwhois.
+The benefits of RISwhois is its performance.
+
 
 
 
