@@ -1,16 +1,38 @@
-# Contact-DB lookups for CERTs
+% Abuse Contact lookups for IT security incident handling
+% L. Aaron Kaplan <kaplan@cert.at>; Mirjam Kühne <mirjam.kuehne@ripe.net>; Christian Teuschl <christian.teusch@ripe.net>, 
+% 2014/05/10
+
 
 # Terminology
 
 
-| Term     | Explanation                                                               |
-|:---------|---------------------------------------------------------------------------|
-| CERT     | Computer Emergency Response Team. Synonymous with CSIRT                   |
-| CSIRT    | Computer Security Incident Response Team                                  |
-| RIR      | Regional Internet Registry; see (1) for more details                      |
-| LIR      | Local Internet Registry; see (1) for more details                         |
-| RIPE NCC | RIR serving Europe, Central Asia and the Middle East; see (2)             | 
-| RIS      | Routing Information Service                                               |
+----------------------------------------------------------------------------------------
+Term          	Explanation                                                               
+---------------	------------------------------------------------------------------------
+CERT     		Computer Emergency Response Team. Synonymous with CSIRT
+
+CSIRT    		Computer Security Incident Response Team 
+
+RIR      		Regional Internet Registry; see (1) for more details 
+
+LIR      		Local Internet Registry; see (1) for more details 
+
+Object			As defined by RIPE: a XXX RIPE: please define XXX
+
+Network Resource	Or "Netresource". An ASN, netblock, IP address, domain name or hostname
+
+Registrant 		A person registering a domain name for individual or business usage  
+
+Registrar 		Often called domain registrar. An organisation handling the registration 
+              	of domain names on behalf of a registrant 
+
+RIPE NCC 		RIR serving Europe, Central Asia and the Middle East; see (2) 
+
+RIS      		Routing Information Service 
+
+TI       		Trusted Introducer 
+----------------------------------------------------------------------------------------
+Table: Terminology
 
 
 (1) [http://www.ripe.net/internet-coordination/internet-governance/internet-technical-community/the-rir-system](http://www.ripe.net/internet-coordination/internet-governance/internet-technical-community/the-rir-system)         
@@ -18,62 +40,67 @@
 
 # Intended Audience
 
-CERTs and IT security incident abuse handlers as well as professionals working
-on automating IT security incident handling.
+CERTs and IT security incident abuse handlers as well as professionals working on automating IT security incident handling.
 
 # Problem description and motivation
 
-CERTs - especially national CERTs - need to look up contact information very
-frequently for different resources on the Internet.  Examples of such lookups
-might be: given the IP address 1.2.3.4, give me the best matching abuse contact
-email address. Or: given the domain www.example.com, what is the best contact
-for sending IT security incident notifictations to?
+CERTs - especially national CERTs - need to look up contact information very frequently for different resources on the Internet.  Examples of such lookups might be: given the IP address 1.2.3.4, give me the best matching abuse contact email address. Or given the domain www.example.com, what is the best contact for sending IT security incident notifications to?  
 
-The frequency of lookups can be thousands or ten thousands of lookups per day,
-depending on the number of incidents a CERT will see.  Every lookup follows the
-same principle: given a network resource such as an AS number, an IP address, a
-netblock, a domain or URL, the requestor wants to know the "best matching"
-abuse contact for the given network object. The intend is to inform the contact
-about a specific IT security incident in his or her network or server.
+The frequency of lookups can be thousands or ten thousands of lookups per day, depending on the number of incidents a CERT will see.  Every lookup follows the same principle: given a network resource such as an AS number, an IP address, a netblock, a domain or URL, the requestor wants to know the "best matching" abuse contact for the given network resource. The intention is to inform the contact about a specific IT security incident in his or her network or server.  
+While existing databases such as the RIPE DB already provide a good mechanism to look up data, there are other data sets that might be more suitable in certain cases.  Due to the dynamic and distributed nature of the Internet (technically as well as organisationally), no currently existing abuse contact lookup database handles this task ideally. Every existing database has a specific focus and shortcomings. Due to some of these shortcomings, often enough some IT security team or a national CERT will re-implement a abuse contact database. Thus instead of solving the shortcomings, another database will exist and will have additional shortcomings.
 
-While existing databases such as the RIPE DB already provide a good mechanism
-to look up data, there are other data sets that might be more suitable in
-certain cases.  Due to the dynamic and distributed nature of the Internet
-(technically as well as organisationally), no currently existing abuse contact
-lookup database handles this task ideally. Every existing database has a
-specific focus and shortcomings.  Additionally, often enough these shortcomings
-resulted in re-implementation of this basic contact lookup functionality at
-multiple (national) CERTs. 
+Finally, a "best matching" contact lookup algorithm by the very international nature of the Internet must differ from country to country and organisation to organisation. Some organisations will have perfect or nearly perfect abuse contact lookup data available to them (internal abuse contact lookups).  Others organisations dealing with a large constituency (such as national CERTs serving a whole country) will face the problem of figuring out if a network resource belongs to its constituency in the first place (for example is IP address 1.2.3.4 in my country?).  
 
-Finally, a "best matching" contact lookup algorithm by the very international
-nature of the Internet must differ from country to country and organisation to
-organisation. Some organisations will have perfect or nearly perfect abuse
-contact lookup data available to them (internal abuse contact lookups).  Others
-organisations dealing with a large constituency (such as national CERTs serving
-a whole country) will face the problem of figuring out if a network object
-belongs to its constituency in the first place (for example is IP address
-1.2.3.4 in my country?).
+We therefore conclude that abuse contact lookups should be seen as an iterative process where the most specific datasets is queried first and subsequent lookups are sent to different, less specific datasets or databases. A model for this lookup is given in section "A unified model for abuse contact lookups".
 
-We therefore conclude that abuse contact lookups should be seen as an iterative
-process where the most specific datasets is queried first and subsequent
-lookups are sent to different, less specific datasets or databases.  A model
-for this lookup is given in section "A unified model for abuse contact
-lookups".
+The goal of this document is to first explain the existing databases and datasets and subsequently to propose a model for above mentioned iterative lookup process.
 
-The goal of this document is to first explain the existing databases and
-datasets and subsequently to propose a model for above mentioned iterative
-lookup process.
-
-This document is intended to be a request for input from the community.
+This document is intended to be a request for input from the Internet community. The hope is to eventually define a standard for abuse contact lookups.
 
 
+
+# General remarks on abuse contact lookups
+
+There are two orthogonal approaches which must be considered: looking up abuse contacts for:
+
+  * name based resources (e.g. domain names, host names)
+  * number based resources (IP addresses, AS numbers)
+
+This document assumes that a resource is either a name based resource or a number based resource. 
+
+
+![Potential abuse contact lookups](./contact-lookup-flow.png)
+
+
+Figure 1 describes possible paths in looking up abuse contact information based on the given resources. 
+Depending on the case and depending on the resource, there might be multiple paths for lookups. This will always be a case-by-case decision on behalf of the incident reporter. 
+
+*Example:* the incident reporter finds a hacked webpage. Naturally, he will try to contact the domain owner (name based resource lookup) - the admin\_c and possibly also the tech\_c.  However, as time passes, the incident reporter notices more and more hacked webpages. Incidentally, they all turn out to be hosted on the very same IP address block.
+After some investigations, the incident reporter decides that there must be something wrong with the web page hoster's servers. Hence, he decides to contact the owner of the IP block (the hoster) in order to hand him over a long CSV file of all web pages which are hacked and residing on the hosters' IP range.
+
+In practice, often enough it is not clear, which path to choose. 
+
+Sometimes, an incident report might want to contact a single point of contact (PoC) for a whole country. Typically this would be a national CERT which in turn will use some kind of contact lookup mechanism (possibly more accurate) to assign the incident report to a locally trusted and well known incident handler. For this case (sending incident reports to a national CERT), the report must find out the country a resource is assigned to. Since there is a well known dataset of national CERTs (see XXX), the problem thus can be reduced to finding the country code of the resource (for example: given an IP address 1.2.3.4, what is the country this IP address resides in?).
+We will discuss this special case in section XXXX.
+
+Whoever, we must remember that the problem of whom to contact is a choice which must be made on a case-by-case basis. Therefore this framework must be flexible enough to support both approaches.
 
 
 # Overview of existing solutions
 
+## Perl's Net::Abuse
+## RIPE abuse-c, IRT object
+## General whois services
+
+## Country Code lookups
+### RIPE DB
+### Maxmind
+### Team Cymru
+
+
 # Shortcomings of existing solutions
 
-# Existing data sets
+# Detailled discussion on existing data sets
 
 ## TI DB
 
@@ -128,7 +155,7 @@ Documentation: http://www.ripe.net/data-tools/support/documentation
   
 This data is accessible via RIPEstat as a widget and as a data call.
 Widget API: https://stat.ripe.net/widget/registry-browser
-Data API: https://stat.ripe.net/docs/data_api#RegistryBrowser
+Data API: https://stat.ripe.net/docs/data\_api#RegistryBrowser
   
 MIRJAM: I suggest to take out all the Q's and A's and format these sections with sub headings (the same for each of these sections). Might be better readable.
 
@@ -500,16 +527,13 @@ There might be some measurements (build-in as well as user-defined) that are not
 # A unified model for abuse contact lookups
 
 
-## Netobjects
+## Network resources
 
 
-Christian: We call them resources to distinguish it from whois objects.
-
-
-Before looking at the propsed  algorithm and framework for contact lookups, we need to define some terms.
+Before looking at the proposed  algorithm and framework for contact lookups, we need to define some terms.
 There are two types of lookup paths that can occur: based on problem at hand, either a number-resource lookup (AS number, IP address, netblock) or name-based resource lookup path (domain, URL) needs to be chosen.
 
-We define a netobject as being an object of:
+We define a network resource as being one of:
 
 * ASN (example: AS1901 or 1901)
 * netblock (CIDR notation) (example: 193.238.156.0/21)
@@ -517,10 +541,10 @@ We define a netobject as being an object of:
 * hostname (fqdn) (example: www.ripe.net), or
 * IP address (example: 193.1.1.0).
 
-A netobject can be any one of these (but not multiple at the same time).
-Should we need to specifically talk about a number-resource or a name-based resource, we will use these more specific termins. Otherwise, the term "netobject" will be used as a aggregated term.
+A network resource can be any one of these (but not multiple at the same time).
+Should we need to specifically talk about a number-resource or a name-based resource, we will use these more specific termins. Otherwise, the term "netresource" will be used as a aggregated term.
 
-Based on the definition of a netobject we can now define functions on netobjects which shall return the desired information.
+Based on the definition of a netresource we can now define functions on netresources which shall return the desired information.
 
 XXX @aaron: FIXME: add ABNF syntax description here XXX
 
@@ -552,17 +576,18 @@ data sources. All contact lookups MAY be cached. Cache timeout values are TBD.
 
 **Implementation (pseudo-code)**:
 
-	lookup domain in specific internal contactDB, if nothing found...  
-	IF (parameter == hostname):     
-	d = extract_domain(fqdn)  
-	ELSE d = parameter  
-	lookup domain_owner(d), and/or...  
-	lookup registrar_of(d)  
-	IF nothing_found and (parameter == hostname):     
-	i= lookup_ip_of_hostname(fqdn)    
-	lookup_hoster_of_ip(i) 
+	lookup domain in specific internal contactDB, 
+    IF nothing found:
+	  IF (parameter == hostname):     
+	    d = extract_domain(fqdn)  
+	  ELSE d = parameter  
+	  lookup domain_owner(d), and/or...  
+	  lookup registrar_of(d)  
+	  IF nothing_found and (parameter == hostname):     
+	    i= lookup_ip_of_hostname(fqdn)    
+	    lookup_hoster_of_ip(i) 
 
-NOTE: this lookup function actually might be a bit too specific. Depending on the use case you might want to look up only the domain owner or the registrar only.
+*NOTE*: this lookup function actually might be a bit too specific. Depending on the use case you might want to look up only the domain owner or the registrar only.
 
 ### Lookup by hostname
 *	**Name**: contact\_by\_hostname(fqdn)
@@ -571,12 +596,13 @@ NOTE: this lookup function actually might be a bit too specific. Depending on th
 
 **Implementation**:
 
-	lookup domain in specific internal contactDB, if nothing found...  
-	d = extract_domain(fqdn)  
-	lookup domain_owner(d), and/or...  
-	lookup registrar_of(d) and/or...  
-	i= lookup_ip(s)_of_hostname(fqdn)  
-	lookup_hoster_of_ip(i)
+	lookup domain in specific internal contactDB, 
+    IF nothing found:
+	  d = extract_domain(fqdn)  
+	  lookup domain_owner(d), and/or...  
+	  lookup registrar_of(d) and/or...  
+	  i= lookup_ip(s)_of_hostname(fqdn)  
+	  lookup_hoster_of_ip(i)
 
 optional:
 
@@ -593,11 +619,15 @@ NOTE: again, as above, this function might be doing too much already. Depending 
 
 **Implementation**:
 
-	lookup contact for netblock in internal contactDB, if nothing found...  
-	lookup abuse@ in whois for the contact block, if nothing found...  
-	lookup whois contact for the netblock, if nothing found...  
-	lookup ASN  of netblock, call lookup_by_asn(ASN), if nothing found...  
-	lookup country code of netblock, then look up the national CERT of that country (for example via  https://contacts.cert.at) 
+	lookup contact for netblock in internal contactDB, 
+    IF nothing found:
+	  lookup abuse@ in whois for the contact block, 
+      IF nothing found:
+	    lookup whois contact for the netblock, 
+        IF nothing found:
+	      lookup ASN  of netblock, call lookup_by_asn(ASN), 
+		  IF nothing found:
+	        lookup country code of netblock, then look up the national CERT of that country (for example via  https://contacts.cert.at) 
 
 
 ###Lookup by IP address
@@ -607,11 +637,16 @@ NOTE: again, as above, this function might be doing too much already. Depending 
 
 **Implementation**:
 
-	lookup contact for IP address  in internal contactDB, if nothing found...  
-	lookup most specific netblock of IP, call contact_by_netblock. If nothing found...  
-	optional: lookup less specific netblock of IP, call contact_by_netblock(). If nothing found...   
-	lookup ASN of IP address, call contact_by_asn. If nothing found...  
-	lookup country code of IP address, lookup contact of national CERT of country (for example via https://contacts.cert.at) 
+	lookup contact for IP address  in internal contactDB, 
+    IF nothing found: 
+	  lookup most specific netblock of IP, call contact_by_netblock. 
+      IF nothing found:
+	       (optional: lookup less specific netblock of IP, call contact_by_netblock(). 
+           If nothing found...   )
+	    lookup ASN of IP address, call contact_by_asn. 
+        IF nothing found:
+	      lookup country code of IP address, lookup contact of national CERT 
+          of country (for example via https://contacts.cert.at) 
 
 
 ### Lookup by country
@@ -621,7 +656,11 @@ NOTE: again, as above, this function might be doing too much already. Depending 
 
 **Implementation**:
 
-lookup country code in national CERT DB, return national CERT contact or "undef" if none found 
+  lookup(country code in national CERT DB), 
+  IF FOUND: 
+    return national CERT contact 
+  ELSE 
+    return undef
 
 ###Lookup by TLD
 *	**Name**: contact\_by\_tld(domain or tld)
@@ -631,10 +670,12 @@ lookup country code in national CERT DB, return national CERT contact or "undef"
 **Implementation**:
 
 	IF TLD == ccTLD:     
-	return contact_by_country(ccTLD)  
-	ELSE lookup registrar of gTLD, 
-	if nothing found : 
-	return undef 
+	  return contact_by_country(ccTLD)  
+	ELSE 
+      c = lookup(registrar of gTLD) 
+	  IF nothing found : 
+	    return undef 
+      ELSE return c
 
 
 
