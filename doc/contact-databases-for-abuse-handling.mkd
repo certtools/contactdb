@@ -332,24 +332,69 @@ On the same page there is also a Python library state, PyBGPdump. Unfortunately 
 
 ##### APIs
 
-RIPEstat offers a couple of data calls which are based on the RIS routing data. This form of access is usually more convenient.
-
-* Resource-Overview
-* Routing-Status
-* Routing-History
-* Asn-Neighbours
-* Asn-Neighbours-History
-* BGPlay
-* Country-Routing-Statistics
-
-Bulk access to these
-
-A somehow similar but a bit more limited service is provided by RISwhois.
-The benefits of RISwhois is its performance.
+RIPEstat offers a couple of data calls which are based on the RIS routing data. This form of access is usually more convenient than having to extract the information from the raw data files.
 
 
+* 	Resource-Overview (Prefix-Overview, As-Overview)
+	This data call gives a summary of the given prefix, including whether and by whom it is announced.
+	
+	Documentation: 
+	+ 	https://stat.ripe.net/docs/data_api#PrefixOverview, 
+	+ 	https://stat.ripe.net/docs/data_api#AsOverview
 
 
+* 	Routing-Status
+	This data call returns a summary of the current BGP routing state of a given IP prefix or ASN, as observed by the RIS route collectors.
+	
+	Documentation: 
+	+ 	https://stat.ripe.net/docs/data_api#RoutingStatus
+
+
+* 	Routing-History
+	This data call shows the history of announcements for prefixes, including the origin ASN and the first hop.
+	
+	Documentation:
+	+ 	https://stat.ripe.net/docs/data_api#RoutingHistory
+
+	
+* 	Asn-Neighbours
+	This data call shows information on the network neighbours for a given ASN. This includes statistical information as well as the list of observed ASN neighbours.
+	
+	Documentation:
+	+ 	https://stat.ripe.net/docs/data_api#AsnNeighbours
+
+	
+* 	Asn-Neighbours-History
+	This data call returns information about neigbouring ASNs of a queried ASN extended with history.
+	
+	Documentation:
+	+ 	https://stat.ripe.net/docs/data_api#AsnNeighboursHistory
+
+
+* 	BGPlay
+	This data call represents the scenario of what occurred to the BGP routes of a resource over a period of time.
+	It includes data that defines the initial BGP state at the start time of the query, and all the BGP updates observed from then until the end time, as well as a description of all the AS nodes, and RIS BGP peers involved in the result.
+	
+	Documentation:
+	+ 	https://stat.ripe.net/docs/data_api#BGPlay
+	
+
+* 	Country-Routing-Statistics
+	This data call returns statistics on Internet resources for a country - this includes:
+
+	+	number of ASNs seen in routing data and registration data
+	+	number of prefixes in routing data and registration data (split into IPv4 and IPv6)
+	+	amount of IPv4 space seen in routing data as well as registration data
+	The results can be restricted to a specific time period as well the granularity is variable but can be set explicitly.
+	
+	Documentation:
+	+ 	https://stat.ripe.net/docs/data_api#CountryResourceStats
+
+For a general introduction on how to use the RIPEstat API please refer to https://stat.ripe.net/docs/data_api.
+
+The query model that is used at the moment on RIPEstat supports queries for single resource at a time which could make it less convenient for a larger number of resource to be looked up. An already requested feature is to have also support for bulk request which will be added in the upcoming development sprints for RIPEstat.
+
+A somehow similar but a bit more limited service is provided by RISwhois, http://www.ripe.net/data-tools/stats/ris/riswhois. The benefit of RISwhois is its performance.
 
 
 #### 
