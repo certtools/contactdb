@@ -172,17 +172,17 @@ mnt-by:          YYYYY-LIR-MNT
 source:          RIPE # Filtered
 ```
 
-Q: Can this data set be queried in batch?
-A:
+##### Data set available in batch
+
 Same terms and conditions apply as for RIPE Database.
 
-Q: If there is a batch query interface, is there an API?
-A: 
-See RIPE DB
+##### API for batch query interface
 
-Q: is there historic data and if so, how can it be queried?
-A:
-See RIPE DB (to be checked if history is available for route objects as well) 
+Same terms and conditions apply as for RIPE Database.
+
+##### Historical data
+
+See RIPE DB section (to be checked if history is available for route objects as well) 
 
 
 
