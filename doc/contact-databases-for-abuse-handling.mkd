@@ -300,7 +300,36 @@ E.g.:
 Internet number resources for Germany
 `https://stat.ripe.net/data/country-resource-list/data.json?resource=de`
 
-### routing data collected by the 13 RIS route collectors
+### Routing Data 
+
+#### What is it?
+
+Internet routing data is significantly different from the registration data as the routing data shows the state of routing tables. It has to be noted
+that this is not a single routing table but rather each point on the Internet where the  adds its distinct vantage point.
+
+The RIPE NCC collects and stores Internet routing data from several locations ( ) around the globe, using the Routing Information Service (RIS), 
+
+
+
+This data is dif
+
+### How to fetch it?
+
+-- raw
+
+-- RIPEstat
+
+
+
+
+
+#### 
+
+### External Data Sets Served Via RIPEstat
+
+Then there are other data sets that we provide via RIPEstat but they don't originate from the RIPE NCC, 
+like MaxMind's GeoIP data set, some blacklists... the benefit can be a consistent data interface.
+
 
 RIPEstat?
 
@@ -380,10 +409,6 @@ mechanism to clean this up? Should we measure this in the first place ?
 
 There might be some measurements (build-in as well as user-defined) that are not public!
 
-### External Data Sets Served Via RIPEstat
-
-Then there are other data sets that we provide via RIPEstat but they don't originate from the RIPE NCC, 
-like MaxMind's GeoIP data set, some blacklists... the benefit can be a consistent data interface.
 
 ---
 
