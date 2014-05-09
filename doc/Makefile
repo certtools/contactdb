@@ -7,7 +7,7 @@ all: contact-databases-for-abuse-handling.pdf
 latex:	contact-databases-for-abuse-handling.tex
 
 contact-databases-for-abuse-handling.tex: contact-databases-for-abuse-handling.mkd
-	pandoc  -N --listings -T "Contact database for IT security incident handling" -s -f markdown_github+pandoc_title_block+pipe_tables --toc -t latex -o contact-databases-for-abuse-handling.tex contact-databases-for-abuse-handling.mkd
+	pandoc  -N --listings -T "Abuse Contact lookups for IT security incident handling" -s -f markdown_github+implicit_figures+pandoc_title_block+table_captions+multiline_tables --toc -t latex -o contact-databases-for-abuse-handling.tex contact-databases-for-abuse-handling.mkd
 	#pandoc  -N --listings -T "Contact database for IT security incident handling" -s -f markdown_github+pandoc_title_block+pipe_tables --toc -o contact-databases-for-abuse-handling.pdf contact-databases-for-abuse-handling.mkd
 
 contact-databases-for-abuse-handling.pdf: contact-databases-for-abuse-handling.tex
