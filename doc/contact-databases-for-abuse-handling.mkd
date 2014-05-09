@@ -409,9 +409,9 @@ We define a netobject as being an object of:
 
 * ASN (example: AS1901 or 1901)
 * netblock (CIDR notation) (example: 193.238.156.0/21)
-* domain, (example: microsoft.com)
-* hostname (fqdn) (example: www2.microsoft.com), or
-* IP address.
+* domain, (example: ripe.net)
+* hostname (fqdn) (example: www.ripe.net), or
+* IP address (example: 193.1.1.0).
 
 A netobject can be any one of these (but not multiple at the same time).
 Should we need to specifically talk about a number-resource or a name-based resource, we will use these more specific termins. Otherwise, the term "netobject" will be used as a aggregated term.
