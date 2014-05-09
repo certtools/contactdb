@@ -18,48 +18,56 @@
 
 # Intended Audience
 
-CERTs and IT security abuse handlers as well as professionals working on
-automating IT security incident handling.
-test test 
+CERTs and IT security incident abuse handlers as well as professionals working
+on automating IT security incident handling.
 
 # Problem description and motivation
 
 CERTs - especially national CERTs - need to look up contact information very
-frequently for different objects (MIRJAM: replace with resources everywhere?
-Othewise confusion with RIPE DB objects) on the Internet.  The frequency of lookups can
-be thousands or ten thousands of lookups per day, depending on the number of
-incidents a CERT will see.  Every lookup follows the same principle: given a
-network object such as an AS number, an IP address, a netblock, a domain or
-URL, the requestor wants to know the "best matching" abuse contact for the
-given network object. The intend is to inform the contact about a specific 
-IT security incident in his or her network or server.
+frequently for different resources on the Internet.  Examples of such lookups
+might be: given the IP address 1.2.3.4, give me the best matching abuse contact
+email address. Or: given the domain www.example.com, what is the best contact
+for sending IT security incident notifictations to?
+
+The frequency of lookups can be thousands or ten thousands of lookups per day,
+depending on the number of incidents a CERT will see.  Every lookup follows the
+same principle: given a network resource such as an AS number, an IP address, a
+netblock, a domain or URL, the requestor wants to know the "best matching"
+abuse contact for the given network object. The intend is to inform the contact
+about a specific IT security incident in his or her network or server.
 
 While existing databases such as the RIPE DB already provide a good mechanism
-to look up data, there are other data sets that might be more suitable in certain cases. 
-These data sets are being discussed in this document. Often enough these shortcomings 
-resulted in re-implementation of this basic contact lookup functionality at multiple 
-(national) CERTs. (MIRJAM: Not sure what this means)
+to look up data, there are other data sets that might be more suitable in
+certain cases.  Due to the dynamic and distributed nature of the Internet
+(technically as well as organisationally), no currently existing abuse contact
+lookup database handles this task ideally. Every existing database has a
+specific focus and shortcomings.  Additionally, often enough these shortcomings
+resulted in re-implementation of this basic contact lookup functionality at
+multiple (national) CERTs. 
 
-In addition, a "best matching" contact lookup algorithm must differ from
-country to country and organisation to organisation. Some organisations will
-have perfect or nearly perfect abuse contact lookup data available to them.
-Others organisations dealing with a large constituency (such as national CERTs
-serving a whole country) will face the problem of figuring out if a network
-object belongs to its constituency in the first place (for example is IP
-address a.b.c.d used in my country?).
+Finally, a "best matching" contact lookup algorithm by the very international
+nature of the Internet must differ from country to country and organisation to
+organisation. Some organisations will have perfect or nearly perfect abuse
+contact lookup data available to them (internal abuse contact lookups).  Others
+organisations dealing with a large constituency (such as national CERTs serving
+a whole country) will face the problem of figuring out if a network object
+belongs to its constituency in the first place (for example is IP address
+1.2.3.4 in my country?).
 
 We therefore conclude that abuse contact lookups should be seen as an iterative
-process where the most specific database is queried first and subsequent
-lookups are sent to different, less specific databases.
-A model for this lookup is given in section "A unified model for abuse contact lookups".
+process where the most specific datasets is queried first and subsequent
+lookups are sent to different, less specific datasets or databases.  A model
+for this lookup is given in section "A unified model for abuse contact
+lookups".
 
-Christian:
-More/less specific lookups can also mean to query the same database but with 
-different parameter settings.
-: (MIRJAM: How about more specific datasets so it doesn't get confused with more/less specific
-queries in the RIPE DB hierachy.)
+The goal of this document is to first explain the existing databases and
+datasets and subsequently to propose a model for above mentioned iterative
+lookup process.
 
-ZZZZZZZZZZZZZZ
+This document is intended to be a request for input from the community.
+
+
+
 
 # Overview of existing solutions
 
