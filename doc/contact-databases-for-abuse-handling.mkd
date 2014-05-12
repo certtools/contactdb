@@ -134,7 +134,7 @@ Using the GeoIP database in a wide variety of languages is very straightforward.
 
 ### Team Cymru
 
-[Team Cyrmu](https://www.team-cymru.org/Services/ip-to-asn.html) provides an IP address to ASN mapping service via whois ([RFC3912](https://tools.ietf.org/html/rfc3912)) as well as via netcat or DNS based lookups. As part of this lookup mechanism, there are options to also get the country code of a given IP address. To the best of the authors knowledge, the IP to country mapping is done via the RIPE database (for the RIPE region)
+[Team Cyrmu](https://www.team-cymru.org/Services/ip-to-asn.html) provides an IP address to ASN mapping service via whois ([RFC3912](https://tools.ietf.org/html/rfc3912)) as well as via netcat, http(s) or DNS based lookups. As part of this lookup mechanism, there are options to also get the country code of a given IP address. To the best of the authors knowledge, the IP to country mapping is done via the RIR databases.
 
 *Example lookup*: 
 ```
