@@ -1,5 +1,5 @@
 % Abuse Contact lookups for IT security incident handling
-% L. Aaron Kaplan <kaplan@cert.at>; Mirjam Kühne <mirjam.kuehne@ripe.net>; Christian Teuschl <christian.teusch@ripe.net>, 
+% L. Aaron Kaplan <kaplan@cert.at>; Mirjam Kuehne <mirjam.kuehne@ripe.net>; Christian Teuschel <christian.teuschel@ripe.net>, 
 % 2014/05/10
 
 
