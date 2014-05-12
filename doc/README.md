@@ -15,7 +15,9 @@ What's here?
 How to build the document
 =========================
 
+```
 make clean; make
+```
 
 Pre-requisites
 ==============
