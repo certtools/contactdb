@@ -114,7 +114,9 @@ CERT.at used this national CERT database and created an online lookup tool at [h
 
 ## RIPE abuse-c, IRT object
 
-XXX Christian, Wilfried, Mirjam please fill in XXX
+Following a proposal made by the RIPE community in XXX the RIPE policy ripe-563 made it mandatory for every resource object (inetnum, inet6num and aut-num) to have a dedicated abuse contact. This contact is usually referred to as "abuse-c" contact and it is the preferred way to report any form of abuse to.
+
+The IRT (incident response team) object was created with a similar idea in mind but its deployment is even being around for years not very low and so is it is not widely used. Chances are high that this object will be dismissed. Abuse-c is considered to superceed the IRT object.
 
 ## Country Code lookups
 
