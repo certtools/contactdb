@@ -88,17 +88,96 @@ Whoever, we must remember that the problem of whom to contact is a choice which 
 
 # Overview of existing solutions
 
-## Perl's Net::Abuse
+!## Perl's Net::Abuse
+
+## Trusted Introducer
+
+## FIRST.org
+
+## CERT.org's national CERT database
+
 ## RIPE abuse-c, IRT object
-## General whois services
+
 
 ## Country Code lookups
+
+As discussed in section 'General remarks on abuse contact lookups', some incident reports should simply go to the national CERT. For this task, it is important to find the country code of an IP address or a domain.
+
+In the case of IP addresses, there are a couple of databases which will be discussed below.
+
 ### RIPE DB
+
+Ripe stat offers a RESTful API  for XXX Christian / Mirjam, please extend XXX
+
 ### Maxmind
+
+[Maxmind](https://www.maxmind.com/) is one of the most well known databases for IP to country code mappings. 
+There are a couple of versions of Maxmind with varying degrees of accuracy: 
+* GeoIP City
+* GeoIP Country
+* GeoIP Lite
+* GeoIP Legacy
+We advise the reader to check Maxminds webpage for current offerings.
+
+Using the GeoIP database in a wide variety of languages is very straightforward. In this document we give an example in Python (from [Readthedocs](http://geoip2.readthedocs.org/en/latest/)).
+
+```
+>>> import geoip2.database
+>>> reader = geoip2.database.Reader('/path/to/GeoLite2-City.mmdb')
+>>> response = reader.city('8.8.8.8')
+>>> response.country.iso_code
+'US'
+```
+
+
+
+
 ### Team Cymru
 
+[Team Cyrmu](https://www.team-cymru.org/Services/ip-to-asn.html) provides an IP address to ASN mapping service via whois ([RFC3912](https://tools.ietf.org/html/rfc3912)) as well as via netcat or DNS based lookups. As part of this lookup mechanism, there are options to also get the country code of a given IP address. To the best of the authors knowledge, the IP to country mapping is done via the RIPE database (for the RIPE region)
 
-# Shortcomings of existing solutions
+*Example lookup*: 
+```
+$ whois -h whois.cymru.com  " -c   8.8.8.8"
+
+AS      | IP               | CC | AS Name
+15169   | 8.8.8.8          | US | GOOGLE - Google Inc.,US
+```
+
+or as a shell script:
+```
+#!/bin/bash
+
+ip=$1
+cmd=$(cat <<EOT;
+begin
+verbose
+ -c
+$ip
+end
+EOT)
+
+echo "$cmd" | nc whois.cymru.com 43
+
+```
+Example output:
+
+```
+Bulk mode; whois.cymru.com [2014-05-12 19:30:14 +0000]
+Error: no ASN or IP match on line 3.
+15169   | 8.8.8.8          | 8.8.8.0/24          | US | arin     |            | GOOGLE - Google Inc.,US
+```
+
+
+## Shortcomings of existing IP to country lookups
+
+RIPE country code lookups usually return the country of registration of the organisation which was assigned the specific netblocks. However, this is not necessarily the same country as the individual IP address. This is especially true with international organisations or Internet Service Providers.
+
+On the other hand, Maxmind data might not find to correct country of an IP address or even return the special country codes 'A1' or 'A2' for satellite uplinks. 
+
+
+# Shortcomings of existing databases
+
 
 # Detailled discussion on existing data sets
 
