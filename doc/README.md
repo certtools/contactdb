@@ -9,5 +9,4 @@ What's here?
 |common/ 		|supporting .tex templates for generating a nice PDF out of the markdown document |
 |img/ 			|supporting images for generating a nice PDF out of the markdown document |
 |contactDB-pgp support.pptx|slides describing the contact lookup for CERTs project. |
-|---------------|-------------------------------------------------------------------|
 
