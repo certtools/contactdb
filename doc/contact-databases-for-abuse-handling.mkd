@@ -13,7 +13,7 @@ CERT     		Computer Emergency Response Team. Synonymous with CSIRT
 
 CSIRT    		Computer Security Incident Response Team 
 
-RIR      		Regional Internet Registry; see (1) for more details 
+FIRST			First.org - Forum for Incident Response and Security Teams
 
 LIR      		Local Internet Registry; see (1) for more details 
 
@@ -27,6 +27,8 @@ Registrar 		Often called domain registrar. An organisation handling the registra
               	of domain names on behalf of a registrant 
 
 RIPE NCC 		RIR serving Europe, Central Asia and the Middle East; see (2) 
+
+RIR      		Regional Internet Registry; see (1) for more details 
 
 RIS      		Routing Information Service 
 
@@ -92,12 +94,27 @@ Whoever, we must remember that the problem of whom to contact is a choice which 
 
 ## Trusted Introducer
 
+[Trusted Introducer](http://trusted-introducer.org/) ("TI") maintains a directory of IT security teams and TI members . While the database is worldwide, there is a strong focus on Europe. TI assigns different maturity levels to CERTs: listed, accredited and certified. 
+TI also offers a CSV Export of its database to TI members. This list is searchable by netresources such as ASN, country code or IP range.
+However, at the time of writing this document, there are still some issues with automating the querying of the TI data.
+
+XXX KPK  - do  you want to add something ? XXX
+
 ## FIRST.org
+
+FIRST maintains an extensive list of IT Security teams (FIRST's members) around the world. Unfortunately, there seems to be no automatic way of querying this list based on netresources such as IP address, ASN or country code.
+
 
 ## CERT.org's national CERT database
 
+CERT.org hosts a yearly [national CERT (CSIRT) meeting](https://www.cert.org/incident-management/national-csirts/meeting/). As part of these meetings, CERT.org also maintains a fairly accurate [list of national CERTs](https://www.cert.org/incident-management/national-csirts/national-csirts.cfm).
+
+CERT.at used this national CERT database and created an online lookup tool at [https://contacts.cert.at](https://contacts.cert.at).
+
+
 ## RIPE abuse-c, IRT object
 
+XXX Christian, Wilfried, Mirjam please fill in XXX
 
 ## Country Code lookups
 
@@ -175,6 +192,8 @@ RIPE country code lookups usually return the country of registration of the orga
 
 On the other hand, Maxmind data might not find to correct country of an IP address or even return the special country codes 'A1' or 'A2' for satellite uplinks. 
 
+For the purpose of delivering abuse reports, finding the country of registration might be  arguably a better approach in many cases.
+
 
 # Shortcomings of existing databases
 
@@ -183,9 +202,15 @@ On the other hand, Maxmind data might not find to correct country of an IP addre
 
 ## TI DB
 
+XXX may we describe the fields? XXX
+
 ## FIRST DB
 
+XXX may we describe the fields? XXX
+
 ## national CSIRT (CERT.org)
+
+XXX may we describe the fields? XXX
 
 ## RIPE NCC Data Sets 
 
