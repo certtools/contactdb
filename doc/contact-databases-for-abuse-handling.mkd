@@ -94,8 +94,9 @@ Whoever, we must remember that the problem of whom to contact is a choice which 
 
 ## Trusted Introducer
 
-[Trusted Introducer](http://trusted-introducer.org/) ("TI") maintains a directory of IT security teams and TI members . While the database is worldwide, there is a strong focus on Europe. TI assigns different maturity levels to CERTs: listed, accredited and certified. 
-TI also offers a CSV Export of its database to TI members. This list is searchable by netresources such as ASN, country code or IP range.
+Trusted Introducer ([http://trusted-introducer.org/](http://trusted-introducer.org/)) ("TI") maintains a directory of IT security teams and TI members . While the database is worldwide, there is a strong focus on Europe. TI assigns different maturity levels to CERTs: listed, accredited and certified. 
+TI also offers a CSV Export of its database to TI members (you need to be logged into the TI website to access this CSV list). 
+The CSV list is searchable by netresources such as ASN, country code or IP range.
 However, at the time of writing this document, there are still some issues with automating the querying of the TI data.
 
 XXX KPK  - do  you want to add something ? XXX
@@ -107,7 +108,7 @@ FIRST maintains an extensive list of IT Security teams (FIRST's members) around 
 
 ## CERT.org's national CERT database
 
-CERT.org hosts a yearly [national CERT (CSIRT) meeting](https://www.cert.org/incident-management/national-csirts/meeting/). As part of these meetings, CERT.org also maintains a fairly accurate [list of national CERTs](https://www.cert.org/incident-management/national-csirts/national-csirts.cfm).
+CERT.org hosts a yearly national CERT (CSIRT) meeting([https://www.cert.org/incident-management/national-csirts/meeting/](https://www.cert.org/incident-management/national-csirts/meeting/). As part of these meetings, CERT.org also maintains a fairly accurate list of national CERTs ([https://www.cert.org/incident-management/national-csirts/national-csirts.cfm](https://www.cert.org/incident-management/national-csirts/national-csirts.cfm)).
 
 CERT.at used this national CERT database and created an online lookup tool at [https://contacts.cert.at](https://contacts.cert.at).
 
