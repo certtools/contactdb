@@ -13,12 +13,12 @@ MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'contactdb',                      # Or path to database file if using sqlite3.
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',  # Or use an alternate database backend.
+        'NAME': 'contactdb',                       # Path to sqlite3 database file.
         'USER': 'contactdb',                      # Not used with sqlite3.
-        'PASSWORD': '',                           # Not used with sqlite3.
-        'HOST': '',                               # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '',                               # Set to empty string for default. Not used with sqlite3.
+        'PASSWORD': '',                  # Not used with sqlite3.
+        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
+        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
     }
 }
 
@@ -83,7 +83,7 @@ STATICFILES_FINDERS = (
 )
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = ' XXXXX replace this here with your own secrect key XXXX'
+SECRET_KEY = 'MxGyjwrHpxn26KW7f97eedHnOwqw7eTxWL97wJ.V7R8n73nBLfQk'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
@@ -111,7 +111,7 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    os.environ['CONTACTDB_HOME'] + "/contactdb/templates"
+    # os.environ['CONTACTDB_HOME'] + "/contactdb/templates"
 )
 
 INSTALLED_APPS = (
@@ -123,12 +123,11 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
-    'tastypie',
-    'rest_framework',
-    #'south',
-    'contactdb',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
+    'rest_framework',
+    'rest_framework.authtoken',
+    'contactdb',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -161,14 +160,16 @@ LOGGING = {
 }
 
 REST_FRAMEWORK = {
-    # Use hyperlinked styles by default.
-    # Only used if the `serializer_class` attribute is not set on a view.
-    'DEFAULT_MODEL_SERIALIZER_CLASS':
-        'rest_framework.serializers.HyperlinkedModelSerializer',
-
+    'PAGINATE_BY': 10,
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
-    ]
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    )
 }
+
+LOGIN_REDIRECT_URL = '/'

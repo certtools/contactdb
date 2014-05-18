@@ -1,85 +1,77 @@
-from django.http import HttpResponse
-from django.template import RequestContext, Context, loader
-from contactdb.models import Countrycode
-import contactdb.netobjects
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import User
+from django.contrib.auth.models import Group
+from rest_framework import permissions
+from rest_framework.authentication import SessionAuthentication, TokenAuthentication
 from rest_framework import viewsets
-from contactdb.serializers import UserSerializer, GroupSerializer
+from rest_framework.exceptions import PermissionDenied
+from contactdb.permissions import IsUserOrReadOnly
+from contactdb.permissions import IsInOrgOrReadOnly
+from contactdb.serializers import UserSerializer
+from contactdb.serializers import GroupSerializer
+
+from contactdb.models import Person
+from contactdb.serializers import PersonSerializer
+
+from contactdb.models import Organisation
+from contactdb.serializers import OrganisationSerializer
+
+from contactdb.models import Countrycode
+from contactdb.serializers import CountrycodeSerializer
 
 
-# exception handling
-import sys
-import traceback
+class CountrycodeViewSet(viewsets.ModelViewSet):
+    queryset = Countrycode.objects.all()
+    serializer_class = CountrycodeSerializer
 
-class UserViewSet(viewsets.ModelViewSet):
+
+class OrganisationViewSet(viewsets.ModelViewSet):
+    authentication_classes = (SessionAuthentication,
+                              TokenAuthentication)
+    queryset = Organisation.objects.all()
+    serializer_class = OrganisationSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,
+                          IsInOrgOrReadOnly,)
+
+    def pre_save(self, obj):
+        g, created = Group.objects.get_or_create(name=obj.name)
+        if not self.request.user.is_staff:
+            g.user_set.add(self.request.user)
+
+
+class PersonViewSet(viewsets.ModelViewSet):
+    queryset = Person.objects.all()
+    serializer_class = PersonSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,
+                          IsUserOrReadOnly,)
+
+    def pre_save(self, obj):
+        if self.request.user.is_staff or obj.user == self.request.user:
+            if obj.organisation is not None:
+                g, created = Group.objects.get_or_create(
+                    name=obj.organisation.name)
+                if created or obj.organisation.name in \
+                        self.request.user.groups.all():
+                    # only allow to add an organisation to an user if the user
+                    # doing so is in the organisation
+                    g.user_set.add(self.request.user)
+        else:
+            raise PermissionDenied(detail='User of Person has to be you.')
+
+
+class UserViewSet(viewsets.ReadOnlyModelViewSet):
     """
-    API endpoint that allows users to be viewed or edited.
+    This endpoint presents the users in the system.
+
+    As you can see, the collection of snippet instances owned by a user are
+    serialized using a hyperlinked representation.
     """
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
 
-class GroupViewSet(viewsets.ModelViewSet):
+class GroupViewSet(viewsets.ReadOnlyModelViewSet):
     """
     API endpoint that allows groups to be viewed or edited.
     """
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
-
-
-def index(request):
-    country_list = Countrycode.objects.all().order_by('-cc')
-    t = loader.get_template("index.html")
-    c = Context({
-        'country_list' : country_list,
-        })
-    return HttpResponse(t.render(c))
-
-def search(request):
-    try:
-        search_string = request.POST["country_name"]
-        country_list = Countrycode.objects.filter(country_name__contains=search_string).order_by('cc')
-        c = RequestContext(request, {'country_list' : country_list})
-        t = loader.get_template("index.html")
-        return HttpResponse(t.render(c))
-    except:
-        c = RequestContext(request, {})
-        t = loader.get_template("search.html")
-        return HttpResponse(t.render(c))
-
-def addasn(request):
-    try:
-        asn = request.POST["asn"]
-        asname = request.POST["asname"]
-        print("DEBUG asn = %s asname = %s" % (asn, asname))
-        contactdb.netobjects.addASN(asn, asname)
-        print("DEBUG object added to DB")
-        c = RequestContext(request, {'asn' : asn, 'asname' : asname})
-        t = loader.get_template("index.html")
-        return HttpResponse(t.render(c))
-    except:
-        e = sys.exc_info()[0]
-        print("DEBUG: IN EXCEPTION!! %s" % (e))
-        c = RequestContext(request, {})
-        t = loader.get_template("add_asn.html")
-        return HttpResponse(t.render(c))
-    return
-
-def addsource(request):
-    try:
-        source = request.POST["source"]
-        reliability = request.POST["reliability"]
-        contactdb.envinfo.addSource(source, reliability)
-        c = RequestContext(request, {'source' : source, 'reliability' : reliability})
-        t = loader.get_template("index.html")
-        return HttpResponse(t.render(c))
-    except:
-        e = sys.exc_info()[0]
-        tb = sys.exc_info()[2]
-        traceback.print_tb(tb)
-        print("DEBUG: IN EXCEPTION!! %s" % (e))
-        c = RequestContext(request, {})
-        t = loader.get_template("add_source.html")
-        return HttpResponse(t.render(c))
-    return
-

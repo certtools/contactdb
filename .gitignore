@@ -32,3 +32,9 @@ nosetests.xml
 .mr.developer.cfg
 .project
 .pydevproject*.pyc
+
+# client api key
+client/keys.py
+
+# virtialenv
+virtenv/

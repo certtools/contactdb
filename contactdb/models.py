@@ -1,23 +1,30 @@
-# Create your models here.
 from django.db import models
-from django.utils import timezone
 from django.contrib.auth.models import User
-from django.db.models.signals import post_save
 import django.core.validators
-
 validate_url = django.core.validators.URLValidator()
 validate_email = django.core.validators.validate_email
 
-import datetime
-
 from contactdb.fields import JSONField
 from contactdb.forms.fields import JSONListToNewlineField
-from contactdb.forms.widgets import JSONListToNewlineWidget
-
-# Create your models here.
 
 MEDIA_ROOT = '/var/www/upload/'
-MEDIA_URL = "/upload/"
+MEDIA_URL = '/upload/'
+
+# Auto generate an auth token for all the users
+
+from django.contrib.auth import get_user_model
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from rest_framework.authtoken.models import Token
+
+
+@receiver(post_save, sender=get_user_model())
+def create_auth_token(sender, instance=None, created=False, **kwargs):
+    if created:
+        Token.objects.create(user=instance)
+
+# ---------------------------------------------
+
 
 class Countrycode(models.Model):
     # http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
@@ -34,16 +41,15 @@ class Countrycode(models.Model):
         verbose_name_plural = "Countries"
 
 
-
 class PGPKey(models.Model):
-    pgp_key_id  = models.CharField(max_length=1000, primary_key=True)
-    pgp_key = models.TextField(blank=True,null=True)
+    pgp_key_id = models.CharField(max_length=1000, primary_key=True)
+    pgp_key = models.TextField(blank=True, null=True)
     pgp_key_created = models.DateTimeField("Created", null=True, blank=True)
     pgp_key_expires = models.DateTimeField("Expires", null=True, blank=True)
 
     def __unicode__(self):
-        #return self.pgp_key_id + '(' + self.pgp_key_email + ')'
-        return self.pgp_key_id 
+        # return self.pgp_key_id + '(' + self.pgp_key_email + ')'
+        return self.pgp_key_id
 
     class Meta:
         verbose_name = "PGP Key"
@@ -63,7 +69,8 @@ class PGPUid(models.Model):
 
 class Source(models.Model):
     name = models.CharField(max_length=1000, primary_key=True)
-    reliability = models.FloatField(default=0.0)    # between 0 and 1 , with 1 being super reliable
+    # between 0 and 1, with 1 being super reliable
+    reliability = models.FloatField(default=0.0)
 
     def __unicode__(self):
         return self.name
@@ -74,15 +81,16 @@ class Source(models.Model):
 
 class Organisation(models.Model):
     parent = models.ForeignKey("self", null=True, blank=True)
-    name = models.CharField(max_length=1000)
+    name = models.CharField(max_length=1000, primary_key=True)
     fullname = models.CharField(max_length=1000, null=True, blank=True)
-    org_path = models.CharField(max_length=5000, null=True, blank=True) # pocandora
-    nesting = models.CharField(max_length=5000, null=True, blank=True) # pocandora
+    org_path = models.CharField(max_length=5000, null=True, blank=True)  # pocandora
+    nesting = models.CharField(max_length=5000, null=True, blank=True)  # pocandora
     protection_profile = models.CharField(max_length=30, null=True, blank=True)
     iscert = models.BooleanField("Is a CERT", null=False, default=False, blank=False)
-    #team_rep = models.ForeignKey('Person', related_name='person_org', null=True, blank=True)
+    # team_rep = models.ForeignKey('Person', related_name='person_org',
+    #                              null=True, blank=True)
 
-    address = models.CharField(max_length=1000, null=True, blank=True) 
+    address = models.CharField(max_length=1000, null=True, blank=True)
 
     # XXX FIXME: country can be m-to-n!
     country = models.ForeignKey(Countrycode)
@@ -106,12 +114,11 @@ class Organisation(models.Model):
     first_url = models.CharField(max_length=1000, verbose_name="FIRST.org URL", null=True, blank=True)  # link to the  DB
 
     # meta
-    created = models.DateTimeField("Created", auto_now=False, auto_now_add=True, editable=True, blank=True, null=True )
-    last_updated = models.DateTimeField("Last updated", auto_now=True, auto_now_add=False, editable=True, blank=True, null=True )
+    created = models.DateTimeField("Created", auto_now=False, auto_now_add=True, editable=True, blank=True, null=True)
+    last_updated = models.DateTimeField("Last updated", auto_now=True, auto_now_add=False, editable=True, blank=True, null=True)
 
     def __unicode__(self):
         return self.name
-
 
 class OrganisationTel(models.Model):
     """ Note: this will come later. Later we will have a 1-n relationship
@@ -133,16 +140,18 @@ class OrganisationEmail(models.Model):
 
 
 class Tag(models.Model):
-    """ Note: each object can be assigned some 'tag'. Currently this is only implemented for organisations
-    We use this to map organisations to for example 'national CERT', 'Energy sector CERT' etc
+    """ Note: each object can be assigned some 'tag'. Currently this is
+        only implemented for organisations
+        We use this to map organisations to for example 'national CERT',
+        'Energy sector CERT' etc
     """
-    name    = models.CharField(max_length=128)
+    name = models.CharField(max_length=128)
+
 
 class Person(models.Model):
-    # This field is required.
-    user = models.OneToOneField(User, null=True)
+    user = models.ForeignKey(User, related_name='persons')
     organisation = models.ForeignKey(Organisation)
-    orgPocType  = models.CharField(max_length=30, null=True, blank=True)    # very pocandora specific!!
+    orgPocType = models.CharField(max_length=30, null=True, blank=True)    # very pocandora specific!!
     title = models.CharField(max_length=100, null=True, blank=True)
     pic = models.ImageField(upload_to="/static/person/pics/")
     phone = JSONField(form_class=JSONListToNewlineField)
@@ -156,10 +165,11 @@ class Person(models.Model):
 
     remarks = models.TextField()
 
-    last_logged_in = models.TimeField(verbose_name="Last logged in")
+    last_logged_in = models.TimeField(auto_now_add=True, verbose_name="Last logged in")
 
     def __unicode__(self):
         return self.name
+
 
 class NetObject(models.Model):
 
@@ -172,12 +182,14 @@ class NetObject(models.Model):
         verbose_name = "NetObject"
         verbose_name_plural = "NetObjects"
 
+
 class ASN(NetObject):
     asn = models.IntegerField(primary_key=True)
     asname = models.CharField(max_length=500)
 
     def __unicode__(self):
         return self.asn
+
 
 class Inetnum(NetObject):
     inet = models.GenericIPAddressField()
@@ -187,6 +199,7 @@ class Inetnum(NetObject):
 
     def __unicode__(self):
         return unicode(self.inet)
+
 
 class IPAddress(NetObject):
     ip = models.GenericIPAddressField()
@@ -211,17 +224,16 @@ class Domainname(NetObject):
 
 # FIXME: Why not part of the NetObject itself?
 # FIXME: Assume an organisation hires another organisation to handle all
-# abuse events from it's network... would this model cope with that 
+# abuse events from it's network... would this model cope with that
 # situation?
 class NetObjContactLink(models.Model):
     netobj_link = models.ForeignKey(NetObject)
     # XXX FIXME: person or object should be subclasses of "Entity". Then have one link to Entity
     person_link = models.ForeignKey(Person)
     organisation_link = models.ForeignKey(Organisation)
-
     # how good is the contact link?
-    quality = models.FloatField(default=0.0)    
-    active = models.BooleanField(default=False) 
+    quality = models.FloatField(default=0.0)
+    active = models.BooleanField(default=False)
     weight = models.FloatField(default=0.1)
     created = models.DateTimeField("Created", auto_now=False, auto_now_add=True, editable=True, blank=True, null=True)
     last_updated = models.DateTimeField("Last updated", auto_now=True, auto_now_add=False, editable=True, blank=True, null=True)

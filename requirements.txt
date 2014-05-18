@@ -1,0 +1,18 @@
+django
+django-filter
+djangorestframework
+markdown
+psycopg2
+gnupg
+pillow
+
+# perso
+ipython
+
+# client
+requests
+
+
+# temp
+pygments
+
