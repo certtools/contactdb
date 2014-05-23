@@ -5,6 +5,8 @@ markdown
 psycopg2
 gnupg
 pillow
+gnupg
+
 
 # perso
 ipython

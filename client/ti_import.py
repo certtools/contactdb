@@ -2,7 +2,16 @@
 from csv import DictReader
 from api import PyContactBD
 import json
+import os
+import gnupg
 from keys import key
+
+
+def import_gpg(filename):
+    gpg = gnupg.GPG(homedir=os.environ['GNUPGHOME'])
+    gpg.ignore_dirty_encoding()
+    import_resurl = gpg.import_keys(filename)
+    return import_resurl
 
 
 def dump_import(contactdb, filename):
@@ -12,7 +21,7 @@ def dump_import(contactdb, filename):
         country = l['Country'].strip('*')
         if country == 'World Wide':
             country = 'WW'
-        if country == 'Europe':
+        elif country == 'Europe':
             country = 'EU'
         org = {
             'name': l['Team Name'],
@@ -27,6 +36,7 @@ def dump_import(contactdb, filename):
             'website': l['WWW'],
             'date_established': l['Date of Establishment'],
             'last_updated': l['Last changed'],
+            'source': 'TI',
             }
         response = contactdb.post_organisation(json.dumps(org))
         if response.status_code >= 300:
@@ -36,4 +46,5 @@ if __name__ == '__main__':
     url = 'http://127.0.0.1:8000'
 
     contactdb = PyContactBD(url, key)
+    import_gpg('../ti/ti-l2-pgpkeys.asc')
     dump_import(contactdb, '../ti/ti-l2-info.csv')

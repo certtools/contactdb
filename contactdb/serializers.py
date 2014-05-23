@@ -4,6 +4,7 @@ from django.contrib.auth.models import Group
 from contactdb.models import Person
 from contactdb.models import Organisation
 from contactdb.models import Countrycode
+from contactdb.models import Source
 
 
 class CountrycodeSerializer(serializers.ModelSerializer):
@@ -13,12 +14,18 @@ class CountrycodeSerializer(serializers.ModelSerializer):
         fields = ('cc', 'cc3', 'country_name', )
 
 
+class SourceSerializer(serializers.HyperlinkedModelSerializer):
+
+    class Meta:
+        model = Source
+        fields = ('name', 'reliability')
+
 class OrganisationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Organisation
-        fields = ('name', 'country', 'phone',
-                  'emergency_phone', 'fax', 'email', )
+        fields = ('name', 'country', 'phone', 'emergency_phone', 'fax',
+                  'email', 'source', )
 
 
 class PersonSerializer(serializers.ModelSerializer):

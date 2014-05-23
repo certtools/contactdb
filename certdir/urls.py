@@ -9,6 +9,7 @@ admin.autodiscover()
 
 router = DefaultRouter()
 router.register(r'countrycodes', views.CountrycodeViewSet)
+router.register(r'sources', views.SourceViewSet)
 router.register(r'organisations', views.OrganisationViewSet)
 router.register(r'persons', views.PersonViewSet)
 router.register(r'users', views.UserViewSet)

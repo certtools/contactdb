@@ -35,6 +35,10 @@ class PyContactBD(object):
         session = self.__prepare_session()
         return session.post(self.url + '/organisations/', organisation)
 
+    def post_source(self, source):
+        session = self.__prepare_session()
+        return session.post(self.url + '/sources/', source)
+
     def post_cc(self, cc):
         session = self.__prepare_session()
         return session.post(self.url + '/countrycodes/', cc)
