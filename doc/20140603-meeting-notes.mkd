@@ -1,0 +1,40 @@
+
+
+# PGP key maintenance
+
+  * the system needs to check the PGP keyring once per day. Find expired / revoked keys and inform the users that their key expires soon and send a link to upload a new key or edit user details
+  * sync the keyring vs. the global key servers (pull to local only!)
+
+  * invariant: if a fingerprint changes, then all the fingerprints in the corresponding Email Address object need to change as well
+   (do that via script)
+
+  * The model allows for multiple email address <-> to one  fingerprint and one key (==fingerprint) per email address. A person can have multiple emails
+  * how does the system know which email addr to use? primary email!
+  * 
+
+
+```
+
+  is_a (entity)
+   +----------+ 1   1 +---------+ m    1 +-------------+
+   | Person   | ----- | Email   | ------ | fingerprint |
+   +----------+       +---------+        +-------------+
+                    /
+             1 /---- 1
+    +---------+
+    | Org     |
+    +---------+
+  is_a(entity)
+
+```
+
+
+# OTR fingerprints
+
+```
+
++---------+ m       1 +-----------+ 1   1 +--------+
+| OTRfpr  | --------- | JabberID  | ----- | Person |
++---------+           +-----------+       +--------+
+
+```

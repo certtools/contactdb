@@ -132,11 +132,13 @@ Ripe stat offers a RESTful API  for XXX Christian / Mirjam, please extend XXX
 ### Maxmind
 
 [Maxmind](https://www.maxmind.com/) is one of the most well known databases for IP to country code mappings. 
-There are a couple of versions of Maxmind with varying degrees of accuracy: 
+There are a couple of versions of Maxmind with varying degrees of accuracy and costs: 
+
 * GeoIP City
 * GeoIP Country
 * GeoIP Lite
 * GeoIP Legacy
+
 We advise the reader to check Maxminds webpage for current offerings.
 
 Using the GeoIP database in a wide variety of languages is very straightforward. In this document we give an example in Python (from [Readthedocs](http://geoip2.readthedocs.org/en/latest/)).
