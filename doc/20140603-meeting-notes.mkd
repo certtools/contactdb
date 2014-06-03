@@ -10,7 +10,8 @@
 
   * The model allows for multiple email address <-> to one  fingerprint and one key (==fingerprint) per email address. A person can have multiple emails
   * how does the system know which email addr to use? primary email!
-  * 
+  * remove cc3 from Country
+  * remove TZ
 
 
 ```
