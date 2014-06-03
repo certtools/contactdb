@@ -33,6 +33,7 @@ class OrganisationAdminPage(admin.ModelAdmin):
 class PersonAdminPage(admin.ModelAdmin):
     list_display = ('name', 'user', 'email', 'pgp_fingerprint', 'organisation', 'country', 'title', 'picture', 'remarks')
     exclude = ('last_logged_in', )
+    
     search_fields = ['name', 'user']
     inlines = [
                 createInlineAdmin(TelephoneNumber),
