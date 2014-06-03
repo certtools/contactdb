@@ -8,8 +8,8 @@
   * invariant: if a fingerprint changes, then all the fingerprints in the corresponding Email Address object need to change as well
    (do that via script)
 
-  * The model allows for multiple email address <-> to one  fingerprint and one key (==fingerprint) per email address. A person can have multiple emails
-  * how does the system know which email addr to use? primary email!
+  * The model allows for multiple email address <-> to one  fingerprint and one key (==fingerprint) per email address. A person can have only one (!) email
+  * we decided to abandon the approach of having multiple email addresses per person/org in order to reduce complexity
   * remove cc3 from Country
   * remove TZ
 
