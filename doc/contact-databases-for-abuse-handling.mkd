@@ -48,10 +48,10 @@ CERTs and IT security incident abuse handlers as well as professionals working o
 
 CERTs - especially national CERTs - need to look up contact information very frequently for different resources on the Internet.  Examples of such lookups might be: given the IP address 1.2.3.4, give me the best matching abuse contact email address. Or given the domain www.example.com, what is the best contact for sending IT security incident notifications to?  
 
-The frequency of lookups can be thousands or ten thousands of lookups per day, depending on the number of incidents a CERT will see.  Every lookup follows the same principle: given a network resource such as an AS number, an IP address, a netblock, a domain or URL, the requestor wants to know the "best matching" abuse contact for the given network resource. The intention is to inform the contact about a specific IT security incident in his or her network or server.  
-While existing databases such as the RIPE DB already provide a good mechanism to look up data, there are other data sets that might be more suitable in certain cases.  Due to the dynamic and distributed nature of the Internet (technically as well as organisationally), no currently existing abuse contact lookup database handles this task ideally. Every existing database has a specific focus and shortcomings. Due to some of these shortcomings, often enough some IT security team or a national CERT will re-implement a abuse contact database. Thus instead of solving the shortcomings, another database will exist and will have additional shortcomings.
+The frequency of lookups can be thousands or ten thousands of lookups per day, depending on the number of incidents a CERT will see.  Every lookup follows the same principle: given a network resource such as an AS number, an IP address, a netblock (MIRJAM: What is a netblock? A range of IP addresses?), a domain or URL, the requestor wants to know the "best matching" abuse contact for the given network resource. The intention is to inform the contact about a specific IT security incident in his or her network or server.  
+While existing databases such as the RIPE DB already provide a good mechanism to look up data, there are other data sets that might be more suitable in certain cases.  Due to the dynamic and distributed nature of the Internet (technically as well as organisationally), no currently existing abuse contact lookup database is suitable for all cases. Every existing database has a specific focus and shortcomings. Due to some of these shortcomings, often enough some IT security team or a national CERT will re-implement an abuse contact database. Thus instead of solving the shortcomings, another database will exist and will have additional shortcomings.
 
-Finally, a "best matching" contact lookup algorithm by the very international nature of the Internet must differ from country to country and organisation to organisation. Some organisations will have perfect or nearly perfect abuse contact lookup data available to them (internal abuse contact lookups).  Others organisations dealing with a large constituency (such as national CERTs serving a whole country) will face the problem of figuring out if a network resource belongs to its constituency in the first place (for example is IP address 1.2.3.4 in my country?).  
+Finally, a "best matching" contact lookup algorithm must differ from country to country and organisation to organisation due to the international nature of the Internet and the wide range of organisations involved. Some organisations will have perfect or nearly perfect abuse contact data available to them (e.g. internal abuse contact lookups).  Others organisations dealing with a large constituency (such as national CERTs serving a whole country) will face the problem of figuring out if a network resource belongs to its constituency in the first place (for example is IP address 1.2.3.4 used in my country?).  
 
 We therefore conclude that abuse contact lookups should be seen as an iterative process where the most specific datasets is queried first and subsequent lookups are sent to different, less specific datasets or databases. A model for this lookup is given in section "A unified model for abuse contact lookups".
 
@@ -65,27 +65,28 @@ This document is intended to be a request for input from the Internet community.
 
 There are two orthogonal approaches which must be considered: looking up abuse contacts for:
 
-  * name based resources (e.g. domain names, host names)
-  * number based resources (IP addresses, AS numbers)
+  * Name based resources (e.g. domain names, host names)
+  * Number based resources (IP addresses, AS numbers)
 
 This document assumes that a resource is either a name based resource or a number based resource. 
+
+Figure 1 describes possible paths in looking up abuse contact information based on the given resources. 
+Depending on the case and depending on the resource, there might be multiple paths for lookups. This will always be a case-by-case decision by the incident reporter.
 
 
 ![Potential abuse contact lookups](./img/contact-lookup-flow.png)
 
-
-Figure 1 describes possible paths in looking up abuse contact information based on the given resources. 
-Depending on the case and depending on the resource, there might be multiple paths for lookups. This will always be a case-by-case decision on behalf of the incident reporter. 
+(MIRJAM: I suggest to add a column on the right hand side of the image: The top level could be called "Resource type". The second level could be called "Possible data sets" and the lowest level could be called "Result". Then we could place errors between those terms. This might make it clearer how to read the image and what the various layers or levels mean. I hope this is clear).
 
 *Example:* the incident reporter finds a hacked webpage. Naturally, he will try to contact the domain owner (name based resource lookup) - the admin\_c and possibly also the tech\_c.  However, as time passes, the incident reporter notices more and more hacked webpages. Incidentally, they all turn out to be hosted on the very same IP address block.
 After some investigations, the incident reporter decides that there must be something wrong with the web page hoster's servers. Hence, he decides to contact the owner of the IP block (the hoster) in order to hand him over a long CSV file of all web pages which are hacked and residing on the hosters' IP range.
 
 In practice, often enough it is not clear, which path to choose. 
 
-Sometimes, an incident report might want to contact a single point of contact (PoC) for a whole country. Typically this would be a national CERT which in turn will use some kind of contact lookup mechanism (possibly more accurate) to assign the incident report to a locally trusted and well known incident handler. For this case (sending incident reports to a national CERT), the report must find out the country a resource is assigned to. Since there is a well known dataset of national CERTs (see XXX), the problem thus can be reduced to finding the country code of the resource (for example: given an IP address 1.2.3.4, what is the country this IP address resides in?).
+Sometimes, an incident reporter might want to contact a single point of contact (PoC) for a whole country. Typically this would be a national CERT which in turn will use some kind of contact lookup mechanism (possibly more accurate) to assign the incident report to a locally trusted and well known incident handler. For this case (sending incident reports to a national CERT), the report must find out the country a resource is used in. Since there is a well known dataset of national CERTs (see XXX), the problem can be reduced to finding the country code of the resource (for example: given an IP address 1.2.3.4, what is the country this IP address is used in?).
 We will discuss this special case in section XXXX.
 
-Whoever, we must remember that the problem of whom to contact is a choice which must be made on a case-by-case basis. Therefore this framework must be flexible enough to support both approaches.
+However, we must remember that the problem of whom to contact is a choice which must be made on a case-by-case basis. Therefore this framework must be flexible enough to support all needs.
 
 
 # Overview of existing solutions
@@ -115,9 +116,9 @@ CERT.at used this national CERT database and created an online lookup tool at [h
 
 ## RIPE abuse-c, IRT object
 
-Following a proposal made by the RIPE community in XXX the RIPE policy ripe-563 made it mandatory for every resource object (inetnum, inet6num and aut-num) to have a dedicated abuse contact. This contact is usually referred to as "abuse-c" contact and it is the preferred way to report any form of abuse to.
+Following a proposal made by the RIPE community in 2012, the RIPE policy [https://www.ripe.net/ripe/docs/ripe-563](ripe-563) made it mandatory for every resource object (inetnum, inet6num and aut-num) to have a dedicated abuse contact. This contact is usually referred to as "abuse-c" contact and is the preferred way to report any form of abuse to.
 
-The IRT (incident response team) object was created with a similar idea in mind but its deployment is even being around for years not very low and so is it is not widely used. Chances are high that this object will be dismissed. Abuse-c is considered to superceed the IRT object.
+The IRT (incident response team) object was created with a similar idea in mind but it is not widely used. Chances are high that this object will be dismissed. Abuse-c is considered to superceed the IRT object.
 
 ## Country Code lookups
 
@@ -127,7 +128,7 @@ In the case of IP addresses, there are a couple of databases which will be discu
 
 ### RIPE DB
 
-Ripe stat offers a RESTful API  for XXX Christian / Mirjam, please extend XXX
+RIPEstat offers a RESTful API  for XXX Christian / Mirjam, please extend XXX
 
 ### Maxmind
 
@@ -154,7 +155,7 @@ Using the GeoIP database in a wide variety of languages is very straightforward.
 
 ### Team Cymru
 
-[Team Cyrmu](https://www.team-cymru.org/Services/ip-to-asn.html) provides an IP address to ASN mapping service via whois ([RFC3912](https://tools.ietf.org/html/rfc3912)) as well as via netcat, http(s) or DNS based lookups. As part of this lookup mechanism, there are options to also get the country code of a given IP address. To the best of the authors knowledge, the IP to country mapping is done via the RIR databases.
+[Team Cyrmu](https://www.team-cymru.org/Services/ip-to-asn.html) provides an IP address to ASN mapping service via whois ([RFC3912](https://tools.ietf.org/html/rfc3912)) as well as via netcat, http(s) or DNS based lookups. As part of this lookup mechanism, there are options to also get the country code of a given IP address. To the best of the author's knowledge, the IP to country mapping is done via the RIR databases.
 
 *Example lookup*: 
 ```
@@ -211,7 +212,7 @@ XXX may we describe the fields? XXX
 
 XXX may we describe the fields? XXX
 
-## national CSIRT (CERT.org)
+## National CSIRT (CERT.org)
 
 XXX may we describe the fields? XXX
 
@@ -281,7 +282,7 @@ This limit also applies for using RIPEstat but it is not per IP address per user
 ##### API for batch query interface:
 - The command line interface (port 43) or RIPEstat can be used.
 
-#### Historical data:
+##### Historical data:
 - The RIPE Database interfaces provide a historical lookup feature based on versions, see https://labs.ripe.net/Members/kranjbar/proposal-to-display-history-of-objects-in-ripe-database
 for details.
 In RIPEstat the data call for the Registry-Browser returns historical information for each queried object but this requires the user to be logged in as a RIPE NCC member.
@@ -331,7 +332,7 @@ See RIPE DB section (to be checked if history is available for route objects as 
 
 #### Regional Internet Registry (RIR) statistics 
 
-The RIR statistics provide an authoritative source of the status of all IP resources. It is maintained collectively by all RIRs. They are intended to provide a snapshot of the status of Internet number resources, without any transactional or historical details. (MIRJAM: Christian, I am not sure we need to sepcify this here. The most important fact is that this is the authoritative source for all IP resources, but that it doesn't provide a lot of details).
+The RIR statistics provide an authoritative source of the status of all IP resources. It is maintained collectively by all RIRs. They are intended to provide a snapshot of the status of Internet number resources, without any transactional or historical details.
 
 The statistics are primarily published as a text file by each RIR once a day. The statistics are usually available before 23:59:59 in the local time zone the RIR is in.
 
@@ -345,7 +346,7 @@ The format of the version line is:
 | Field      | Description                                                               |
 |:-----------|---------------------------------------------------------------------------| 
 | version    | format version number of this file, currently 2                           |
-| registry   | name of the producing RIR                                                 |
+| registry   | name of the authoritative RIR                                             |
 | serial     | serial number of this file (within the creating RIR series)               |
 | records    | number of records in file, excluding blank lines, summary lines,          |
 |            | the version line and comments                                             |
@@ -360,7 +361,7 @@ The format of the summary line is:
 
 | Field      | Description 
 |:-----------|---------------------------------------------------------------------------|
-| registry   | name of the producing RIR                                                 |
+| registry   | name of the authoritative RIR                                             |
 | *          | an ASCII \* (unused field, retained for spreadsheet purposes)             |
 | type       | as defined in the format used for a record in the body                    |
 | count      | sum of the number of record lines of this type in the file                |
@@ -373,7 +374,7 @@ A record in the body follows this format:
 
 | Field       | Description                                                              |
 |:------------|--------------------------------------------------------------------------|
-| registry    | name of the producing RIR                                                |
+| registry    | name of the authoritatove RIR                                            |
 | cc          | ISO 3166 2-letter code of the organization to which the allocation or    |
 |             | assignment was made                                                      |
 | type        | Type of Internet number resource represented in this record. One value   | 
@@ -425,12 +426,12 @@ The most recent file must be available in a non-compressed form and has this fil
 
 `delegated-<registry>-latest`
 
-There is not obligation on any registry to retain previous files, once a new file is available for public access but RIR usually keep an archive of previous files. 
+There is not obligation on any RIR to retain previous files, once a new file is available for public access, but RIRs usually keep an archive of previous files. 
 
 ##### Note on the data quality and accuracy
 
 The RIR statistics are based on registration data that is maintained by the RIR itself which usually guarantees high data quality.
-The country code that is stated with the allocation/assignment is based on the location of the organisation holding the resource at the time the request was issued. It is not guaranteed that this location is kept up-to-date.
+The country code that is stated with the allocation/assignment is based on the location of the organisation holding the resource at the time the resource was issued. It is not guaranteed that this location is kept up-to-date.
 Keep in mind that the nature of this data is registration related and not usage related. For usage related location information other providers are more suitable e.g. MaxMind GeoIP database.
 
 
@@ -450,7 +451,7 @@ Internet number resources for Germany
 
 Internet routing data is significantly different from the registration data as the routing data shows the state of routing tables. It has to be noted that this is not a single routing table as each point from where routing data gets collected adds its distinct vantage point.
 
-The RIPE NCC collects and stores Internet routing data since 2001 using RIS which is short for Routing Information Service. The RIS system consists of a network of route collectors (RRC) which are running a customised routing software (Quagga) to passively collect routing information from other networks that are connected to the RRC (peering).
+The RIPE NCC collects and stores Internet routing data since 2001 using the Routing Information Service (RIS). The RIS system consists of a network of route collectors (RRC) which are running a customised routing software (Quagga) to passively collect routing information from other networks that are connected to the RRC (peering).
 
 RIS: http://www.ripe.net/data-tools/stats/ris/
 
@@ -475,9 +476,9 @@ On the same page there is also a Python library state, PyBGPdump. Unfortunately 
 ##### APIs
 
 RIPEstat offers a couple of data calls which are based on the RIS routing data. This form of access is usually more convenient than having to extract the information from the raw data files.
+(MIRJAM: Possibly include some images/screenshots?)
 
-
-* 	Resource-Overview (Prefix-Overview, As-Overview)
+* 	Resource-Overview (Prefix-Overview, As-Overview):
 	This data call gives a summary of the given prefix, including whether and by whom it is announced.
 	
 	Documentation: 
@@ -485,35 +486,35 @@ RIPEstat offers a couple of data calls which are based on the RIS routing data. 
 	+ 	https://stat.ripe.net/docs/data_api#AsOverview
 
 
-* 	Routing-Status
+* 	Routing-Status:
 	This data call returns a summary of the current BGP routing state of a given IP prefix or ASN, as observed by the RIS route collectors.
 	
 	Documentation: 
 	+ 	https://stat.ripe.net/docs/data_api#RoutingStatus
 
 
-* 	Routing-History
+* 	Routing-History:
 	This data call shows the history of announcements for prefixes, including the origin ASN and the first hop.
 	
 	Documentation:
 	+ 	https://stat.ripe.net/docs/data_api#RoutingHistory
 
 	
-* 	Asn-Neighbours
+* 	ASN-Neighbours:
 	This data call shows information on the network neighbours for a given ASN. This includes statistical information as well as the list of observed ASN neighbours.
 	
 	Documentation:
 	+ 	https://stat.ripe.net/docs/data_api#AsnNeighbours
 
 	
-* 	Asn-Neighbours-History
+* 	ASN-Neighbours-History:
 	This data call returns information about neigbouring ASNs of a queried ASN extended with history.
 	
 	Documentation:
 	+ 	https://stat.ripe.net/docs/data_api#AsnNeighboursHistory
 
 
-* 	BGPlay
+* 	BGPlay:
 	This data call represents the scenario of what occurred to the BGP routes of a resource over a period of time.
 	It includes data that defines the initial BGP state at the start time of the query, and all the BGP updates observed from then until the end time, as well as a description of all the AS nodes, and RIS BGP peers involved in the result.
 	
@@ -521,7 +522,7 @@ RIPEstat offers a couple of data calls which are based on the RIS routing data. 
 	+ 	https://stat.ripe.net/docs/data_api#BGPlay
 	
 
-* 	Country-Routing-Statistics
+* 	Country-Routing-Statistics:
 	This data call returns statistics on Internet resources for a country - this includes:
 
 	+	number of ASNs seen in routing data and registration data
@@ -534,17 +535,16 @@ RIPEstat offers a couple of data calls which are based on the RIS routing data. 
 
 For a general introduction on how to use the RIPEstat API please refer to https://stat.ripe.net/docs/data_api.
 
-The query model that is used at the moment on RIPEstat supports queries for single resource at a time which could make it less convenient for a larger number of resource to be looked up. An already requested feature is to have also support for bulk request which will be added in the upcoming development sprints for RIPEstat.
+The query model that is used at the moment on RIPEstat supports queries for single resource at a time which could make it less convenient for a larger number of resources to be looked up. An already requested feature is to have also support for bulk request which will be added in the upcoming development for RIPEstat.
 
-A somehow similar but a bit more limited service is provided by RISwhois, http://www.ripe.net/data-tools/stats/ris/riswhois. The benefit of RISwhois is its performance.
+A somehow similar but a bit more limited service is provided by RISwhois, http://www.ripe.net/data-tools/stats/ris/riswhois. The main benefit of RISwhois is its performance.
 
 
 #### 
 
 ### External Data Sets Served Via RIPEstat
 
-Then there are other data sets that we provide via RIPEstat but they don't originate from the RIPE NCC, 
-like MaxMind's GeoIP data set, some blacklists... the benefit can be a consistent data interface.
+In addition to the data sets described above, the RIPE NCC also provides other data sets via RIPEstat that don't originate from the RIPE NCC, such as MaxMind's GeoIP data set, some blacklists, etc. The benefit of using RIPEstat to ccess these data sate is the usage of a consistent interface.
 
 
 RIPEstat?
