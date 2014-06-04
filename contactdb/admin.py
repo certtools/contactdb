@@ -1,8 +1,7 @@
 from contactdb.models import Organisation, Person
 from contactdb.models import Source, Countrycode
-from contactdb.models import NetObject,ASN,Inetnum,Domainname
-from contactdb.models import TelephoneNumber,URL,OtherCommunicationChannel
-from contactdb.models import Tag
+from contactdb.models import NetObject,ASN,Inetnum,DomainName
+from contactdb.models import OtherCommunicationChannel, OTRFingerprint
 from django.contrib import admin
 
 from contactdb.inetnumadmin import InetnumAdminPage
@@ -17,34 +16,30 @@ def createInlineAdmin(model_class, number_of_lines=0, key_name=None):
         
     return InlineAdmin
 
+
 class OrganisationAdminPage(admin.ModelAdmin):
-    list_display = ('name', 'country', 'email', 'pgp_fingerprint', 'business_hh_start', 'business_hh_end')
-    search_fields = ['name' , 'email', 'country']
-    list_filter = ['country']
+    filter_horizontal = ['countrycodes']
+    fields = ('name', 'long_name', ('email', 'pgp_fingerprint'), 'phone_number', 'url', 'business_hh_start', 'business_hh_end')
+    search_fields = ['name' , 'email']
     inlines = [
-                createInlineAdmin(TelephoneNumber),
-                createInlineAdmin(URL),
                 createInlineAdmin(OtherCommunicationChannel),
-#                createInlineAdmin(ProtectionProfile),
-                createInlineAdmin(Tag),
               ]
 
 
 class PersonAdminPage(admin.ModelAdmin):
-    list_display = ('name', 'user', 'email', 'pgp_fingerprint', 'organisation', 'country', 'title', 'picture', 'remarks')
-    exclude = ('last_logged_in', )
+    filter_horizontal = ['countrycodes']
+    fields = ('name', 'long_name', 'user', ('email', 'pgp_fingerprint'), 'phone_number', 'jabber_handle', 'organisation', 'picture', 'remarks')
     search_fields = ['name', 'user']
     inlines = [
-                createInlineAdmin(TelephoneNumber),
-                createInlineAdmin(URL),
+                createInlineAdmin(OTRFingerprint),
                 createInlineAdmin(OtherCommunicationChannel),
-#                createInlineAdmin(ProtectionProfile),
-                createInlineAdmin(Tag),
               ]
+              
+    exclude = ('last_logged_in', )
 
 
 admin.site.register(Organisation, OrganisationAdminPage)
-admin.site.register(Person)
+admin.site.register(Person, PersonAdminPage)
 
 admin.site.register(Source)
 admin.site.register(Countrycode)

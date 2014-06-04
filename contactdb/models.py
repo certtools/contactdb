@@ -92,10 +92,11 @@ class Person(Entity):
     user = OneToOneField(User, related_name='persons', null=True)
     organisation = ForeignKey(Organisation, related_name='organisations',
                               null=True)
-    jabber = OneToOneField('Jabber', null=True)
-    picture = ImageField(upload_to='/static/person/pics/', null=True)
+    picture = ImageField(upload_to='/static/person/pics/', null=True, blank=True)
     remarks = TextField(null=True, blank=True)
     last_logged_in = TimeField(null=False, default=datetime.now)
+    
+    jabber_handle = EmailField(max_length=100, null=True, blank=True)
 
 
 class CommunicationChannel(Model):
@@ -107,13 +108,9 @@ class CommunicationChannel(Model):
         abstract = True
 
 
-class Jabber(CommunicationChannel):
-    jabber_handle = EmailField(max_length=100, primary_key=True)
-
-
 class OTRFingerprint(Model):
     otr_fingerprint = CharField(max_length=50, null=False)
-    handle = ForeignKey(Jabber)
+    handle = ForeignKey(Person, related_name = 'otr_fingerprints')
 
 
 class OtherCommunicationChannel(CommunicationChannel):
