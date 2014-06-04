@@ -1,13 +1,12 @@
-from django.db import models
+from django.db.models import Model, CharField, FloatField, ForeignKey, \
+    EmailField, TextField, DateTimeField, TimeField, BooleanField, \
+    DateField, ImageField, URLField, IntegerField, ManyToManyField, \
+    OneToOneField
 from django.contrib.auth.models import User
-import django.core.validators
-validate_url = django.core.validators.URLValidator()
-validate_email = django.core.validators.validate_email
-
-from contactdb.fields import JSONField
-from contactdb.forms.fields import JSONListToNewlineField
 
 from contactdb.inetnum import InetnumModel
+
+from datetime import datetime
 
 MEDIA_ROOT = '/var/www/upload/'
 MEDIA_URL = '/upload/'
@@ -27,163 +26,138 @@ def create_auth_token(sender, instance=None, created=False, **kwargs):
 
 # ---------------------------------------------
 
-class ContactDBObject(models.Model):
-    #public = models.NullBooleanField(blank=True, null=True, default=True)
-    created = models.DateTimeField("Created", auto_now=False, auto_now_add=True, editable=True, blank=True, null=True)
-    last_updated = models.DateTimeField("Last updated", auto_now=True, auto_now_add=False, editable=True, blank=True, null=True)
-    
-    
-    class Meta:
-        abstract = True
 
-
-class Countrycode(ContactDBObject):
+class Countrycode(Model):
     # http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
     # we can load this automatically from ripe.NET
-    cc = models.CharField(max_length=2, primary_key=True)
-    country_name = models.CharField(max_length=300)
-    
+    cc = CharField(max_length=2, primary_key=True)
+    country_name = CharField(max_length=100)
+
     def __unicode__(self):
         return self.country_name
-    
+
     class Meta:
-        verbose_name = "Country"
-        verbose_name_plural = "Countries"
+        verbose_name = "country"
+        verbose_name_plural = "countries"
 
 
-class Source(ContactDBObject):
-    name = models.CharField(max_length=1000, primary_key=True)
-    reliability = models.FloatField(default=0.0) # between 0 and 1, with 1 being super reliable
+class Source(Model):
+    name = CharField(max_length=50, primary_key=True)
+    reliability = FloatField(default=0.0)  # between 0 and 1, with 1 being super reliable
 
     def __unicode__(self):
         return self.name
 
     class Meta:
-        verbose_name = "Data Source"
+        verbose_name = "data source"
 
 
-class Entity(ContactDBObject):
-    name = models.CharField(max_length=1000, primary_key=True)
-    address = models.CharField(max_length=1000, null=True, blank=True)
-    country = models.ForeignKey(Countrycode) # XXX FIXME: country can be m-to-n
-    source = models.ForeignKey(Source, null=True, blank=True)
-    
-    email = models.EmailField("Email", null=False, blank=False)
-    pgp_fingerprint = models.TextField("PGP Fingerprint", null=True, blank=True)
-    
+class Entity(Model):
+    name = CharField(max_length=50, primary_key=True)
+    long_name = CharField(max_length=1000, null=True, blank=True)
+    countrycodes = ManyToManyField(Countrycode, related_name="%(app_label)s_%(class)s")
+    source = ForeignKey(Source, null=True, blank=True)
+
+    email = EmailField(null=False)
+    pgp_fingerprint = CharField(max_length=50, null=True, blank=True)
+
+    phone_number = CharField(max_length=30, null=True, blank=True)
+    url = URLField("URL", null=True, blank=True)
+
+    created = DateTimeField(auto_now_add=True)
+    last_updated = DateTimeField(auto_now=True)
+
     def __unicode__(self):
         return self.name
 
 
 class Organisation(Entity):
-    parent = models.ForeignKey("self", null=True, blank=True)
-    shortname = models.CharField(max_length=1000, null=True, blank=True)
-    
-    # Phone Numbers, Email, Websites and other communication methods are available in the admin site but stored separately
-    
-    business_hh_start = models.TimeField(verbose_name="Business hours start", null=True, blank=True)
-    business_hh_end = models.TimeField(verbose_name="Business hours end", null=True, blank=True)
-    date_established = models.DateField(verbose_name="Date established", null=True, blank=True)
-    
-    confirmed = models.BooleanField(verbose_name="Confirmed to exist", null=False, default=False, blank=False)
-    active = models.BooleanField(verbose_name="Still active", null=False, default=False, blank=False)
-    
-    ti_url = models.CharField(max_length=1000, verbose_name="TI URL", null=True, blank=True)
-    first_url = models.CharField(max_length=1000, verbose_name="FIRST.org URL", null=True, blank=True)  # link to the  DB
+    address = TextField(max_length=1000, null=True, blank=True)
+
+    business_hh_start = TimeField(verbose_name="business hours start",
+                                  null=True, blank=True)
+    business_hh_end = TimeField(verbose_name="business hours end",
+                                null=True, blank=True)
+    date_established = DateField(verbose_name="date established",
+                                 null=True, blank=True)
+
+    confirmed = BooleanField(verbose_name="confirmed to exist", default=False)
+    active = BooleanField(verbose_name="still active", default=False)
+
+    ti_url = CharField(max_length=500, null=True, blank=True)
+    first_url = CharField(max_length=500, null=True, blank=True)
 
 
 class Person(Entity):
-    user = models.ForeignKey(User, related_name='persons')
-    organisation = models.ForeignKey(Organisation)
-    title = models.CharField(max_length=100, null=True, blank=True)
-    picture = models.ImageField(upload_to="/static/person/pics/")
-    remarks = models.TextField()
-    last_logged_in = models.TimeField(auto_now_add=True, verbose_name="Last logged in")
+    user = OneToOneField(User, related_name='persons', null=True)
+    organisation = ForeignKey(Organisation, related_name='organisations',
+                              null=True)
+    jabber = OneToOneField('Jabber', null=True)
+    picture = ImageField(upload_to='/static/person/pics/', null=True)
+    remarks = TextField(null=True, blank=True)
+    last_logged_in = TimeField(null=False, default=datetime.now)
 
 
-class Tag(models.Model):
-    ''' 
-        Note: each object can be assigned some 'tag'. Currently this is only implemented for organi<ations
-        We use this to map organizations to for example 'national CERT', 'Energy sector CERT' etc
-    '''
-    
-    obj = models.ForeignKey(Entity, related_name='tags')
-    name = models.CharField(max_length=128)
-    
-    def __unicode__(self):
-        return self.name
+class CommunicationChannel(Model):
+    description = CharField(max_length=200, null=True, blank=True)
+    created = DateTimeField(auto_now_add=True)
+    last_updated = DateTimeField(auto_now=True)
 
-
-class NetObject(ContactDBObject):
-    quality = models.FloatField(default=0.0)
-    active = models.BooleanField(default=False)
-    weight = models.FloatField(default=0.1)
-
-    source = models.ForeignKey(Source, null=True, blank=True)
-    editor = models.ForeignKey(User, null=True)
-    owner = models.ForeignKey(Entity)
-
-    class Meta:
-        verbose_name = "NetObject"
-        verbose_name_plural = "NetObjects"
-        
-class CommunicationChannel(ContactDBObject):
-    parent = models.ForeignKey(Entity, related_name='%(app_label)s_%(class)s')
-    description = models.CharField(max_length=200, null=True, blank=True)
-    type = "CommunicationChannel"
-        
-    def __unicode__(self):
-        return "%s: %s" % (self.type, unicode(self.value))
-    
     class Meta:
         abstract = True
 
-class TelephoneNumber(CommunicationChannel):
-    type = "Phone Number"
-    value = models.CharField("Number", max_length=30, null=False, blank=False)
-    
-    class Meta:
-        verbose_name = "Phone Number"
+
+class Jabber(CommunicationChannel):
+    jabber_handle = EmailField(max_length=100, primary_key=True)
 
 
-class URL(CommunicationChannel):
-    type = "URL"
-    value = models.URLField("URL", null=False, blank=False)
-    
-    class Meta:
-        verbose_name = "URL"
+class OTRFingerprint(Model):
+    otr_fingerprint = CharField(max_length=50, null=False)
+    handle = ForeignKey(Jabber)
 
 
 class OtherCommunicationChannel(CommunicationChannel):
-    type = models.CharField("Type", max_length=100, null=False, blank=False)
-    value = models.CharField("Value", max_length=1000, null=False, blank=False)
-    
+    entity = ForeignKey(Entity)
+    value = CharField("communication channel", max_length=1000, null=False,
+                      blank=False)
+
     class Meta:
-        verbose_name = "Communication Channel"
+        verbose_name = "communication channel"
+
+
+class NetObject(Model):
+    active = BooleanField(default=False)
+
+    source = ForeignKey(Source, null=True)
+    owner = ForeignKey(Entity, null=True)
+    created = DateTimeField(auto_now_add=True)
+    last_updated = DateTimeField(auto_now=True)
+
+    class Meta:
+        abstract = True
 
 
 class ASN(NetObject):
-    asn = models.IntegerField(primary_key=True)
-    asname = models.CharField(max_length=500)
+    asn = IntegerField(primary_key=True)
+    asname = CharField(max_length=500)
 
     def __unicode__(self):
-        return self.asn
+        return self.asn,
 
 
 class Inetnum(NetObject, InetnumModel):
     pass
 
 
-class Domainname(NetObject):
-    domain = models.CharField(max_length=1000)
+class DomainName(NetObject):
+    domain = CharField(max_length=1000)
 
     def __unicode__(self):
         return self.domain
 
 
 class TLD(NetObject):
-    tld = models.CharField(max_length=2)
-    
+    tld = CharField(max_length=2)
+
     def __unicode__(self):
         return self.tld
-
