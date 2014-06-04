@@ -120,6 +120,7 @@ class OtherCommunicationChannel(CommunicationChannel):
     entity = ForeignKey(Entity)
     value = CharField("communication channel", max_length=1000, null=False,
                       blank=False)
+    channel_type = CharField(max_length=100, null=False)
 
     class Meta:
         verbose_name = "communication channel"
