@@ -18,8 +18,8 @@ def createInlineAdmin(model_class, number_of_lines=0, key_name=None):
 
 
 class OrganisationAdminPage(admin.ModelAdmin):
-    filter_horizontal = ['countrycodes']
-    fields = ('name', 'long_name', ('email', 'pgp_fingerprint'), 'phone_number', 'url', 'business_hh_start', 'business_hh_end')
+    filter_horizontal = ['countrycodes', 'tags']
+    fields = ('name', 'long_name', 'countrycodes', ('email', 'pgp_fingerprint'), 'phone_number', 'url', 'business_hh_start', 'business_hh_end', 'comment', 'tags')
     search_fields = ['name' , 'email']
     inlines = [
                 createInlineAdmin(OtherCommunicationChannel),
@@ -27,8 +27,8 @@ class OrganisationAdminPage(admin.ModelAdmin):
 
 
 class PersonAdminPage(admin.ModelAdmin):
-    filter_horizontal = ['countrycodes']
-    fields = ('name', 'long_name', 'user', ('email', 'pgp_fingerprint'), 'phone_number', 'jabber_handle', 'organisation', 'picture', 'remarks')
+    filter_horizontal = ['countrycodes', 'tags']
+    fields = ('name', 'long_name', 'user', 'countrycodes', ('email', 'pgp_fingerprint'), 'phone_number', 'jabber_handle', 'organisation', 'picture', 'comment', 'tags')
     search_fields = ['name', 'user']
     inlines = [
                 createInlineAdmin(OTRFingerprint),

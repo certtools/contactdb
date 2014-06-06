@@ -11,19 +11,11 @@ clean up the mess in scripts/* db/* contrib/* and unify it -> aaron
 Model
 =============
 
-* fix m-to-n relationship CERT to country. Some CERTs are responsible for multiple countries.  --> YES   (Aaron)
-* fix m-to-n relationship CERT to URL       --> NO, make it a string list
-* fix 1-n relationship between Organisation and email addresses --> NO, make it a string list       (Mauro)
-* fix 1-n relationship between Organisation and tel#s --> NO, make it a string list     (Mauro)
-* 1-n relationship Person to IM system (Skype, jabber,...)  --> NO, make it a string list   (Mauro) 
-
 * parse all TI fields and fill them into the DB
 * geolocate at Organisation INSERT time: use the google API? (==> for making a map) (Stefan Lenzhofer, based on klcertmap.py)
 
 PGP
 -----
-* fix 1-n relationship between Person/Org and keys (multiple) (Mauro)
-* fix 1-n: multiple addresses per PGP key,   --> (Mauro), make a string list out of email addresses. Because having two tables is cumbersome.
 * fetch unknown PGP keys from the keyserver or the TI keyring (Stefan Lenzhofer provides it as a function)
 
 ==========
