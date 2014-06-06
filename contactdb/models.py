@@ -55,7 +55,7 @@ class Source(Model):
 class Entity(Model):
     name = CharField(max_length=50, primary_key=True)
     long_name = CharField(max_length=1000, null=True, blank=True)
-    countrycodes = ManyToManyField(Countrycode, related_name="%(app_label)s_%(class)s")
+    countrycodes = ManyToManyField(Countrycode, related_name="%(app_label)s_%(class)s") # XXX can this be null? XXX
     source = ForeignKey(Source, null=True, blank=True)
 
     email = EmailField(null=False)
@@ -70,6 +70,13 @@ class Entity(Model):
     def __unicode__(self):
         return self.name
 
+
+# OrgTypes can be "govCert", "NGO Cert", "national CERT" .....
+class OrgType(Model):
+    name = CharField(max_length=30, null=False)
+
+    def __unicode__(self):
+        return self.name
 
 class Organisation(Entity):
     address = TextField(max_length=1000, null=True, blank=True)
@@ -86,6 +93,7 @@ class Organisation(Entity):
 
     ti_url = CharField(max_length=500, null=True, blank=True)
     first_url = CharField(max_length=500, null=True, blank=True)
+    type_of_org = ForeignKey(OrgType, null=True, blank=True)
 
 
 class Person(Entity):
@@ -95,7 +103,7 @@ class Person(Entity):
     picture = ImageField(upload_to='/static/person/pics/', null=True, blank=True)
     remarks = TextField(null=True, blank=True)
     last_logged_in = TimeField(null=False, default=datetime.now)
-    
+
     jabber_handle = EmailField(max_length=100, null=True, blank=True)
 
 
