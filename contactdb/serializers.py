@@ -11,7 +11,7 @@ class CountrycodeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Countrycode
-        fields = ('cc', 'cc3', 'country_name', )
+        fields = ('cc', 'country_name', )
 
 
 class SourceSerializer(serializers.HyperlinkedModelSerializer):
@@ -24,16 +24,14 @@ class OrganisationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Organisation
-        fields = ('name', 'country', 'phone', 'emergency_phone', 'fax',
-                  'email', 'source', )
+        fields = ('name', 'long_name', 'countrycodes', 'email', 'pgp_fingerprint', 'phone_number', 'url', 'business_hh_start', 'business_hh_end', 'comment', 'tags')
 
 
 class PersonSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Person
-        fields = ('user', 'organisation', 'phone',
-                  'emergency_phone', 'fax', 'email',)
+        fields = ('name', 'long_name', 'user', 'countrycodes', 'email', 'pgp_fingerprint', 'phone_number', 'jabber_handle', 'organisation', 'picture', 'comment', 'tags')
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
