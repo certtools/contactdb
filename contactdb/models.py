@@ -63,6 +63,7 @@ class Entity(Model):
 
     phone_number = CharField(max_length=30, null=True, blank=True)
     url = URLField("URL", null=True, blank=True)
+    comment = CharField(max_length=1000, null=True, blank=True)
 
     created = DateTimeField(auto_now_add=True)
     last_updated = DateTimeField(auto_now=True)
