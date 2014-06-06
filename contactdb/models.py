@@ -52,7 +52,7 @@ class Source(Model):
         verbose_name = "data source"
 
 class Tag(Model):
-    name = CharField(max_length=30, null=False)
+    name = CharField(max_length=30, primary_key=True)
     
     def __unicode__(self):
         return self.name
@@ -60,7 +60,11 @@ class Tag(Model):
 class Entity(Model):
     name = CharField(max_length=50, primary_key=True)
     long_name = CharField(max_length=1000, null=True, blank=True)
-    countrycodes = ManyToManyField(Countrycode, related_name="%(app_label)s_%(class)s") # XXX can this be null? XXX
+    
+    ####################
+    countrycodes = ManyToManyField(Countrycode, related_name="%(app_label)s_%(class)s", blank=True, null=True)
+    tags = ManyToManyField(Tag, related_name="%(app_label)s_%(class)s", blank=True, null=True)
+    ####################
     
     source = ForeignKey(Source, null=True, blank=True)
 
@@ -70,8 +74,6 @@ class Entity(Model):
     phone_number = CharField(max_length=30, null=True, blank=True)
     url = URLField("URL", null=True, blank=True)
     comment = TextField(max_length=1000, null=True, blank=True)
-    
-    tags = ManyToManyField(Tag, related_name="%(app_label)s_%(class)s")
 
     created = DateTimeField(auto_now_add=True)
     last_updated = DateTimeField(auto_now=True)
@@ -162,7 +164,7 @@ class DomainName(NetObject):
 
 
 class TLD(NetObject):
-    tld = CharField(max_length=2)
+    tld = CharField(max_length=2, primary_key=True)
 
     def __unicode__(self):
         return self.tld

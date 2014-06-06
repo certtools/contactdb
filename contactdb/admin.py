@@ -1,5 +1,5 @@
 from contactdb.models import Organisation, Person
-from contactdb.models import Source, Countrycode
+from contactdb.models import Source, Countrycode, Tag
 from contactdb.models import NetObject,ASN,Inetnum,DomainName
 from contactdb.models import OtherCommunicationChannel, OTRFingerprint
 from django.contrib import admin
@@ -29,7 +29,7 @@ class OrganisationAdminPage(admin.ModelAdmin):
 class PersonAdminPage(admin.ModelAdmin):
     filter_horizontal = ['countrycodes', 'tags']
     fields = ('name', 'long_name', 'user', 'countrycodes', ('email', 'pgp_fingerprint'), 'phone_number', 'jabber_handle', 'organisation', 'picture', 'comment', 'tags')
-    search_fields = ['name', 'user']
+    search_fields = ['name', 'user', 'email']
     inlines = [
                 createInlineAdmin(OTRFingerprint),
                 createInlineAdmin(OtherCommunicationChannel),
@@ -39,9 +39,9 @@ class PersonAdminPage(admin.ModelAdmin):
 
 
 admin.site.register(Organisation, OrganisationAdminPage)
+admin.site.register(Inetnum, InetnumAdminPage)
 admin.site.register(Person, PersonAdminPage)
 
-admin.site.register(Source)
 admin.site.register(Countrycode)
-
-admin.site.register(Inetnum, InetnumAdminPage)
+admin.site.register(Source)
+admin.site.register(Tag)
