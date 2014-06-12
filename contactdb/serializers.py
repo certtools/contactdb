@@ -5,6 +5,7 @@ from contactdb.models import Person
 from contactdb.models import Organisation
 from contactdb.models import Countrycode
 from contactdb.models import Source
+from contactdb.models import Tag
 
 
 class CountrycodeSerializer(serializers.ModelSerializer):
@@ -24,7 +25,7 @@ class OrganisationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Organisation
-        fields = ('name', 'long_name', 'countrycodes', 'email', 'pgp_fingerprint', 'phone_number', 'url', 'business_hh_start', 'business_hh_end', 'comment', 'tags')
+        fields = ('name', 'long_name', 'countrycodes', 'email', 'pgp_fingerprint', 'phone_number', 'url', 'business_hh_start', 'business_hh_end', 'comment', 'tags', 'date_established', 'confirmed', 'active', 'ti_url', 'first_url')
 
 
 class PersonSerializer(serializers.ModelSerializer):
@@ -46,3 +47,10 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Group
         fields = ('url', 'name', 'permissions')
+
+class TagSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Tag
+        fields = ('name' , )
+

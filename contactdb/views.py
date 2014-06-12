@@ -21,6 +21,8 @@ from contactdb.serializers import CountrycodeSerializer
 from contactdb.models import Source
 from contactdb.serializers import SourceSerializer
 
+from contactdb.models import Tag
+from contactdb.serializers import TagSerializer
 
 class CountrycodeViewSet(viewsets.ModelViewSet):
     queryset = Countrycode.objects.all()
@@ -83,3 +85,10 @@ class GroupViewSet(viewsets.ReadOnlyModelViewSet):
     """
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
+
+class TagViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    API endpoint that allows tags to be viewed or edited.
+    """
+    queryset = Tag.objects.all()
+    serializer_class = TagSerializer
