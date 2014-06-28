@@ -11,7 +11,7 @@ def dump_import(contactdb, dump):
     for entry in dump:
         cc = {
             'cc': entry['alpha-2'],
-            'cc3': entry['alpha-3'],
+            #'cc3': entry['alpha-3'],
             'country_name': entry['name']
             }
         contactdb.post_cc(json.dumps(cc))
