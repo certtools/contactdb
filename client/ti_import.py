@@ -3,6 +3,7 @@ from csv import DictReader
 from api import PyContactBD
 import json
 import os
+import re
 import gnupg
 from keys import key
 
@@ -18,6 +19,8 @@ def import_gpg(filename):
 def dump_import(contactdb, filename):
     reader = DictReader(open(filename), delimiter=';')
     for l in reader:
+	phone_number= re.split(' - ', l['Telephone'])[0]
+	url = re.split(' - ', l['WWW'])[0]
         # FIXME: we lose the special meaning of the * in the country name
         country = l['Country'].strip('*')
         if country == 'World Wide':
@@ -26,18 +29,21 @@ def dump_import(contactdb, filename):
             country = 'EU'
         org = {
             'name': l['Team Name'],
-            'fullname': l['Official Team Name'],
+            'long_name': l['Official Team Name'],
             'countrycodes': [ country ],
-            'phone': [l['Telephone']],
-            'emergency_phone': [l['Emergency Phone']],
-            'fax': [l['Telefax']],
+            'phone_number': phone_number,
+            'emergency_phone': l['Emergency Phone'],
+            'fax': l['Telefax'],
             'email': l['Email'],
+            #'business_hh_start': l['-Business Hours'],
+            #'business_hh_end': l['-Business Hours'],
+            'pgp_fingerprint': l['PGP Key (Team)'],
+            'url': url,
             'ti_url': l['TI URL'],
             'created': l['Date of Establishment'],
-            'website': l['WWW'],
             'date_established': l['Date of Establishment'],
             'last_updated': l['Last changed'],
-            'source': 'TI',
+            'source': ['TI'],
             }
         if debug: print org
         response = contactdb.post_organisation(json.dumps(org))
