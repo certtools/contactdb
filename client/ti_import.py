@@ -20,6 +20,10 @@ def import_gpg(filename):
 def dump_import(contactdb, filename):
     reader = DictReader(open(filename), delimiter=';')
     for l in reader:
+	# check if we should import it
+	status = l['TI Level']
+	if status not in ['Listed', 'Accredited', 'Certified']: 
+		continue
         phone_number = re.split(' - ', l['Telephone'])[0]
         url = re.split(' - ', l['WWW'])[0]
         # FIXME: we lose the special meaning of the * in the country name
@@ -57,4 +61,5 @@ if __name__ == '__main__':
 
     contactdb = PyContactBD(url, key)
     # import_gpg('../ti/ti-l2-pgpkeys.asc')
-    dump_import(contactdb, '../ti/ti-l2-info.csv')
+    #dump_import(contactdb, '../ti/ti-l2-info.csv')
+    dump_import(contactdb, '../ti/ti-l2-l1-l0-info.v2.csv')
