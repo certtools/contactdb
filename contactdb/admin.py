@@ -19,7 +19,7 @@ def createInlineAdmin(model_class, number_of_lines=0, key_name=None):
 
 class OrganisationAdminPage(admin.ModelAdmin):
     filter_horizontal = ['countrycodes', 'tags']
-    fields = ('name', 'long_name', 'countrycodes', ('email', 'pgp_fingerprint'), 'phone_number', 'url', 'business_hh_start', 'business_hh_end', 'comment', 'tags')
+    fields = ('name', 'long_name', 'countrycodes', 'address', ('email', 'pgp_fingerprint'), 'phone_number', 'url', 'business_hh_start', 'business_hh_end', 'comment', 'tags')
     search_fields = ['name' , 'email']
     inlines = [
                 createInlineAdmin(OtherCommunicationChannel),
@@ -37,6 +37,9 @@ class PersonAdminPage(admin.ModelAdmin):
               
     exclude = ('last_logged_in', )
 
+#class ASNAdminPage(admin.ModelAdmin):
+#    fields = ('asn', 'asname')
+#    search_fields = ['asn', 'asname']
 
 admin.site.register(Organisation, OrganisationAdminPage)
 admin.site.register(Inetnum, InetnumAdminPage)
@@ -45,3 +48,5 @@ admin.site.register(Person, PersonAdminPage)
 admin.site.register(Countrycode)
 admin.site.register(Source)
 admin.site.register(Tag)
+
+admin.site.register(ASN)

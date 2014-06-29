@@ -151,6 +151,10 @@ class ASN(NetObject):
     def __unicode__(self):
         return self.asn,
 
+    class Meta:
+        verbose_name = "Autonomous System Number"
+        verbose_name_plural = "Autonomous System Numbers"
+
 
 class Inetnum(NetObject, InetnumModel):
     pass
