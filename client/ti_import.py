@@ -26,6 +26,9 @@ def dump_import(contactdb, filename):
 		continue
         phone_number = re.split(' - ', l['Telephone'])[0]
         url = re.split(' - ', l['WWW'])[0]
+	pattern = re.compile(' - ')
+	address = pattern.sub('\n', l['Address'])
+	if debug: print "XXXXX address: '" + address + "'"
         # FIXME: we lose the special meaning of the * in the country name
         country = l['Country'].strip('*')
         if country == 'World Wide':
@@ -36,6 +39,7 @@ def dump_import(contactdb, filename):
             'name': l['Team Name'],
             'long_name': l['Official Team Name'],
             'countrycodes': [country],
+            'address': address,
             'phone_number': phone_number,
             'emergency_phone': l['Emergency Phone'],
             'fax': l['Telefax'],
@@ -58,6 +62,7 @@ def dump_import(contactdb, filename):
 
 if __name__ == '__main__':
     url = 'http://127.0.0.1:8000'
+    url = 'http://193.191.172.240:80'
 
     contactdb = PyContactBD(url, key)
     # import_gpg('../ti/ti-l2-pgpkeys.asc')
