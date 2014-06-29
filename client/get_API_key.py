@@ -20,6 +20,8 @@ if __name__ == '__main__':
     response = get_auth_token(url, username, password)
     try:
         token = response.json()['token']
-        print(token)
+        with open('keys.py', 'w') as f:
+            to_write = 'key="{}"'.format(token)
+            f.write(to_write)
     except:
         print(response.json())
