@@ -51,21 +51,23 @@ class Source(Model):
     class Meta:
         verbose_name = "data source"
 
+
 class Tag(Model):
     name = CharField(max_length=30, primary_key=True)
-    
+
     def __unicode__(self):
         return self.name
+
 
 class Entity(Model):
     name = CharField(max_length=50, primary_key=True)
     long_name = CharField(max_length=1000, null=True, blank=True)
-    
+
     ####################
     countrycodes = ManyToManyField(Countrycode, related_name="%(app_label)s_%(class)s", blank=True, null=True)
     tags = ManyToManyField(Tag, related_name="%(app_label)s_%(class)s", blank=True, null=True)
     ####################
-    
+
     source = ForeignKey(Source, null=True, blank=True)
 
     email = EmailField(null=False)
@@ -80,6 +82,7 @@ class Entity(Model):
 
     def __unicode__(self):
         return self.name
+
 
 class Organisation(Entity):
     address = TextField(max_length=1000, null=True, blank=True)
@@ -119,7 +122,7 @@ class CommunicationChannel(Model):
 
 class OTRFingerprint(Model):
     otr_fingerprint = CharField(max_length=50, null=False)
-    handle = ForeignKey(Person, related_name = 'otr_fingerprints')
+    handle = ForeignKey(Person, related_name='otr_fingerprints')
 
 
 class OtherCommunicationChannel(CommunicationChannel):
