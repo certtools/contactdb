@@ -13,7 +13,7 @@ debug = False
 def import_gpg(filename):
     gpg = gnupg.GPG(homedir=os.environ['GNUPGHOME'])
     gpg.dirty_encoding_ignore()
-    import_result = gpg.import_keys(filename)
+    import_result = gpg.import_keys(open(filename, 'r').read())
     return import_result
 
 
@@ -48,16 +48,16 @@ def dump_import(contactdb, filename):
             country = 'WW'
         elif country == 'Europe':
             country = 'EU'
-        if status in ['Accredited', 'Certified'] and len(l['PGP Key (Team)']) > 0:
-            k = l['PGP Key (Team)'][2:]
-            try:
-                fingerprint = pgp_keys_shortids[k]
-            except:
-                print l['PGP Key (Team)'], 'not fount in the dump.'
-                print 'Contact', l['Official Team Name']
-                fingerprint = ''
-        else:
-            fingerprint = ''
+        fingerprint = ''
+        if status in ['Accredited', 'Certified']:
+            if len(l['PGP Key (Team)']) == 0:
+                print l['PGP Key (Team)'], 'has no PGP key.'
+            else:
+                k = l['PGP Key (Team)'][2:]
+                fingerprint = pgp_keys_shortids.get(k, '')
+                if len(fingerprint) == 0:
+                    print l['PGP Key (Team)'], 'not fount in the dump.'
+                    print 'Contact', l['Official Team Name']
         org = {
             'name': l['Team Name'],
             'long_name': l['Official Team Name'],
