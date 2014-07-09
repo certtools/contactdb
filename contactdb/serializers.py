@@ -6,6 +6,7 @@ from contactdb.models import Organisation
 from contactdb.models import Countrycode
 from contactdb.models import Source
 from contactdb.models import Tag
+from contactdb.models import ASN
 
 
 class CountrycodeSerializer(serializers.ModelSerializer):
@@ -20,6 +21,7 @@ class SourceSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Source
         fields = ('name', 'reliability')
+
 
 class OrganisationSerializer(serializers.ModelSerializer):
 
@@ -48,9 +50,17 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
         model = Group
         fields = ('url', 'name', 'permissions')
 
+
 class TagSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Tag
-        fields = ('name' , )
+        fields = ('name', )
+
+
+class ASNSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = ASN
+        fields = ('asn', 'owner', 'source', 'active', )
 

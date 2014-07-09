@@ -28,6 +28,12 @@ def make_short_id():
     return to_return
 
 
+def get_fingerprint(dict_shortid, shortid):
+    if shortid.startswith('0x'):
+        shortid = shortid[2:]
+    return dict_shortid.get(shortid, '')
+
+
 def dump_import(contactdb, filename):
     reader = DictReader(open(filename), delimiter=';')
     pgp_keys_shortids = make_short_id()
@@ -53,11 +59,9 @@ def dump_import(contactdb, filename):
             if len(l['PGP Key (Team)']) == 0:
                 print l['PGP Key (Team)'], 'has no PGP key.'
             else:
-                k = l['PGP Key (Team)'][2:]
-                fingerprint = pgp_keys_shortids.get(k, '')
+                fingerprint = get_fingerprint(pgp_keys_shortids, l['PGP Key (Team)'])
                 if len(fingerprint) == 0:
-                    print l['PGP Key (Team)'], 'not fount in the dump.'
-                    print 'Contact', l['Official Team Name']
+                    print 'Key not found', l['PGP Key (Team)'], l['Official Team Name']
         org = {
             'name': l['Team Name'],
             'long_name': l['Official Team Name'],
@@ -82,6 +86,46 @@ def dump_import(contactdb, filename):
         response = contactdb.post_organisation(json.dumps(org))
         if response.status_code >= 300:
             print response.text
+        if len(l['Constituency ASNs']) > 0:
+            asns_dirty = re.split('. - ', l['Constituency ASNs'])
+            asns = []
+            for asn in asns_dirty:
+                if asn.upper().startswith('AS'):
+                    asns.append(asn[2:])
+                else:
+                    asns.append(asn)
+            for a in asns:
+                asn = {
+                    'active': True,
+                    'source': 'TI',
+                    'owner': l['Team Name'],
+                    'asn': a
+                    }
+                response = contactdb.post_asn(json.dumps(asn))
+                if response.status_code >= 300:
+                    print response.text
+        if len(l['Team Representative']) > 0:
+            fingerprint = ''
+            if status in ['Accredited', 'Certified']:
+                if len(l['PGP Key (Rep)']) == 0:
+                    print l['Team Representative'], 'has no PGP key.'
+                else:
+                    fingerprint = get_fingerprint(pgp_keys_shortids, l['PGP Key (Rep)'])
+                    if len(fingerprint) == 0:
+                        print 'Key not found', l['PGP Key (Rep)'], l['Team Representative']
+            person = {
+                # name as primary key for person: issue with duplicated name
+                'name': l['Team Representative'],
+                'source': ['TI'],
+                'email': l['Email (Rep)'],
+                'pgp_fingerprint': fingerprint,
+                'countrycodes': [country],
+                'organisation': l['Team Name']
+                }
+            response = contactdb.post_person(json.dumps(person))
+            if response.status_code >= 300:
+                print response.text
+
 
 if __name__ == '__main__':
     url = 'http://127.0.0.1:8000'

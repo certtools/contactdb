@@ -102,7 +102,7 @@ class Organisation(Entity):
 
 
 class Person(Entity):
-    user = OneToOneField(User, related_name='persons', null=True)
+    user = OneToOneField(User, related_name='persons', null=True, blank=True)
     organisation = ForeignKey(Organisation, related_name='organisations',
                               null=True)
     picture = ImageField(upload_to='/static/person/pics/', null=True, blank=True)
@@ -171,7 +171,7 @@ class DomainName(NetObject):
 
 
 class TLD(NetObject):
-    tld = CharField(max_length=2, primary_key=True)
+    tld = CharField(max_length=100, primary_key=True)
 
     def __unicode__(self):
         return self.tld
