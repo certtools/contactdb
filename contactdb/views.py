@@ -4,6 +4,10 @@ from rest_framework import permissions
 from rest_framework.authentication import SessionAuthentication, TokenAuthentication
 from rest_framework import viewsets
 from rest_framework.exceptions import PermissionDenied
+from rest_framework.decorators import api_view
+from rest_framework.decorators import permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 from contactdb.permissions import IsUserOrReadOnly
 from contactdb.permissions import IsInOrgOrReadOnly
 from contactdb.serializers import UserSerializer
@@ -26,6 +30,18 @@ from contactdb.serializers import TagSerializer
 
 from contactdb.models import ASN
 from contactdb.serializers import ASNSerializer
+
+import gnupg
+import os
+
+
+@api_view(['GET'])
+@permission_classes((IsAuthenticated, ))
+def PGPKey(request, fingerprint):
+    if request.method == 'GET':
+        gpg = gnupg.GPG(homedir=os.environ['GNUPGHOME'])
+        key = gpg.export_keys(fingerprint)
+        return Response({fingerprint: key})
 
 
 class CountrycodeViewSet(viewsets.ModelViewSet):

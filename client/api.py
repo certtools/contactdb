@@ -31,6 +31,10 @@ class PyContactBD(object):
         session = self.__prepare_session()
         return session.get(self.url + '/organisations/')
 
+    def get_PGP_Key(self, fingerprint):
+        session = self.__prepare_session()
+        return session.get(self.url + '/pgpkeys/' + fingerprint)
+
     def post_organisation(self, organisation):
         session = self.__prepare_session()
         return session.post(self.url + '/organisations/', organisation)
