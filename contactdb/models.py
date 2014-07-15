@@ -152,7 +152,7 @@ class ASN(NetObject):
     asname = CharField(max_length=500)
 
     def __unicode__(self):
-        return self.asn,
+        return str(self.asn)
 
     class Meta:
         verbose_name = "Autonomous System Number"
