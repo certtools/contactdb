@@ -123,6 +123,4 @@ query a whois object and the DB will do that for you as a proxy but also save th
 Misc.
 ================
 
-DONE: Why we are using the AH word? This is a contactDB... may be in future will be integrated with AH.
-  --> no problem. Let's change the name ->  Rename AHDjango to CERTDir DONE
 
