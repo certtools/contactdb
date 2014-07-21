@@ -3,7 +3,9 @@ django-filter
 djangorestframework
 markdown
 psycopg2
-gnupg
+# We need to be able to import keys with a broken encoding, not supported by the main repo
+# gnupg
+https://github.com/Rafiot/python-gnupg/archive/dirty_encoding_ignore.zip
 pillow
 
 # perso
