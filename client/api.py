@@ -1,5 +1,6 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 
+import json
 import requests
 
 
@@ -54,3 +55,14 @@ class PyContactBD(object):
     def post_asn(self, asn):
         session = self.__prepare_session()
         return session.post(self.url + '/asns/', asn)
+
+    def get_asn(self, asn):
+        session = self.__prepare_session()
+        response = session.get('{}/asns/{}/'.format(self.url, asn))
+        return response.json()
+
+    def update_asn_owners(self, asn_id, owners):
+        session = self.__prepare_session()
+        asn = self.get_asn(asn_id)
+        [asn['owners'].append(o) for o in owners if o not in asn['owners']]
+        return session.put('{}/asns/{}/'.format(self.url, asn_id), json.dumps(asn))

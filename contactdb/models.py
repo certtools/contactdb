@@ -139,7 +139,7 @@ class NetObject(Model):
     active = BooleanField(default=False)
 
     source = ForeignKey(Source, null=True)
-    owner = ForeignKey(Entity, null=True)
+    owners = ManyToManyField(Entity, related_name="%(app_label)s_%(class)s")
     created = DateTimeField(auto_now_add=True)
     last_updated = DateTimeField(auto_now=True)
 

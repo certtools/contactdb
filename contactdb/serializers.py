@@ -62,5 +62,4 @@ class ASNSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ASN
-        fields = ('asn', 'owner', 'source', 'active', )
-
+        fields = ('asn', 'owners', 'source', 'active', )
