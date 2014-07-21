@@ -1,6 +1,11 @@
 *.py[cod]
 *~
 
+# TI
+*.p12
+*.pem
+ti/*csv
+ti/*asc
 
 # C extensions
 *.so

@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 from api import PyContactBD
 import json
 from keys import key

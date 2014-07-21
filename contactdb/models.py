@@ -51,21 +51,23 @@ class Source(Model):
     class Meta:
         verbose_name = "data source"
 
+
 class Tag(Model):
     name = CharField(max_length=30, primary_key=True)
-    
+
     def __unicode__(self):
         return self.name
+
 
 class Entity(Model):
     name = CharField(max_length=50, primary_key=True)
     long_name = CharField(max_length=1000, null=True, blank=True)
-    
+
     ####################
     countrycodes = ManyToManyField(Countrycode, related_name="%(app_label)s_%(class)s", blank=True, null=True)
     tags = ManyToManyField(Tag, related_name="%(app_label)s_%(class)s", blank=True, null=True)
     ####################
-    
+
     source = ForeignKey(Source, null=True, blank=True)
 
     email = EmailField(null=False)
@@ -80,6 +82,7 @@ class Entity(Model):
 
     def __unicode__(self):
         return self.name
+
 
 class Organisation(Entity):
     address = TextField(max_length=1000, null=True, blank=True)
@@ -99,7 +102,7 @@ class Organisation(Entity):
 
 
 class Person(Entity):
-    user = OneToOneField(User, related_name='persons', null=True)
+    user = OneToOneField(User, related_name='persons', null=True, blank=True)
     organisation = ForeignKey(Organisation, related_name='organisations',
                               null=True)
     picture = ImageField(upload_to='/static/person/pics/', null=True, blank=True)
@@ -119,7 +122,7 @@ class CommunicationChannel(Model):
 
 class OTRFingerprint(Model):
     otr_fingerprint = CharField(max_length=50, null=False)
-    handle = ForeignKey(Person, related_name = 'otr_fingerprints')
+    handle = ForeignKey(Person, related_name='otr_fingerprints')
 
 
 class OtherCommunicationChannel(CommunicationChannel):
@@ -136,7 +139,7 @@ class NetObject(Model):
     active = BooleanField(default=False)
 
     source = ForeignKey(Source, null=True)
-    owner = ForeignKey(Entity, null=True)
+    owners = ManyToManyField(Entity, related_name="%(app_label)s_%(class)s")
     created = DateTimeField(auto_now_add=True)
     last_updated = DateTimeField(auto_now=True)
 
@@ -149,7 +152,11 @@ class ASN(NetObject):
     asname = CharField(max_length=500)
 
     def __unicode__(self):
-        return self.asn,
+        return str(self.asn)
+
+    class Meta:
+        verbose_name = "Autonomous System Number"
+        verbose_name_plural = "Autonomous System Numbers"
 
 
 class Inetnum(NetObject, InetnumModel):
@@ -164,7 +171,7 @@ class DomainName(NetObject):
 
 
 class TLD(NetObject):
-    tld = CharField(max_length=2, primary_key=True)
+    tld = CharField(max_length=100, primary_key=True)
 
     def __unicode__(self):
         return self.tld
