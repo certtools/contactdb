@@ -60,7 +60,7 @@ class Tag(Model):
 
 
 class Entity(Model):
-    name = CharField(max_length=50, primary_key=True)
+    name = CharField(max_length=50)
     long_name = CharField(max_length=1000, null=True, blank=True)
 
     ####################
@@ -103,8 +103,7 @@ class Organisation(Entity):
 
 class Person(Entity):
     user = OneToOneField(User, related_name='persons', null=True, blank=True)
-    organisation = ForeignKey(Organisation, related_name='organisations',
-                              null=True)
+    organisations = ManyToManyField(Organisation, related_name="%(app_label)s_%(class)s", blank=True, null=True)
     picture = ImageField(upload_to='/static/person/pics/', null=True, blank=True)
     last_logged_in = TimeField(null=False, default=datetime.now)
 

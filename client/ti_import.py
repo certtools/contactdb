@@ -52,7 +52,7 @@ def team_import(l, country, status, pgp_keys_shortids):
             if len(fingerprint) == 0:
                 print 'Key not found', l['PGP Key (Team)'], l['Official Team Name']
     org = {
-        'name': l['Team Name'],
+        'name': l['Team Name'].strip(),
         'long_name': l['Official Team Name'],
         'countrycodes': [country],
         'address': address,
@@ -86,11 +86,12 @@ def asn_import(l):
             asns.append(asn[2:])
         else:
             asns.append(asn)
+    org = contactdb.get_org_id_by_name(l['Team Name']).json()
     for a in asns:
         asn = {
             'active': True,
             'source': 'TI',
-            'owners': [l['Team Name']],
+            'owners': [org['results'][0]['id']],
             'asn': a
             }
         j_asn = json.dumps(asn)
@@ -111,6 +112,7 @@ def rep_import(l, country, status, pgp_keys_shortids):
             fingerprint = get_fingerprint(pgp_keys_shortids, l['PGP Key (Rep)'])
             if len(fingerprint) == 0:
                 print 'Key not found', l['PGP Key (Rep)'], l['Team Representative']
+    org = contactdb.get_org_id_by_name(l['Team Name']).json()
     person = {
         # name as primary key for person: issue with duplicated name
         'name': l['Team Representative'],
@@ -118,7 +120,7 @@ def rep_import(l, country, status, pgp_keys_shortids):
         'email': l['Email (Rep)'],
         'pgp_fingerprint': fingerprint,
         'countrycodes': [country],
-        'organisation': l['Team Name']
+        'organisations': [org['results'][0]['id']]
         }
     response = contactdb.post_person(json.dumps(person))
     if response.status_code >= 300:

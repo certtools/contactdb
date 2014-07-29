@@ -18,6 +18,7 @@ from contactdb.serializers import PersonSerializer
 
 from contactdb.models import Organisation
 from contactdb.serializers import OrganisationSerializer
+from contactdb.filters import OrganisationFilter
 
 from contactdb.models import Countrycode
 from contactdb.serializers import CountrycodeSerializer
@@ -59,6 +60,7 @@ class OrganisationViewSet(viewsets.ModelViewSet):
                               TokenAuthentication)
     queryset = Organisation.objects.all()
     serializer_class = OrganisationSerializer
+    filter_class = OrganisationFilter
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,
                           IsInOrgOrReadOnly,)
 
@@ -74,16 +76,15 @@ class PersonViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,
                           IsUserOrReadOnly,)
 
-    def pre_save(self, obj):
+    def post_save(self, obj, **kwargs):
         if self.request.user.is_staff or obj.user == self.request.user:
-            if obj.organisation is not None:
-                g, created = Group.objects.get_or_create(
-                    name=obj.organisation.name)
-                if created or obj.organisation.name in \
-                        self.request.user.groups.all():
-                    # only allow to add an organisation to an user if the user
-                    # doing so is in the organisation
-                    g.user_set.add(self.request.user)
+            if obj.organisations is not None:
+                for o in obj.organisations.all():
+                    g, created = Group.objects.get_or_create(name=o.name)
+                    if created or o.name in self.request.user.groups.all():
+                        # only allow to add an organisation to an user if the user
+                        # doing so is in the organisation
+                        g.user_set.add(self.request.user)
         else:
             raise PermissionDenied(detail='User of Person has to be you.')
 

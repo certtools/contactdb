@@ -28,6 +28,14 @@ class PyContactBD(object):
         session = self.__prepare_session()
         return session.get(self.url + '/users/')
 
+    def get_user_by_name(self, name):
+        session = self.__prepare_session()
+        return session.get('{}/persons?name={}'.format(self.url, name))
+
+    def get_org_id_by_name(self, name):
+        session = self.__prepare_session()
+        return session.get('{}/organisations/?name={}'.format(self.url, name))
+
     def get_organisations(self):
         session = self.__prepare_session()
         return session.get(self.url + '/organisations/')
@@ -66,3 +74,5 @@ class PyContactBD(object):
         asn = self.get_asn(asn_id)
         [asn['owners'].append(o) for o in owners if o not in asn['owners']]
         return session.put('{}/asns/{}/'.format(self.url, asn_id), json.dumps(asn))
+
+#    def update_affiliations(self, )
