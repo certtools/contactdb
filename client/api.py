@@ -25,54 +25,66 @@ class PyContactBD(object):
         return session
 
     def get_users(self):
-        session = self.__prepare_session()
-        return session.get(self.url + '/users/')
+        return self.__get('user')
 
-    def get_user_by_name(self, name):
-        session = self.__prepare_session()
-        return session.get('{}/persons?name={}'.format(self.url, name))
-
-    def get_org_id_by_name(self, name):
-        session = self.__prepare_session()
-        return session.get('{}/organisations/?name={}'.format(self.url, name))
+    def get_persons(self):
+        return self.__get('person')
 
     def get_organisations(self):
+        return self.__get('organisation')
+
+    def __get(self, model):
         session = self.__prepare_session()
-        return session.get(self.url + '/organisations/')
+        return session.get('{}/{}s/'.format(self.url, model))
+
+    def get_person_by_name(self, name):
+        return self.__get_by_name('person', name)
+
+    def get_org_by_name(self, name):
+        return self.__get_by_name('organisation', name)
+
+    def __get_by_name(self, model, name):
+        session = self.__prepare_session()
+        return session.get('{}/{}s/?name={}'.format(self.url, model, name))
 
     def get_PGP_Key(self, fingerprint):
         session = self.__prepare_session()
-        return session.get(self.url + '/pgpkeys/' + fingerprint)
-
-    def post_organisation(self, organisation):
-        session = self.__prepare_session()
-        return session.post(self.url + '/organisations/', organisation)
-
-    def post_person(self, person):
-        session = self.__prepare_session()
-        return session.post(self.url + '/persons/', person)
-
-    def post_source(self, source):
-        session = self.__prepare_session()
-        return session.post(self.url + '/sources/', source)
-
-    def post_cc(self, cc):
-        session = self.__prepare_session()
-        return session.post(self.url + '/countrycodes/', cc)
-
-    def post_asn(self, asn):
-        session = self.__prepare_session()
-        return session.post(self.url + '/asns/', asn)
+        return session.get('{}/pgpkeys/{}/'.format(self.url, fingerprint))
 
     def get_asn(self, asn):
         session = self.__prepare_session()
-        response = session.get('{}/asns/{}/'.format(self.url, asn))
-        return response.json()
+        return session.get('{}/asns/{}/'.format(self.url, asn))
 
-    def update_asn_owners(self, asn_id, owners):
+    def post_organisation(self, organisation):
+        return self.__post('organisation', organisation)
+
+    def post_person(self, person):
+        return self.__post('person', person)
+
+    def post_source(self, source):
+        return self.__post('source', source)
+
+    def post_cc(self, cc):
+        return self.__post('countrycode', cc)
+
+    def post_asn(self, asn):
+        return self.__post('asn', asn)
+
+    def __post(self, model, obj):
         session = self.__prepare_session()
-        asn = self.get_asn(asn_id)
-        [asn['owners'].append(o) for o in owners if o not in asn['owners']]
-        return session.put('{}/asns/{}/'.format(self.url, asn_id), json.dumps(asn))
+        return session.post('{}/{}s/'.format(self.url, model), obj)
 
-#    def update_affiliations(self, )
+    def update_asn(self, asn):
+        return self.__update('asn', asn)
+
+    def update_person(self, person):
+        return self.__update('person', person)
+
+    def __update(self, model, obj):
+        session = self.__prepare_session()
+        if model == 'asn':
+            o_id = obj['asn']
+        else:
+            o_id = obj['id']
+        return session.put('{}/{}s/{}/'.format(self.url, model, o_id),
+                           json.dumps(obj))

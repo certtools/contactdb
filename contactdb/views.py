@@ -15,6 +15,7 @@ from contactdb.serializers import GroupSerializer
 
 from contactdb.models import Person
 from contactdb.serializers import PersonSerializer
+from contactdb.filters import PersonFilter
 
 from contactdb.models import Organisation
 from contactdb.serializers import OrganisationSerializer
@@ -73,6 +74,7 @@ class OrganisationViewSet(viewsets.ModelViewSet):
 class PersonViewSet(viewsets.ModelViewSet):
     queryset = Person.objects.all()
     serializer_class = PersonSerializer
+    filter_class = PersonFilter
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,
                           IsUserOrReadOnly,)
 
