@@ -1,0 +1,191 @@
+% Abuse Contact lookups for IT security incident handling
+% L. Aaron Kaplan <kaplan@cert.at>; Mirjam Kuehne <mirjam.kuehne@ripe.net>; Christian Teuschel <christian.teuschel@ripe.net>;  Otmar Lendl <lendl@bofh.priv.at>
+% 2014/05/10
+
+
+
+
+
+# A unified model for abuse contact lookups
+
+
+## Network resources
+
+
+Before looking at the proposed  algorithm and framework for contact lookups, we need to define some terms.
+There are two types of lookup paths that can occur: based on problem at hand, either a number-resource lookup (AS number, IP address, netblock) or name-based resource lookup path (domain, URL) needs to be chosen.
+
+We define a network resource as being one of:
+
+* ASN (example: AS1901 or 1901)
+* netblock (CIDR notation) (example: 193.238.156.0/21)
+* domain, (example: ripe.net)
+* hostname (fqdn) (example: www.ripe.net), or
+* IP address (example: 193.1.1.0).
+
+A network resource can be any one of these (but not multiple at the same time).
+Should we need to specifically talk about a number-resource or a name-based resource, we will use these more specific termins. Otherwise, the term "netresource" will be used as a aggregated term.
+
+Based on the definition of a netresource we can now define functions on netresources which shall return the desired information.
+
+XXX @aaron: FIXME: add ABNF syntax description here XXX
+
+
+
+## Functional specification
+
+There is an inherent hierarchy of asking first the most specific data sources
+and in case nothing is found, the algorithm shall move up to the least specific
+data sources. All contact lookups MAY be cached. Cache timeout values are TBD.
+
+### Lookup by ASN
+
+*	**Name**: contact\_by\_asn(asn)
+*	**Input**: ASN
+*	**Output**: best matching contact
+
+**Implementation**:
+
+1.	lookup most specific contact for this ASN in contactDB, if nothing found,...
+2.	lookup abuse@ for this ASN in whois, if nothing found,...
+3.	lookup general contact for this ASN in whois, if nothing found...
+4.	lookup the country of the ASN (team cymru or maxmind), then look up the national CERT of that country (for example via https://contacts.cert.at)
+
+### Lookup by domain name
+*	**Name**: contact\_by\_domain(domain)
+*	**Input**: hostname (fqdn) or domain name
+*	**Output**: best matching contact
+
+**Implementation (pseudo-code)**:
+
+	lookup domain in specific internal contactDB, 
+    IF nothing found:
+	  IF (parameter == hostname):     
+	    d = extract_domain(fqdn)  
+	  ELSE d = parameter  
+	  lookup domain_owner(d), and/or...  
+	  lookup registrar_of(d)  
+	  IF nothing_found and (parameter == hostname):     
+	    i= lookup_ip_of_hostname(fqdn)    
+	    lookup_hoster_of_ip(i) 
+
+*NOTE*: this lookup function actually might be a bit too specific. Depending on the use case you might want to look up only the domain owner or the registrar only.
+
+### Lookup by hostname
+*	**Name**: contact\_by\_hostname(fqdn)
+*	**Input**: hostname (fqdn)
+*	**Output**: best matching contact
+
+**Implementation**:
+
+	lookup domain in specific internal contactDB, 
+    IF nothing found:
+	  d = extract_domain(fqdn)  
+	  lookup domain_owner(d), and/or...  
+	  lookup registrar_of(d) and/or...  
+	  i= lookup_ip(s)_of_hostname(fqdn)  
+	  lookup_hoster_of_ip(i)
+
+optional:
+
+    ds = lookup_other_domains_on_this_ip(i)  
+    lookup_domain_owners(ds)  
+    lookup_registrars(ds) 
+
+NOTE: again, as above, this function might be doing too much already. Depending on the circumstances, a use-case might only need the registrar or the domain owner or the hoster.
+
+### Lookup by netblock
+*	**Name**: contact\_by\_netblock(netblock)
+*	**Input**: netblock in CIDR notation (for example: 1.2.3.0/24 or 2a02:60:1:1::0/32)
+*	**Output**: best matching contact
+
+**Implementation**:
+
+	lookup contact for netblock in internal contactDB, 
+    IF nothing found:
+	  lookup abuse@ in whois for the contact block, 
+      IF nothing found:
+	    lookup whois contact for the netblock, 
+        IF nothing found:
+	      lookup ASN  of netblock, call lookup_by_asn(ASN), 
+		  IF nothing found:
+	        lookup country code of netblock, then look up the national CERT of that country (for example via  https://contacts.cert.at) 
+
+
+###Lookup by IP address
+*	**Name**: contact\_by\_ip(ip)
+*	**Input**: ip address (v4 or v6)
+*	**Output**: best matching contact
+
+**Implementation**:
+
+	lookup contact for IP address  in internal contactDB, 
+    IF nothing found: 
+	  lookup most specific netblock of IP, call contact_by_netblock. 
+      IF nothing found:
+	       (optional: lookup less specific netblock of IP, call contact_by_netblock(). 
+           If nothing found...   )
+	    lookup ASN of IP address, call contact_by_asn. 
+        IF nothing found:
+	      lookup country code of IP address, lookup contact of national CERT 
+          of country (for example via https://contacts.cert.at) 
+
+
+### Lookup by country
+*	**Name**: contact\_by\_country(country\_code)
+*	**Input**: ISO 2 letter country code
+*	**Output**: best matching contact
+
+**Implementation**:
+
+  lookup(country code in national CERT DB), 
+  IF FOUND: 
+    return national CERT contact 
+  ELSE 
+    return undef
+
+###Lookup by TLD
+*	**Name**: contact\_by\_tld(domain or tld)
+*	**Input**: domain name or TLD
+*	**Output**: best matching contact
+
+**Implementation**:
+
+	IF TLD == ccTLD:     
+	  return contact_by_country(ccTLD)  
+	ELSE 
+      c = lookup(registrar of gTLD) 
+	  IF nothing found : 
+	    return undef 
+      ELSE return c
+
+
+
+# Other ideas
+
+==> can we (CERTs) get bulk access to stat.ripe.net (and to it's source data). Why?
+Sometimes we want to look up things in bulk *quickly*. Like really fast. For 1 million records or a billion log records (think: conficker.C apache log files)
+Sometimes we have an APT case where we *can not* ask any external data source about specific IPs because the mere act of querying could already reveal something.
+  (this mostly concerns CERTs which do ani-spying detection work)
+  
+Christian: We are planned to develop an asynchronous request model which will make it possible that we serve requests that produce large result sets. 
+
+The contactDB lookups should be documented as a RFC I-D (apps area ??) . Because it should be a standard / recommendation for everybody.
+
+
+
+
+# meta
+  * this document helps in listing reqs for ripe ncc
+  * RIPE document machen. Evtl. auch als I-D
+  * ziele des documents: 
+
+   - best practice document fuer certs und datenlieferanten
+   - weitere datasets? FIRST, TI, interne AS2email
+  * issues:
+   - ip2country geolocation - wie machen? lizenz problem mit maxmind. 
+     - google ??
+     - einwand wilfried: es geht darum, wo der abuse-c ist. nicht wo der end-user physikalisch sitzt. Es sind verschiedene use-cases
+   - problem mit der datenqualitaet in der RIPE DB. Es geht nur: wo ist der urspruengliche contact fuers LIR
+   - incentives?? warum soll ich was eintragen?
+
