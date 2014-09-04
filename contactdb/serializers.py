@@ -27,14 +27,14 @@ class OrganisationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Organisation
-        fields = ('name', 'long_name', 'countrycodes', 'address', 'email', 'pgp_fingerprint', 'phone_number', 'url', 'business_hh_start', 'business_hh_end', 'comment', 'tags', 'date_established', 'confirmed', 'active', 'ti_url', 'first_url')
+        fields = ('id', 'name', 'long_name', 'countrycodes', 'address', 'email', 'pgp_fingerprint', 'phone_number', 'url', 'business_hh_start', 'business_hh_end', 'comment', 'tags', 'date_established', 'confirmed', 'active', 'ti_url', 'first_url')
 
 
 class PersonSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Person
-        fields = ('name', 'long_name', 'user', 'countrycodes', 'email', 'pgp_fingerprint', 'phone_number', 'jabber_handle', 'organisation', 'picture', 'comment', 'tags')
+        fields = ('id', 'name', 'long_name', 'user', 'countrycodes', 'email', 'pgp_fingerprint', 'phone_number', 'jabber_handle', 'organisations', 'picture', 'comment', 'tags')
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
