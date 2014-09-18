@@ -301,13 +301,12 @@ https://www.cert.org/incident-management/national-csirts/national-csirts.cfm
 
 Some of the data is publicly available at https://www.cert.org/incident-management/national-csirts/national-csirts.cfm
 
-XXX FIXME: CSV is public? XXX
 
 
 ### APIs / automatic querying
 
 
-XXX FIXME: CSV is public? XXX
+CERT.org is working on creating a CSV export file of the database on a public webserver.
 
 
 ### Maintainers
