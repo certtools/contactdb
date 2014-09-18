@@ -436,26 +436,25 @@ CERT.at used this national CERT database and created an online lookup tool at [h
 
 
 
-## RIPE Database
-
-/XXX Christian, please add/change/delete XXX
+## RIPE/RIPE NCC Data Sets
 
 
 ### Overview
-The RIPE NCC keeps a comprehensive record of all Internet number resources registered within the RIPE NCC service region, called the RIPE registry (or the RIPE Database). The RIPE Registry contains a set of registration data for all Internet number resources administered by the RIPE NCC. This contains information about IPv4 alloctions and assignments, routing information and the associated contact information (more information: http://www.ripe.net/ripe/docs/ripe-508) 
+The RIPE NCC keeps a comprehensive record of all Internet number resources registered within the RIPE NCC service region, called the RIPE Registry (or the RIPE Database). The RIPE Registry contains a set of registration data for all Internet number resources administered by the RIPE NCC. This contains information about IPv4 allocations and assignments, routing information and the associated contact information (more information: http://www.ripe.net/ripe/docs/ripe-508) 
 
-Following a proposal made by the RIPE community in XXX the RIPE policy ripe-563 made it mandatory for every resource object (inetnum, inet6num and aut-num) to have a dedicated abuse contact. This contact is usually referred to as "abuse-c" contact and it is the preferred way to report any form of abuse to.
+Following a proposal made by the RIPE community in June 2011 the RIPE policy ripe-563 made it mandatory for every resource object (inetnum, inet6num and aut-num) to have a dedicated abuse contact. This contact is usually referred to as "abuse-c" contact and it is the preferred way to report any form of abuse to.
 
-The IRT (incident response team) object was created with a similar idea in mind but its deployment is even being around for years not very low and so is it is not widely used. Chances are high that this object will be dismissed. Abuse-c is considered to superceed the IRT object.
+The IRT (incident response team) object was created with a similar idea in mind but its deployment is, even being around for years, very low and so is it is not widely used. Chances are high that this object will be dismissed. Abuse-c is considered to superceed the IRT object.
+
+Apart from the registration data the RIPE NCC collects routing information and provides access to it. Routing data is collected by 13  bgp route reflectors called Routing Information Service (RIS) route collectors (https://www.ripe.net/data-tools/stats/ris/).
 
 
 ### Data in the dataset
 Registration data:
     RIPE DB (containing IP resource information and contact data)
-    Routing DB (containing routing policy)
-    Regional Internet Registry Statistics (which IP resources are allocated when and to whom)
-
-Routing data collected by the 13 Routing Information Service (RIS) route collectors (https://www.ripe.net/data-tools/stats/ris/)
+    Routing DB (containing routing policy information)
+    Regional Internet Registry Statistics (which IP or AS resources are allocated when and to which country)
+	Routing Information
 
 ### Original or synthetic data?
 Original
@@ -467,10 +466,23 @@ FAQ: http://www.ripe.net/data-tools/db/faq Documentation: http://www.ripe.net/da
 
 This data is accessible via RIPEstat as a widget and as a data call. Widget API: https://stat.ripe.net/widget/registry-browser Data API: https://stat.ripe.net/docs/data\_api#RegistryBrowser
 
+Routing information comes in different variations to accommodate multiple use-cases, see these examples to get an idea about the available data:
+* https://stat.ripe.net/docs/data_api#AnnouncedPrefixes
+Lists what prefixes are/were announced from a given AS.
+* https://stat.ripe.net/docs/data_api#LookingGlass
+Provides a direct view into the current status of live routing tables. The output is filtered on a given prefix / IP address.
+* https://stat.ripe.net/docs/data_api#PrefixOverview
+Simple returns if an IP address/prefix has been seen in the routing table. If it is announced the network from which it is originated will be included in the result.
+
+More examples can be found under https://stat.ripe,net/docs/data_api
+
 ### Who has access?
-Anybody
+Public
 
 ### APIs / automatic querying
+RIPEstat provides interfaces to provide access to this data sets as mentioned in the paragraph on "Where to find it?".
+More details on the RIPEstat data API can be found under https://stat.ripe.net/docs/data_api
+
 
 ### Maintainers
 RIPE NCC and RIPE NCC members
