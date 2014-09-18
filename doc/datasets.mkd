@@ -20,7 +20,7 @@
 |RIR      		 | Regional Internet Registry; see (1) for more details  |
 |RIS      		 | Routing Information Service  |
 |TI       		 | Trusted Introducer  |
-|----------------|---------------------------------------------------------------------- |
+
 Table: Terminology
 
 
@@ -29,20 +29,22 @@ Table: Terminology
 
 # Intended Audience
 
-CERTs and IT security incident abuse handlers as well as professionals working on automating IT security incident handling.
+CERTs and IT security incident abuse handlers as well as professionals working on automating IT security incident handling. 
+
 
 # Problem description and motivation
 
 CERTs - especially national CERTs - need to look up contact information very frequently for different resources on the Internet.  Examples of such lookups might be: given the IP address 1.2.3.4, give me the best matching abuse contact email address. Or given the domain www.example.com, what is the best contact for sending IT security incident notifications to?  
 
-The frequency of lookups can be thousands or ten thousands of lookups per day, depending on the number of incidents a CERT will see.  Every lookup follows the same principle: given a network resource such as an AS number, an IP address, a netblock, a domain or URL, the requestor wants to know the "best matching" abuse contact for the given network resource. The intention is to inform the contact about a specific IT security incident in his or her network or server.  
-While existing databases such as the RIPE DB already provide a good mechanism to look up data, there are other data sets that might be more suitable in certain cases.  Due to the dynamic and distributed nature of the Internet (technically as well as organisationally), no currently existing abuse contact lookup database handles this task ideally. Every existing database has a specific focus and shortcomings. Due to some of these shortcomings, often enough some IT security team or a national CERT will re-implement a abuse contact database. Thus instead of solving the shortcomings, another database will exist and will have additional shortcomings.
+While the classical way to look up abuse contacts is to query some RIR whois service (such as RIPE's whois service) , there are some issues with this:
+  * first of all, it might not be the data that's needed: for example the query might refer more to a domain instead of an IP address 
+  * the contact registered for the specific network might be non-responsive or the wrong contact
+  * bulk queries are usually not supported for whois
+  * information in whois quickly gets outdated
 
-Finally, a "best matching" contact lookup algorithm by the very international nature of the Internet must differ from country to country and organisation to organisation. Some organisations will have perfect or nearly perfect abuse contact lookup data available to them (internal abuse contact lookups).  Others organisations dealing with a large constituency (such as national CERTs serving a whole country) will face the problem of figuring out if a network resource belongs to its constituency in the first place (for example is IP address 1.2.3.4 in my country?).  
+As a consequence, a lot of different datasets for abuse contact lookups sprung up. They contain different data, have different access methods and -permissions.
 
-We therefore conclude that abuse contact lookups should be seen as an iterative process where the most specific datasets is queried first and subsequent lookups are sent to different, less specific datasets or databases. A model for this lookup is given in section "A unified model for abuse contact lookups".
-
-The goal of this document is to first explain the existing databases and datasets and subsequently to propose a model for above mentioned iterative lookup process.
+This document aims at describing these different datasets in order to provide an overview. The document "abuse-lookups.mkd" deals with how to query these datasets.
 
 This document is intended to be a request for input from the Internet community. The hope is to eventually define a standard for abuse contact lookups.
 
