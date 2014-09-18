@@ -20,7 +20,7 @@
 |RIR      		 | Regional Internet Registry; see (1) for more details  |
 |RIS      		 | Routing Information Service  |
 |TI       		 | Trusted Introducer  |
-|---------------------------------------------------------------------------------------
+|----------------|---------------------------------------------------------------------- |
 Table: Terminology
 
 
