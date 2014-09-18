@@ -4,7 +4,9 @@
 
 # Abstract
 
-This document aims at listing the different datasets listing abuse contacts and CERTs. The goal is to give the audience an overview of datasets, show where this data can be found, who has access to the data and list known issues with the data sets.
+This document aims at listing the different datasets listing abuse contacts and CERTs. The goal is to give the audience an overview of datasets and show where this data can be found, who has access to the data and list known issues with the data sets.
+
+The authors accept git pull requests, please help and enrich this document.
 
 
 
