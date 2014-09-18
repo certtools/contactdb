@@ -297,7 +297,7 @@ Somewhat up to date: the yearly national CSIRT conference helps in keeping the d
 
 
 
-## ENISAs CERT Directory
+## ENISAs CERT Inventory
 
 ### Overview
 
@@ -305,7 +305,27 @@ ENISA collected a list of CERTs in Europe on their website. The list comes from 
 
 ### Data in the dataset
 
-XXX Cosmin, please add XXX
+  * CERT Name 
+  * CERT Country
+  * Constituency - National, Governamental etc.
+  * Established date
+  * Team website (for contact)
+  * TI / FIRST Status
+  * Mandate
+
+**Example**:
+| Field         | Value        |
+|:--------------|--------------|
+| Country       | Austria      |
+| Name          | CERT.at  |
+| CERT type     | National |
+| Establishment date | 01/01/2008 |
+| Contact |  http://www.cert.at |
+| TI Status |  accredited |
+| FIRST Membership |  member |
+| Mandate |  Official | 
+
+
 
 ### Original or synthetic data?
 
@@ -313,9 +333,6 @@ Synthetic.
 
 ### Where to find it?
 
-
-https://www.enisa.europa.eu/
-and:
 https://www.enisa.europa.eu/activities/cert/background/inv
 
 (needs Javascript)
@@ -327,20 +344,21 @@ Public.
 
 ### APIs / automatic querying
 
-There is no API, but the data can be downloaded (XML file) at: XXX Cosmin, please add XXX
+There is no API
 
 ### Maintainers
 
-ENISA 
+ENISA
 
 ### Liveliness
 
-XXX Cosmin, please add XXX
+Bi-yearly
 
 ### Known issues
 
-XXX Cosmin, please add XXX
-
+  * Manually updated
+  * Dependent on Javascript
+  * Lack of abuse contact & IP block/ASN information
 
 
 
