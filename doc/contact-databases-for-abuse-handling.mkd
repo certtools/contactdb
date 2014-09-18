@@ -76,7 +76,6 @@ Depending on the case and depending on the resource, there might be multiple pat
 
 ![Potential abuse contact lookups](./img/contact-lookup-flow.png)
 
-(MIRJAM: I suggest to add a column on the right hand side of the image: The top level could be called "Resource type". The second level could be called "Possible data sets" and the lowest level could be called "Result". Then we could place errors between those terms. This might make it clearer how to read the image and what the various layers or levels mean. I hope this is clear).
 
 *Example:* the incident reporter finds a hacked webpage. Naturally, he will try to contact the domain owner (name based resource lookup) - the admin\_c and possibly also the tech\_c.  However, as time passes, the incident reporter notices more and more hacked webpages. Incidentally, they all turn out to be hosted on the very same IP address block.
 After some investigations, the incident reporter decides that there must be something wrong with the web page hoster's servers. Hence, he decides to contact the owner of the IP block (the hoster) in order to hand him over a long CSV file of all web pages which are hacked and residing on the hosters' IP range.
@@ -126,9 +125,18 @@ As discussed in section 'General remarks on abuse contact lookups', some inciden
 
 In the case of IP addresses, there are a couple of databases which will be discussed below.
 
-### RIPE DB
+### RIPE Registry/RIPE Database
 
-RIPEstat offers a RESTful API  for XXX Christian / Mirjam, please extend XXX
+The RIPE NCC keeps a comprehensive record of all Internet number resources registered within the RIPE NCC service region, called the RIPE registry (or the RIPE Database). The RIPE Registry contains a set of registration data for all Internet number resources administered by the RIPE NCC. This contains information about IPv4 alloctions and assignments, routing information and the associated contact information (more information: http://www.ripe.net/ripe/docs/ripe-508)
+RIPEstat offers a RESTful API  for the RIPE Database (Christian, please include link)
+
+RIPE NCC has a list of publicly available data sets
+  * Registration data:
+    * RIPE DB (containing IP resource information and contact data)
+    * Routing DB (containing routing policy)
+    * Regional Internet Registry Statistics (which IP resources are allocated when and to whom)
+  * Routing data collected by the 13 Routing Information Service (RIS) route collectors (https://www.ripe.net/data-tools/stats/ris/)
+  * Active measurements done by the RIPE Atlas (https://atlas.ripe.net)
 
 ### Maxmind
 
@@ -230,7 +238,7 @@ RIPE NCC has a list of publicly available data sets that could be useful for CER
 The following sections look at these data sets in more detail. All data sets described here 
 are publicly avilable and are made accessible via various interfaces.
 
-### RIPEstat (MIRJAM: Maybe move after Registration data to be consistent with list above?)
+### RIPEstat
 
 RIPEstat is a web-based interface that provides everything you ever wanted to know about 
 IP address space, Autonomous System Numbers (ASNs), and related information for hostnames 
@@ -264,8 +272,6 @@ Documentation: http://www.ripe.net/data-tools/support/documentation
 This data is accessible via RIPEstat as a widget and as a data call.
 Widget API: https://stat.ripe.net/widget/registry-browser
 Data API: https://stat.ripe.net/docs/data\_api#RegistryBrowser
-  
-MIRJAM: I suggest to take out all the Q's and A's and format these sections with sub headings (the same for each of these sections). Might be better readable.
 
 ##### Source of the data:
 - The data is created and maintained by the RIPE NCC and by the resource holders following a defined scheme for objects and attributes (MIRJAM: What does this mean: "scheme..."?).
