@@ -458,6 +458,7 @@ Registration data:
 Routing data collected by the 13 Routing Information Service (RIS) route collectors (https://www.ripe.net/data-tools/stats/ris/)
 
 ### Original or synthetic data?
+Original
 
 ### Where to find it?
 The Database can be searched by using the web interface (https://apps.db.ripe.net/search/query.html) or by directing your whois client to whois.ripe.net. A full-text search is also available https://apps.db.ripe.net/search/full-text.html.
@@ -467,12 +468,15 @@ FAQ: http://www.ripe.net/data-tools/db/faq Documentation: http://www.ripe.net/da
 This data is accessible via RIPEstat as a widget and as a data call. Widget API: https://stat.ripe.net/widget/registry-browser Data API: https://stat.ripe.net/docs/data\_api#RegistryBrowser
 
 ### Who has access?
+Anybody
 
 ### APIs / automatic querying
 
 ### Maintainers
+RIPE NCC and RIPE NCC members
 
 ### Liveliness
+Continuously
 
 ### Known issues
 
@@ -494,9 +498,6 @@ As discussed in section 'General remarks on abuse contact lookups', some inciden
 
 In the case of IP addresses, there are a couple of databases which will be discussed below.
 
-### RIPE DB
-
-Ripe stat offers a RESTful API  for XXX Christian / Mirjam, please extend XXX
 
 ### Maxmind
 
@@ -587,7 +588,7 @@ RIPE NCC has a list of publicly available data sets that could be useful for CER
 The following sections look at these data sets in more detail. All data sets described here 
 are publicly avilable and are made accessible via various interfaces.
 
-### RIPEstat (MIRJAM: Maybe move after Registration data to be consistent with list above?)
+### RIPEstat 
 
 RIPEstat is a web-based interface that provides everything you ever wanted to know about 
 IP address space, Autonomous System Numbers (ASNs), and related information for hostnames 
@@ -601,10 +602,7 @@ In the listing of the following data sets it will be mentioned if the data can b
 via RIPEstat.
 
 
-
-### Registration Data
-
-MIRJAM: Include a sentence describing what The RIPE registry means and entails and refer to ripe-508.
+#The following remove or move to appendix (Christian?)
 
 #### RIPE DB
 
@@ -621,8 +619,6 @@ Documentation: http://www.ripe.net/data-tools/support/documentation
 This data is accessible via RIPEstat as a widget and as a data call.
 Widget API: https://stat.ripe.net/widget/registry-browser
 Data API: https://stat.ripe.net/docs/data\_api#RegistryBrowser
-  
-MIRJAM: I suggest to take out all the Q's and A's and format these sections with sub headings (the same for each of these sections). Might be better readable.
 
 ##### Source of the data:
 - The data is created and maintained by the RIPE NCC and by the resource holders following a defined scheme for objects and attributes (MIRJAM: What does this mean: "scheme..."?).
