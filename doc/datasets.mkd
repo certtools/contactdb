@@ -9,6 +9,7 @@
 | Term           | Explanation                                                            |
 |:---------------|:-----------------------------------------------------------------------|
 |CERT     		 | Computer Emergency Response Team. Synonymous with CSIRT |
+|Constituency    | In this context, by constituency we mean the group of people, networks, ASNs, etc. a CERT addresses as their responsibility | 
 |CSIRT    		 | Computer Security Incident Response Team  |
 |FIRST			 | First.org - Forum for Incident Response and Security Teams |
 |LIR      		 | Local Internet Registry; see (1) for more details  |
@@ -97,18 +98,51 @@ are still some issues with automating the querying of the TI data.
 
 ### Data in the dataset
 
+The data in the TI database contains amongst other fields the following information:
+
+
+  * Team name
+  * TI Level (Listed, Accredited, ...)
+  * URL of the team description on the TI webpage
+  * Country
+  * The constituency of the CERT:
+    * ASN
+    * netblocks
+    * domains
+  * Email Address(es) of the CERT
+  * PGP key IDs of the CERT's team key
+  * Telephone number
+  * Postal address
+  * Business hours
+  * Time Zone
+  * Team Representative
+  * Website (URL) of the CERT
 
 ### Original or synthetic data?
 This is an original dataset.
 
 ### Where to find it?
 
+http://trusted-introducer.org/
+
+
 ### Who has access?
+
+The public has access to a searchable list of teams via the website. 
+TI members have access to the members view and can download a CSV file export of the database.
+
+### APIs / automatic querying
+
+Currently, a logged in user (TI member) can download a CSV file dump of the database in the internal section and query the (downloaded CSV) data automatically.
 
 ### Maintainers
 
+Trusted Introducer.
+
 ### Liveliness
-The data is updated ....
+
+Trusted Intorducer confirms the data with each team representative every 12 months (XXX FIXME: check this XXX).
+
 
 
 
@@ -116,7 +150,40 @@ The data is updated ....
 
 ## FIRST.org
 
-FIRST maintains an extensive list of IT Security teams (FIRST's members) around the world. Unfortunately, there seems to be no automatic way of querying this list based on netresources such as IP address, ASN or country code.
+### Overview
+FIRST (Forum for Incident Response and Security Teams) is one of the oldest IT security forums in the world. For a history, see http://first.org/about/history.
+As such, FIRST maintains an extensive list of IT Security teams (FIRST's members) around the world. 
+
+
+
+### Data in the dataset
+
+
+### Original or synthetic data?
+Original data
+
+### Where to find it?
+
+http://www.first.org -> members
+
+### Who has access?
+
+Access is public 
+
+
+### APIs / automatic querying
+
+Currently at the time of this writing, there is no API and no way to automatically query data by netressources.
+
+### Maintainers
+
+FIRST.org Inc. maintains the database.
+
+### Liveliness
+
+FIRST members can update their data via web form.
+
+
 
 
 ## CERT.org's national CERT database
