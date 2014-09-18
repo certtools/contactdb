@@ -1,6 +1,12 @@
-% Abuse Contact lookups for IT security incident handling
+% Abuse Contact datasets for IT security incident handling
 % L. Aaron Kaplan <kaplan@cert.at>; Mirjam Kuehne <mirjam.kuehne@ripe.net>; Christian Teuschel <christian.teuschel@ripe.net>, 
-% 2014/05/10
+% 2014/09/18
+
+# Abstract
+
+This document aims at listing the different datasets listing abuse contacts and CERTs. The goal is to give the audience an overview of datasets, show where this data can be found, who has access to the data and list known issues with the data sets.
+
+
 
 
 # Terminology
