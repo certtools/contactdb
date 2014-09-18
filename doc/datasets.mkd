@@ -158,6 +158,36 @@ As such, FIRST maintains an extensive list of IT Security teams (FIRST's members
 
 ### Data in the dataset
 
+The data in the FIRST directory contains amongst other fields the following information:
+
+  * Team Info
+    * Short team name
+    * Team representative
+    * Membership type
+    * Date of establishment
+    * Website (URL)
+  * Constituency
+    * Type of constituency
+    * ASNs
+    * Internet domain addresses
+    * Country of constituency
+  * Team contact information
+    * Tel number
+    * Email address
+    * Postal address
+    * Time zone
+  * Business hours
+    * Business hours
+    * Reachability outside of business hours
+  * Services
+    * Textual description: reactive, proactive, ...
+  * Cryptography
+    * PGP key ID
+    * PGP fingerprint
+    * The full team PGP key (ascii armored)
+  * Team members
+    *  A list of names of team members
+
 
 ### Original or synthetic data?
 Original data
