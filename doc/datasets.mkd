@@ -144,6 +144,9 @@ Trusted Introducer.
 Trusted Intorducer confirms the data with each team representative every 12 months (XXX FIXME: check this XXX).
 
 
+### Known issues
+
+
 
 
 
@@ -213,6 +216,10 @@ FIRST.org Inc. maintains the database.
 
 FIRST members can update their data via web form.
 
+### Known issues
+
+The First directory is often lacking ASNs for FIRST team members.
+
 
 
 
@@ -220,14 +227,128 @@ FIRST members can update their data via web form.
 
 CERT.org hosts a yearly national CERT (CSIRT) meeting([https://www.cert.org/incident-management/national-csirts/meeting/](https://www.cert.org/incident-management/national-csirts/meeting/). As part of these meetings, CERT.org also maintains a fairly accurate list of national CERTs ([https://www.cert.org/incident-management/national-csirts/national-csirts.cfm](https://www.cert.org/incident-management/national-csirts/national-csirts.cfm)).
 
+
+
+## ENISAs CERT Directory
+
+### Overview
+
+ENISA collected a list of CERTs in Europe on their website. The list comes from TI as well as FIRST.
+
+### Data in the dataset
+
+XXX Cosmin, please add XXX
+
+### Original or synthetic data?
+
+Synthetic.
+
+### Where to find it?
+
+
+http://www.enisa.eu
+
+
+### Who has access?
+
+Public.
+
+
+### APIs / automatic querying
+
+There is no API, but the data can be downloaded (XML file) at: XXX Cosmin, please add XXX
+
+### Maintainers
+
+ENISA 
+
+### Liveliness
+
+XXX Cosmin, please add XXX
+
+### Known issues
+
+XXX Cosmin, please add XXX
+
+
+
+
+
+
+
+
+## CERT.at's national CERT database
 CERT.at used this national CERT database and created an online lookup tool at [https://contacts.cert.at](https://contacts.cert.at).
 
 
-## RIPE abuse-c, IRT object
+### Overview
+
+### Data in the dataset
+
+### Original or synthetic data?
+
+### Where to find it?
+
+### Who has access?
+
+### APIs / automatic querying
+
+### Maintainers
+
+### Liveliness
+
+### Known issues
+
+
+
+
+
+
+
+
+## RIPE database
+
+( with a special focus on abuse-c, IRT object)
+
+XXX Mirjam , please add/change/delete XXX
 
 Following a proposal made by the RIPE community in XXX the RIPE policy ripe-563 made it mandatory for every resource object (inetnum, inet6num and aut-num) to have a dedicated abuse contact. This contact is usually referred to as "abuse-c" contact and it is the preferred way to report any form of abuse to.
 
 The IRT (incident response team) object was created with a similar idea in mind but its deployment is even being around for years not very low and so is it is not widely used. Chances are high that this object will be dismissed. Abuse-c is considered to superceed the IRT object.
+
+
+/XXX Mirjam , please add/change/delete XXX
+
+
+### Overview
+
+### Data in the dataset
+
+### Original or synthetic data?
+
+### Where to find it?
+
+### Who has access?
+
+### APIs / automatic querying
+
+### Maintainers
+
+### Liveliness
+
+### Known issues
+
+
+
+
+
+
+# Supporting databases
+
+Often enough, there is a requirement to transform one network resource (e.g. an IP address) into a different network ressource (e.g. a country code) in order to look up the abuse contact (e.g. the national CERT) for the IP address. 
+This section describes these supporting additional databases.
+
+
 
 ## Country Code lookups
 
@@ -313,19 +434,6 @@ For the purpose of delivering abuse reports, finding the country of registration
 # Shortcomings of existing databases
 
 
-# Detailled discussion on existing data sets
-
-## TI DB
-
-XXX may we describe the fields? XXX
-
-## FIRST DB
-
-XXX may we describe the fields? XXX
-
-## national CSIRT (CERT.org)
-
-XXX may we describe the fields? XXX
 
 ## RIPE NCC Data Sets 
 
