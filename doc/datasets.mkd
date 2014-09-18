@@ -50,9 +50,9 @@ This document is intended to be a request for input from the Internet community.
 
 
 
-# General remarks on abuse contact lookups
+# General remarks and overview of datasets
 
-There are two orthogonal approaches which must be considered: looking up abuse contacts for:
+For all potential datasets, there are two orthogonal approaches which must be considered: looking up abuse contacts for:
 
   * name based resources (e.g. domain names, host names)
   * number based resources (IP addresses, AS numbers)
@@ -63,7 +63,7 @@ This document assumes that a resource is either a name based resource or a numbe
 ![Potential abuse contact lookups](./img/contact-lookup-flow.png)
 
 
-Figure 1 describes possible paths in looking up abuse contact information based on the given resources. 
+Figure 1 describes possible paths in looking up abuse contact information based on the given resources and some of the datasets involved. 
 Depending on the case and depending on the resource, there might be multiple paths for lookups. This will always be a case-by-case decision on behalf of the incident reporter. 
 
 *Example:* the incident reporter finds a hacked webpage. Naturally, he will try to contact the domain owner (name based resource lookup) - the admin\_c and possibly also the tech\_c.  However, as time passes, the incident reporter notices more and more hacked webpages. Incidentally, they all turn out to be hosted on the very same IP address block.
@@ -77,18 +77,42 @@ We will discuss this special case in section XXXX.
 Whoever, we must remember that the problem of whom to contact is a choice which must be made on a case-by-case basis. Therefore this framework must be flexible enough to support both approaches.
 
 
-# Overview of existing solutions
+# Existing datasets
 
-!## Perl's Net::Abuse
+%%% FIXME: document !## Perl's Net::Abuse
 
 ## Trusted Introducer
 
-Trusted Introducer ([http://trusted-introducer.org/](http://trusted-introducer.org/)) ("TI") maintains a directory of IT security teams and TI members . While the database is worldwide, there is a strong focus on Europe. TI assigns different maturity levels to CERTs: listed, accredited and certified. 
-TI also offers a CSV Export of its database to TI members (you need to be logged into the TI website to access this CSV list). 
-The CSV list is searchable by netresources such as ASN, country code or IP range.
-However, at the time of writing this document, there are still some issues with automating the querying of the TI data.
+### Overview
 
-XXX KPK  - do  you want to add something ? XXX
+Trusted Introducer
+([http://trusted-introducer.org/](http://trusted-introducer.org/)) ("TI")
+maintains a directory of IT security teams and TI members. While the database
+is worldwide, there is a strong focus on Europe. TI assigns different maturity
+levels to CERTs: listed, accredited and certified.  TI also offers a CSV Export
+of its database to TI members (you need to be logged into the TI website to
+access this CSV list).  The CSV list is searchable by netresources such as ASN,
+country code or IP range.  However, at the time of writing this document, there
+are still some issues with automating the querying of the TI data.
+
+### Data in the dataset
+
+
+### Original or synthetic data?
+This is an original dataset.
+
+### Where to find it?
+
+### Who has access?
+
+### Maintainers
+
+### Liveliness
+The data is updated ....
+
+
+
+
 
 ## FIRST.org
 
