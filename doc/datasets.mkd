@@ -436,27 +436,35 @@ CERT.at used this national CERT database and created an online lookup tool at [h
 
 
 
-## RIPE database
+## RIPE Database
 
-( with a special focus on abuse-c, IRT object)
+/XXX Christian, please add/change/delete XXX
 
-XXX Mirjam , please add/change/delete XXX
+
+### Overview
+The RIPE NCC keeps a comprehensive record of all Internet number resources registered within the RIPE NCC service region, called the RIPE registry (or the RIPE Database). The RIPE Registry contains a set of registration data for all Internet number resources administered by the RIPE NCC. This contains information about IPv4 alloctions and assignments, routing information and the associated contact information (more information: http://www.ripe.net/ripe/docs/ripe-508) 
 
 Following a proposal made by the RIPE community in XXX the RIPE policy ripe-563 made it mandatory for every resource object (inetnum, inet6num and aut-num) to have a dedicated abuse contact. This contact is usually referred to as "abuse-c" contact and it is the preferred way to report any form of abuse to.
 
 The IRT (incident response team) object was created with a similar idea in mind but its deployment is even being around for years not very low and so is it is not widely used. Chances are high that this object will be dismissed. Abuse-c is considered to superceed the IRT object.
 
 
-/XXX Mirjam , please add/change/delete XXX
-
-
-### Overview
-
 ### Data in the dataset
+Registration data:
+    RIPE DB (containing IP resource information and contact data)
+    Routing DB (containing routing policy)
+    Regional Internet Registry Statistics (which IP resources are allocated when and to whom)
+
+Routing data collected by the 13 Routing Information Service (RIS) route collectors (https://www.ripe.net/data-tools/stats/ris/)
 
 ### Original or synthetic data?
 
 ### Where to find it?
+The Database can be searched by using the web interface (https://apps.db.ripe.net/search/query.html) or by directing your whois client to whois.ripe.net. A full-text search is also available https://apps.db.ripe.net/search/full-text.html.
+
+FAQ: http://www.ripe.net/data-tools/db/faq Documentation: http://www.ripe.net/data-tools/support/documentation
+
+This data is accessible via RIPEstat as a widget and as a data call. Widget API: https://stat.ripe.net/widget/registry-browser Data API: https://stat.ripe.net/docs/data\_api#RegistryBrowser
 
 ### Who has access?
 
