@@ -230,24 +230,58 @@ The First directory is often lacking ASNs for FIRST team members.
 CERT.org hosts a yearly national CERT (CSIRT) meeting([https://www.cert.org/incident-management/national-csirts/meeting/](https://www.cert.org/incident-management/national-csirts/meeting/). As part of these meetings, CERT.org also maintains a fairly accurate list of national CERTs ([https://www.cert.org/incident-management/national-csirts/national-csirts.cfm](https://www.cert.org/incident-management/national-csirts/national-csirts.cfm)).
 
 
-
+Please note that the definition of "national CERT" is not 100% clear. 
 
 
 ### Data in the dataset
 
+  * Organisation (i.e. the CERT)
+  * Organisational Units
+  * Groups
+  * Personal data on CERT team members
+  * Cryptography 
+    * S/Mime or PGP or Kerberos infos
+    * PGP key id
+    *  
+  
+
 ### Original or synthetic data?
+
+
+Original 
 
 ### Where to find it?
 
+https://nationalcsirts.cert.org/
+
+
 ### Who has access?
+
+XXX FIXME: public? XXX
 
 ### APIs / automatic querying
 
+XXX FIXME: CSV is public? XXX
+
+
 ### Maintainers
+
+
+CERT.org 
+CERT Coordination Center
+Software Engineering Institute
+Carnegie Mellon University
+Office: +1 412 268 8876
+CERT Hotline: +1 412 268 7090
+
 
 ### Liveliness
 
+Somewhat up to date: the yearly national CSIRT conference helps in keeping the directory up to date.
+
+
 ### Known issues
+
 
 
 
