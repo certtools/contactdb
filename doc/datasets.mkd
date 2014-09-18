@@ -126,6 +126,9 @@ The data in the TI database contains amongst other fields the following informat
   * Team Representative
   * Website (URL) of the CERT
 
+**Example**: one example can be seen at http://trusted-introducer.org/directory/teams/certat.html
+
+
 ### Original or synthetic data?
 This is an original dataset.
 
@@ -154,7 +157,7 @@ Trusted Intorducer confirms the data with each team representative every 12 mont
 
 ### Known issues
 
-  * Netblock info and  domain names are partly free text in the database and not yet useful for automatic contact lookups based on netblocks and domain names
+Netblock information and domain names are partly free text in the database and not yet useful for automatic contact lookups based on netblocks and domain names
 
 
 
@@ -203,6 +206,9 @@ The data in the FIRST directory contains amongst other fields the following info
     * The full team PGP key (ascii armored)
   * Team members
     *  A list of names of team members
+
+**Example**: one example can be seen at https://www.first.org/members/teams/cert-at
+
 
 
 ### Original or synthetic data?
@@ -284,12 +290,18 @@ Original
 
 https://nationalcsirts.cert.org/
 
+and 
+
+https://www.cert.org/incident-management/national-csirts/national-csirts.cfm
+
 
 
 
 ### Who has access?
 
 Some of the data is publicly available at https://www.cert.org/incident-management/national-csirts/national-csirts.cfm
+
+XXX FIXME: CSV is public? XXX
 
 
 ### APIs / automatic querying
@@ -312,9 +324,11 @@ CERT Hotline: +1 412 268 7090
 ### Liveliness
 
 Somewhat up to date: the yearly National CSIRT conference helps in keeping the directory up to date.
-
+Teams are encouraged to update their contact info via email or webform at https://www.cert.org/incident-management/contact.cfm
 
 ### Known issues
+
+
 
 
 
