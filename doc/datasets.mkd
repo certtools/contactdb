@@ -314,8 +314,9 @@ ENISA collected a list of CERTs in Europe on their website. The list comes from 
   * Mandate
 
 **Example**:
+
 | Field         | Value        |
-|:--------------|--------------|
+|:--------------|:-------------|
 | Country       | Austria      |
 | Name          | CERT.at  |
 | CERT type     | National |
