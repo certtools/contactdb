@@ -154,6 +154,11 @@ Trusted Intorducer confirms the data with each team representative every 12 mont
 
 ### Known issues
 
+  * Netblock info and  domain names are partly free text in the database and not yet useful for automatic contact lookups based on netblocks and domain names
+
+
+
+---------------------------------------
 
 
 
@@ -229,6 +234,7 @@ FIRST members can update their data via web form.
 The First directory is often lacking ASNs for FIRST team members.
 
 
+---------------------------------------
 
 
 ## CERT.org's national CERT database
@@ -244,14 +250,30 @@ Please note that the definition of "national CERT" is not 100% clear.
 ### Data in the dataset
 
   * Organisation (i.e. the CERT)
+    * Team name
+    * Team short name
+    * Country
+    * Tel Hotline
+    * Email address
+    * Website
   * Organisational Units
   * Groups
   * Personal data on CERT team members
   * Cryptography 
     * S/Mime or PGP or Kerberos infos
     * PGP key id
-    *  
+
   
+**Example** (from the publicly visible website):
+
+| Field            | Value |
+|:-----------------|-------|
+| Country          | Austria | 
+| Team short name  | CERT.at  | 
+| Team name        | National Computer Emergency Response Team of Austria |
+| Website          | http://www.cert.at |
+
+
 
 ### Original or synthetic data?
 
@@ -263,11 +285,15 @@ Original
 https://nationalcsirts.cert.org/
 
 
+
+
 ### Who has access?
 
-XXX FIXME: public? XXX
+Some of the data is publicly available at https://www.cert.org/incident-management/national-csirts/national-csirts.cfm
+
 
 ### APIs / automatic querying
+
 
 XXX FIXME: CSV is public? XXX
 
@@ -285,7 +311,7 @@ CERT Hotline: +1 412 268 7090
 
 ### Liveliness
 
-Somewhat up to date: the yearly national CSIRT conference helps in keeping the directory up to date.
+Somewhat up to date: the yearly National CSIRT conference helps in keeping the directory up to date.
 
 
 ### Known issues
@@ -293,6 +319,7 @@ Somewhat up to date: the yearly national CSIRT conference helps in keeping the d
 
 
 
+---------------------------------------
 
 
 
