@@ -6,34 +6,21 @@
 # Terminology
 
 
-----------------------------------------------------------------------------------------
-Term          	Explanation                                                               
----------------	------------------------------------------------------------------------
-CERT     		Computer Emergency Response Team. Synonymous with CSIRT
-
-CSIRT    		Computer Security Incident Response Team 
-
-FIRST			First.org - Forum for Incident Response and Security Teams
-
-LIR      		Local Internet Registry; see (1) for more details 
-
-Object			As defined by RIPE: a XXX RIPE: please define XXX
-
-Network Resource	Or "Netresource". An ASN, netblock, IP address, domain name or hostname
-
-Registrant 		A person registering a domain name for individual or business usage  
-
-Registrar 		Often called domain registrar. An organisation handling the registration 
-              	of domain names on behalf of a registrant 
-
-RIPE NCC 		RIR serving Europe, Central Asia and the Middle East; see (2) 
-
-RIR      		Regional Internet Registry; see (1) for more details 
-
-RIS      		Routing Information Service 
-
-TI       		Trusted Introducer 
-----------------------------------------------------------------------------------------
+| Term           | Explanation                                                            |
+|:---------------|:-----------------------------------------------------------------------|
+|CERT     		 | Computer Emergency Response Team. Synonymous with CSIRT |
+|CSIRT    		 | Computer Security Incident Response Team  |
+|FIRST			 | First.org - Forum for Incident Response and Security Teams |
+|LIR      		 | Local Internet Registry; see (1) for more details  |
+|Object			 | As defined by RIPE: a XXX RIPE: please define XXX |
+|Network Resource | 	Or "Netresource". An ASN, netblock, IP address, domain name or hostname |
+|Registrant 	 | 	A person registering a domain name for individual or business usage   |
+|Registrar 		 | Often called domain registrar. An organisation handling the registration of domain names on behalf of a registrant  |
+|RIPE NCC 		 | RIR serving Europe, Central Asia and the Middle East; see (2)  |
+|RIR      		 | Regional Internet Registry; see (1) for more details  |
+|RIS      		 | Routing Information Service  |
+|TI       		 | Trusted Introducer  |
+|---------------------------------------------------------------------------------------
 Table: Terminology
 
 
