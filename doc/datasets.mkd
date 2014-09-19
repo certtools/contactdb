@@ -72,23 +72,42 @@ This document assumes that a resource is either a name based resource or a numbe
 ![Potential abuse contact lookups](./img/contact-lookup-flow.png)
 
 
-Figure 1 describes possible paths in looking up abuse contact information based on the given resources and some of the datasets involved. 
-Depending on the case and depending on the resource, there might be multiple paths for lookups. This will always be a case-by-case decision on behalf of the incident reporter. 
+Figure 1 describes possible paths in looking up abuse contact information based
+on the given resources and some of the datasets involved.  Depending on the
+case and depending on the resource, there might be multiple paths for lookups.
+This will always be a case-by-case decision on behalf of the incident reporter. 
 
-*Example:* the incident reporter finds a hacked webpage. Naturally, he will try to contact the domain owner (name based resource lookup) - the admin\_c and possibly also the tech\_c.  However, as time passes, the incident reporter notices more and more hacked webpages. Incidentally, they all turn out to be hosted on the very same IP address block.
-After some investigations, the incident reporter decides that there must be something wrong with the web page hoster's servers. Hence, he decides to contact the owner of the IP block (the hoster) in order to hand him over a long CSV file of all web pages which are hacked and residing on the hosters' IP range.
+*Example:* the incident reporter finds a hacked webpage. Naturally, he will try
+to contact the domain owner (name based resource lookup) - the admin\_c and
+possibly also the tech\_c.  However, as time passes, the incident reporter
+notices more and more hacked webpages. Incidentally, they all turn out to be
+hosted on the very same IP address block.  After some investigations, the
+incident reporter decides that there must be something wrong with the web page
+hoster's servers. Hence, he decides to contact the owner of the IP block (the
+hoster) in order to hand him over a long CSV file of all web pages which are
+hacked and residing on the hosters' IP range.
 
 In practice, often enough it is not clear, which path to choose. 
 
-Sometimes, an incident report might want to contact a single point of contact (PoC) for a whole country. Typically this would be a national CERT which in turn will use some kind of contact lookup mechanism (possibly more accurate) to assign the incident report to a locally trusted and well known incident handler. For this case (sending incident reports to a national CERT), the report must find out the country a resource is assigned to. Since there is a well known dataset of national CERTs (see XXX), the problem thus can be reduced to finding the country code of the resource (for example: given an IP address 1.2.3.4, what is the country this IP address resides in?).
-We will discuss this special case in section XXXX.
+Sometimes, an incident report might want to contact a single point of contact
+(PoC) for a whole country. Typically this would be a national CERT which in
+turn will use some kind of contact lookup mechanism (possibly more accurate) to
+assign the incident report to a locally trusted and well known incident
+handler. For this case (sending incident reports to a national CERT), the
+report must find out the country a resource is assigned to. Since there is a
+well known dataset of national CERTs (see CERT/CCs national CSIRT database),
+the problem thus can be reduced to finding the country code of the resource
+(for example: given an IP address 1.2.3.4, what is the country this IP address
+resides in?).  We will discuss this special case in the section on supporting
+databases.
 
-Whoever, we must remember that the problem of whom to contact is a choice which must be made on a case-by-case basis. Therefore this framework must be flexible enough to support both approaches.
+Whoever, we must remember that the problem of whom to contact is a choice which
+must be made on a case-by-case basis. Therefore any framework must be flexible
+enough to support both approaches.
 
 
 # Existing datasets
 
-%%% FIXME: document !## Perl's Net::Abuse
 
 ## Trusted Introducer
 
