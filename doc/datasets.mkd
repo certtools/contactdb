@@ -411,7 +411,7 @@ Bi-yearly
 
 
 ### Overview
-CERT.at uses this national CERT database and created an online lookup tool at [https://contacts.cert.at](https://contacts.cert.at).
+CERT.at created this national CERT database and offers an online lookup tool at [https://contacts.cert.at](https://contacts.cert.at) to the public.
 
 
 ### Data in the dataset
