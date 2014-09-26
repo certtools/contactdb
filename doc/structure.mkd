@@ -1,0 +1,19 @@
+## $Name of the dataset
+
+### Overview
+
+### Data in the dataset
+
+### Original or synthetic data?
+
+### Where to find it?
+
+### Who has access?
+
+### APIs / automatic querying
+
+### Maintainers
+
+### Liveliness
+
+### Known issues
