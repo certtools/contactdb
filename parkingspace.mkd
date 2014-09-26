@@ -2,6 +2,10 @@
 % L. Aaron Kaplan <kaplan@cert.at>; Mirjam Kuehne <mirjam.kuehne@ripe.net>; Christian Teuschel <christian.teuschel@ripe.net>, 
 % 2014/09/18
 
+# NOTE WELL
+***THIS DOCUMENT IS A PARKINGSPACE.... This containts text snippets which we used in the past, do not want to lose, BUT THIS IS NOT THE REAL DOCUMENT!!!***
+
+
 # Abstract
 
 This document aims at listing the different datasets listing abuse contacts and CERTs. The goal is to give the audience an overview of datasets and show where this data can be found, who has access to the data and list known issues with the data sets.
@@ -45,7 +49,6 @@ CERTs and IT security incident abuse handlers as well as professionals working o
 
 CERTs - especially national CERTs - need to look up contact information very frequently for different resources on the Internet.  Examples of such lookups might be: given the IP address 1.2.3.4, give me the best matching abuse contact email address. Or given the domain www.example.com, what is the best contact for sending IT security incident notifications to?  
 
-<<<<<<< HEAD:parkingspace.mkd
 While the classical way to look up abuse contacts is to query some RIR whois service (such as RIPE's whois service) , there are some issues with this:
   * first of all, it might not be the data that's needed: for example the query might refer more to a domain instead of an IP address 
   * the contact registered for the specific network might be non-responsive or the wrong contact
@@ -58,7 +61,6 @@ The frequency of lookups can be thousands or ten thousands of lookups per day, d
 While existing databases such as the RIPE DB already provide a good mechanism to look up data, there are other data sets that might be more suitable in certain cases.  Due to the dynamic and distributed nature of the Internet (technically as well as organisationally), no currently existing abuse contact lookup database is suitable for all cases. Every existing database has a specific focus and shortcomings. Due to some of these shortcomings, often enough some IT security team or a national CERT will re-implement an abuse contact database. Thus instead of solving the shortcomings, another database will exist and will have additional shortcomings.
 
 Finally, a "best matching" contact lookup algorithm must differ from country to country and organisation to organisation due to the international nature of the Internet and the wide range of organisations involved. Some organisations will have perfect or nearly perfect abuse contact data available to them (e.g. internal abuse contact lookups).  Others organisations dealing with a large constituency (such as national CERTs serving a whole country) will face the problem of figuring out if a network resource belongs to its constituency in the first place (for example is IP address 1.2.3.4 used in my country?).  
->>>>>>> 17f88a59e83ce248760e10c8a5db5070fba3a937:doc/contact-databases-for-abuse-handling.mkd
 
 This document aims at describing these different datasets in order to provide an overview. The document "abuse-lookups.mkd" deals with how to query these datasets.
 
@@ -81,11 +83,8 @@ Depending on the case and depending on the resource, there might be multiple pat
 
 ![Potential abuse contact lookups](./img/contact-lookup-flow.png)
 
-<<<<<<< HEAD:parkingspace.mkd
 Figure 1 describes possible paths in looking up abuse contact information based on the given resources and some of the datasets involved. 
 Depending on the case and depending on the resource, there might be multiple paths for lookups. This will always be a case-by-case decision on behalf of the incident reporter. 
-=======
->>>>>>> 17f88a59e83ce248760e10c8a5db5070fba3a937:doc/contact-databases-for-abuse-handling.mkd
 
 *Example:* the incident reporter finds a hacked webpage. Naturally, he will try to contact the domain owner (name based resource lookup) - the admin\_c and possibly also the tech\_c.  However, as time passes, the incident reporter notices more and more hacked webpages. Incidentally, they all turn out to be hosted on the very same IP address block.
 After some investigations, the incident reporter decides that there must be something wrong with the web page hoster's servers. Hence, he decides to contact the owner of the IP block (the hoster) in order to hand him over a long CSV file of all web pages which are hacked and residing on the hosters' IP range.
@@ -544,13 +543,9 @@ Continuously
 Often enough, there is a requirement to transform one network resource (e.g. an IP address) into a different network ressource (e.g. a country code) in order to look up the abuse contact (e.g. the national CERT) for the IP address. 
 This section describes these supporting additional databases.
 
-<<<<<<< HEAD:parkingspace.mkd
-
-=======
-Following a proposal made by the RIPE community in 2012, the RIPE policy [https://www.ripe.net/ripe/docs/ripe-563](ripe-563) made it mandatory for every resource object (inetnum, inet6num and aut-num) to have a dedicated abuse contact. This contact is usually referred to as "abuse-c" contact and is the preferred way to report any form of abuse to.
+Following a proposal made by the RIPE community in 2011, the RIPE policy [https://www.ripe.net/ripe/docs/ripe-563](ripe-563) made it mandatory for every resource object (inetnum, inet6num and aut-num) to have a dedicated abuse contact. This contact is usually referred to as "abuse-c" contact and is the preferred way to report any form of abuse to.
 
 The IRT (incident response team) object was created with a similar idea in mind but it is not widely used. Chances are high that this object will be dismissed. Abuse-c is considered to superceed the IRT object.
->>>>>>> 17f88a59e83ce248760e10c8a5db5070fba3a937:doc/contact-databases-for-abuse-handling.mkd
 
 ## Country Code lookups
 
@@ -560,8 +555,6 @@ important to find the country code of an IP address or a domain.
 
 In the case of IP addresses, there are a couple of databases which will be discussed below.
 
-<<<<<<< HEAD:parkingspace.mkd
-=======
 ### RIPE Registry/RIPE Database
 
 The RIPE NCC keeps a comprehensive record of all Internet number resources registered within the RIPE NCC service region, called the RIPE registry (or the RIPE Database). The RIPE Registry contains a set of registration data for all Internet number resources administered by the RIPE NCC. This contains information about IPv4 alloctions and assignments, routing information and the associated contact information (more information: http://www.ripe.net/ripe/docs/ripe-508)
@@ -574,7 +567,6 @@ RIPE NCC has a list of publicly available data sets
     * Regional Internet Registry Statistics (which IP resources are allocated when and to whom)
   * Routing data collected by the 13 Routing Information Service (RIS) route collectors (https://www.ripe.net/data-tools/stats/ris/)
   * Active measurements done by the RIPE Atlas (https://atlas.ripe.net)
->>>>>>> 17f88a59e83ce248760e10c8a5db5070fba3a937:doc/contact-databases-for-abuse-handling.mkd
 
 ### Maxmind
 
@@ -650,8 +642,6 @@ For the purpose of delivering abuse reports, finding the country of registration
 # Shortcomings of existing databases
 
 
-<<<<<<< HEAD:parkingspace.mkd
-=======
 # Detailled discussion on existing data sets
 
 ## TI DB
@@ -665,7 +655,6 @@ XXX may we describe the fields? XXX
 ## National CSIRT (CERT.org)
 
 XXX may we describe the fields? XXX
->>>>>>> 17f88a59e83ce248760e10c8a5db5070fba3a937:doc/contact-databases-for-abuse-handling.mkd
 
 ## RIPE NCC Data Sets 
 
@@ -681,11 +670,7 @@ RIPE NCC has a list of publicly available data sets that could be useful for CER
 The following sections look at these data sets in more detail. All data sets described here 
 are publicly avilable and are made accessible via various interfaces.
 
-<<<<<<< HEAD:parkingspace.mkd
 ### RIPEstat 
-=======
-### RIPEstat
->>>>>>> 17f88a59e83ce248760e10c8a5db5070fba3a937:doc/contact-databases-for-abuse-handling.mkd
 
 RIPEstat is a web-based interface that provides everything you ever wanted to know about 
 IP address space, Autonomous System Numbers (ASNs), and related information for hostnames 
