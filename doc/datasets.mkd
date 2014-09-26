@@ -517,7 +517,7 @@ The Database can be searched by using the web interface (https://apps.db.ripe.ne
 
 FAQ: http://www.ripe.net/data-tools/db/faq Documentation: http://www.ripe.net/data-tools/support/documentation
 
-This data is accessible via RIPEstat as a widget and as a data call. Widget API: https://stat.ripe.net/widget/registry-browser Data API: https://stat.ripe.net/docs/data\_api#RegistryBrowser
+This data is accessible via RIPEstat as a widget and as a data call. Widget API: https://stat.ripe.net/widget/registry-browser Data API: https://stat.ripe.net/docs/data_api#RegistryBrowser
 
 Routing information comes in different variations to accommodate multiple use-cases, see these examples to get an idea about the available data:
 * https://stat.ripe.net/docs/data_api#AnnouncedPrefixes
@@ -573,7 +573,7 @@ The Organisation of American States (OAS.org) keeps a list of CERTs on their web
 | Short team name | CERT.at  |
 | Official team name| National Computer Emergency Response Team of Austria |
 | Country       | Austria      |
-| Website |   http://cert.at/about/contact/contact\_en.html |
+| Website |   http://cert.at/about/contact/contact_en.html |
 
 
 ### Original or synthetic data?
