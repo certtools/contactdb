@@ -4,7 +4,10 @@
 
 # Abstract
 
-This document aims at listing the different datasets listing abuse contacts and CERTs. The goal is to give the audience an overview of datasets and show where this data can be found, who has access to the data and list known issues with the data sets.
+This document aims at listing the different datasets listing abuse contacts and
+CERTs. The goal is to give the audience an overview of datasets and show where
+this data can be found, who has access to the data and list known issues with
+the data sets.
 
 The authors accept git pull requests, please help and enrich this document.
 
@@ -16,6 +19,7 @@ The authors accept git pull requests, please help and enrich this document.
 
 | Term           | Explanation                                                            |
 |:---------------|:-----------------------------------------------------------------------|
+|BGP     		 | BOrder Gateway Protocol, see rfc4271 | 
 |CERT     		 | Computer Emergency Response Team. Synonymous with CSIRT |
 |Constituency    | In this context, by constituency we mean the group of people, networks, ASNs, etc. a CERT addresses as their responsibility | 
 |CSIRT    		 | Computer Security Incident Response Team  |
@@ -542,8 +546,75 @@ Continuously
 ### Known issues
 
 
+---------------------------------------
 
 
+## OAS.org's list of CSIRTs
+
+### Overview
+
+The Organisation of American States (OAS.org) keeps a list of CERTs on their web page in the form of a google map.
+
+
+### Data in the dataset
+
+
+  * Short CERT Name
+  * official team name
+  * Team website (for contact)
+  * Email
+  * CERT Country
+  * exact location (GPS) - probably based on the address (which is not displayed to the public)
+
+**Example**:
+
+| Field         | Value        |
+|:--------------|:-------------|
+| Short team name | CERT.at  |
+| Official team name| National Computer Emergency Response Team of Austria |
+| Country       | Austria      |
+| Website |   http://cert.at/about/contact/contact\_en.html |
+
+
+### Original or synthetic data?
+
+Unknown
+
+### Where to find it?
+
+http://www.oas.org/en/sms/cyber/Map/map_en.asp
+
+### Who has access?
+
+Public
+
+### APIs / automatic querying
+
+No
+
+### Maintainers
+
+Organization of American States
+Inter-American Committee against Terrorism
+Cyber Security Program
+1889 F Street, N.W. (8th Floor)
+Washington, DC 20006
+
+Kerry-Ann Barret
+Cyber Security Policy Specialist
+Telephone: 202 370-4675
+Email: KABarret@oas.org
+
+### Liveliness
+
+Unknown.
+
+
+### Known issues
+
+There seems to be only a google map available but no list which could be queried automatically.
+
+-------------------------------------
 
 
 # Supporting databases
@@ -572,7 +643,7 @@ There are a couple of versions of Maxmind with varying degrees of accuracy and c
 * GeoIP Lite
 * GeoIP Legacy
 
-We advise the reader to check Maxminds webpage for current offerings.
+We advise the reader to check Maxminds webpage for current offerings. The full description on this service can be found at http://dev.maxmind.com/geoip/geoip2/geolite2/
 
 Using the GeoIP database in a wide variety of languages is very straightforward. In this document we give an example in Python (from [Readthedocs](http://geoip2.readthedocs.org/en/latest/)).
 
@@ -590,6 +661,8 @@ Using the GeoIP database in a wide variety of languages is very straightforward.
 ### Team Cymru
 
 [Team Cyrmu](https://www.team-cymru.org/Services/ip-to-asn.html) provides an IP address to ASN mapping service via whois ([RFC3912](https://tools.ietf.org/html/rfc3912)) as well as via netcat, http(s) or DNS based lookups. As part of this lookup mechanism, there are options to also get the country code of a given IP address. To the best of the authors knowledge, the IP to country mapping is done via the RIR databases.
+
+The full description on how to use this service can be found at https://www.team-cymru.org/Services/ip-to-asn.html
 
 *Example lookup*: 
 ```
@@ -623,5 +696,20 @@ Error: no ASN or IP match on line 3.
 15169   | 8.8.8.8          | 8.8.8.0/24          | US | arin     |            | GOOGLE - Google Inc.,US
 ```
 
+
+
+## IP 2 ASN
+
+### Team Cyrmu
+
+As described above, Team Cymru also provides an IP2ASN service
+
+### Roll your own IP 2 ASN lookup via BGP routing tables
+
+If you have access to a BGP full feed, you can easily make your own IP 2 ASN lookup mechansim with Quagga (http://www.nongnu.org/quagga/). 
+
+Needed components:
+  * Quagga routing daemon with a BGP full feed in read only mode (i.e. make sure that it does not announce routes anywhere)
+  * a small script which will query Quagga and listen on port 43 (whois).
 
 
