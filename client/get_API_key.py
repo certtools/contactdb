@@ -5,7 +5,7 @@ import json
 
 url = 'http://127.0.0.1:8000'
 username = 'raphael'
-password = 'test'
+password = 'testest'
 
 
 def get_auth_token(url, username, password):
