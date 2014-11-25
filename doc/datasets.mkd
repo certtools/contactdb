@@ -504,22 +504,26 @@ Apart from the registration data the RIPE NCC collects routing information and p
 
 ### Data in the dataset
 Registration data:
-    RIPE DB (containing IP resource information and contact data)
-    Routing DB (containing routing policy information)
-    Regional Internet Registry Statistics (which IP or AS resources are allocated when and to which country)
-	Routing Information
+    * RIPE DB (containing IP resource information and contact data)
+    * Routing DB (containing routing policy information)
+    * Regional Internet Registry Statistics (which IP or AS resources are allocated when and to which country)
+    * Routing Information
 
 ### Original or synthetic data?
 Original
 
 ### Where to find it?
-The Database can be searched by using the web interface (https://apps.db.ripe.net/search/query.html) or by directing your whois client to whois.ripe.net. A full-text search is also available https://apps.db.ripe.net/search/full-text.html.
+The **RIPE Database** can be searched by using the web interface (https://apps.db.ripe.net/search/query.html) or by directing your whois client to whois.ripe.net. A full-text search is also available https://apps.db.ripe.net/search/full-text.html.
 
 FAQ: http://www.ripe.net/data-tools/db/faq Documentation: http://www.ripe.net/data-tools/support/documentation
 
-This data is accessible via RIPEstat as a widget and as a data call. Widget API: https://stat.ripe.net/widget/registry-browser Data API: https://stat.ripe.net/docs/data_api#RegistryBrowser
+The RIPE Database is also accessible via RIPEstat as a widget and as a data call. Widget API: https://stat.ripe.net/widget/registry-browser Data API: https://stat.ripe.net/docs/data_api#RegistryBrowser
 
-Routing information comes in different variations to accommodate multiple use-cases, see these examples to get an idea about the available data:
+Additionally, RIPEstat provides an API that is tailored towards retrieving abuse contacts. The Abuse-Contact-Finder is described in more details at https://stat.ripe.net/docs/data_api#AbuseContactFinder. As with most data calls on RIPEstat there is a visual frontend (widget) too, https://stat.ripe.net/widget/abuse-contact-finder
+
+
+
+*Routing information* comes in different variations to accommodate multiple use-cases, see these examples to get an idea about the available data:
 * https://stat.ripe.net/docs/data_api#AnnouncedPrefixes
 Lists what prefixes are/were announced from a given AS.
 * https://stat.ripe.net/docs/data_api#LookingGlass
