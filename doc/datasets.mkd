@@ -527,7 +527,7 @@ Provides a direct view into the current status of live routing tables. The outpu
 * https://stat.ripe.net/docs/data_api#PrefixOverview
 Simple returns if an IP address/prefix has been seen in the routing table. If it is announced the network from which it is originated will be included in the result.
 
-More examples can be found under https://stat.ripe,net/docs/data_api
+More examples can be found under https://stat.ripe.net/docs/data_api
 
 ### Who has access?
 Public
