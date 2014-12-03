@@ -4,7 +4,7 @@ Requirements
 * Debian Sid or higher 
 * Postgresql 9.3 or higher
 * Python 2.7 or higher
-* VirutalEnv
+* VirtualEnv
 
 Stuff which needs to be available in a virtual env
 --------------------------------------------------
