@@ -52,14 +52,14 @@ CERTs - especially national CERTs - need to look up contact information very fre
 There are two fundamental ways to look up contacts for abuse reporting:
 
 * name-based whois services for looking up domain name related contacts
-* ip-based whois services for looking up IP related contacts
+* number-based whois services for looking up IP or ASN related contacts
 
 Each lookup mechanism has its own issues to find high-quality contact information.
 
 * Issues with name-based services:
   * information in whois quickly gets outdated 
   * different services use different API and output formats
-* Issues with IP-based services:
+* Issues with number-based services:
   * contacts for abuse reporting can be unresponsive or invalid 
   * most RIR whois services have limitations on the amount of retrievable information (especially personal information which contact information might account to)
   * APIs and output formats are not coherent among RIRs
