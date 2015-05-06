@@ -497,7 +497,7 @@ The RIPE NCC keeps a comprehensive record of all Internet number resources regis
 
 Following a proposal made by the RIPE community in June 2011 the RIPE policy ripe-563 made it mandatory for every resource object (inetnum, inet6num and aut-num) to have a dedicated abuse contact. This contact is usually referred to as "abuse-c" contact and it is the preferred way to report any form of abuse to.
 
-The IRT (incident response team) object was created with a similar idea in mind but its deployment is, even being around for years, very low and so is it is not widely used. Chances are high that this object will be dismissed. Abuse-c is considered to superceed the IRT object.
+The IRT (incident response team) object was created with a similar idea in mind but its deployment is, even being around for years, very low and so is it is not widely used. Chances are high that this object will be dismissed and its functionality be replaced by another object type. 
 
 Apart from the registration data the RIPE NCC collects routing information and provides access to it. Routing data is collected by 13  bgp route reflectors called Routing Information Service (RIS) route collectors (https://www.ripe.net/data-tools/stats/ris/).
 
