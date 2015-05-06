@@ -504,10 +504,11 @@ Apart from the registration data the RIPE NCC collects routing information and p
 
 ### Data in the dataset
 Registration data:
-    * RIPE DB (containing IP resource information and contact data)
-    * Routing DB (containing routing policy information)
-    * Regional Internet Registry Statistics (which IP or AS resources are allocated when and to which country)
-    * Routing Information
+
+  * RIPE DB (containing IP resource information and contact data)
+  * Routing DB (containing routing policy information)
+  * Regional Internet Registry Statistics (which IP or AS resources are allocated when and to which country)
+ 
 
 ### Original or synthetic data?
 Original
