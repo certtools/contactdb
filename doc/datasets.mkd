@@ -19,6 +19,7 @@ The authors accept git pull requests, please help and enrich this document.
 
 | Term           | Explanation                                                            |
 |:---------------|:-----------------------------------------------------------------------|
+|ASN     		 | Autonmomous System Number, see rfc1771, rfc4893 |
 |BGP     		 | BOrder Gateway Protocol, see rfc4271 | 
 |CERT     		 | Computer Emergency Response Team. Synonymous with CSIRT |
 |Constituency    | In this context, by constituency we mean the group of people, networks, ASNs, etc. a CERT addresses as their responsibility | 
