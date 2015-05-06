@@ -506,7 +506,7 @@ Apart from the registration data the RIPE NCC collects routing information and p
 Registration data:
 
   * RIPE DB (containing IP resource information and contact data)
-  * Routing DB (containing routing policy information)
+  * RIPE Routing Registry (containing routing policy information)
   * Regional Internet Registry Statistics (RIRSTATS): 
     Holds information about the date and the resource holder's location (on country level) for each allocated resource in the  RIR's service region.
  
