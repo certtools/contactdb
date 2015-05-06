@@ -50,9 +50,9 @@ CERTs and IT security incident abuse handlers as well as professionals working o
 CERTs - especially national CERTs - need to look up contact information very frequently for different resources on the Internet.  Examples of such lookups might be: given the IP address 1.2.3.4, give me the best matching abuse contact email address. Or given the domain www.example.com, what is the best contact for sending IT security incident notifications to?  
 
 While the classical way to look up abuse contacts is to query some RIR whois service (such as RIPE's whois service) , there are some issues with this:
-  * first of all, it might not be the data that's needed: for example the query might refer more to a domain instead of an IP address 
+
   * the contact registered for the specific network might be non-responsive or the wrong contact
-  * bulk queries are usually not supported for whois
+  * most RIR whois services have limitations on the amount of retrievable information (especially personal information which contact information might account to)
   * information in whois quickly gets outdated
 
 As a consequence, a lot of different datasets for abuse contact lookups sprung up. They contain different data, have different access methods and -permissions.
