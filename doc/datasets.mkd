@@ -253,7 +253,64 @@ Access is public
 
 ### APIs / automatic querying
 
-Currently at the time of this writing, there is no API and no way to automatically query data by netressources.
+At the time of this writing, there is an experimental  API which is inspired by the RIPE stat API.
+
+The API is documented at https://www.first.org/global/standardisation.
+
+Example for an output:
+
+Query: ```wget "https://www.first.org/data/teams.json?country=BR"```
+
+Output:
+```
+{
+  "status": 200,
+  "length": 3,
+  "data": [
+    {
+      "id": "cais-rnp",
+      "team": "CAIS/RNP",
+      "team-full": "Brazilian Academic and Research Network CSIRT",
+      "host": "Brazilian Academic and Research Network",
+      "country": "BR",
+      "website": "http://www.cais.rnp.br/",
+      "email": "cais@cais.rnp.br",
+      "phone": "+55-19-3787-3300",
+      "fax": "+55-19-3787-3301",
+      "phone-emergency": "+55-19-8173-0668",
+      "timezone": "UTC-03",
+      "timezone-dst": "UTC-02",
+      "other-communication": "INOC-DBA: 1916*800"
+    },
+    {
+      "id": "cert-br",
+      "team": "CERT.br",
+      "team-full": "Computer Emergency Response Team Brazil",
+      "host": "The Brazilian Internet Steering Committee",
+      "country": "BR",
+      "website": "http://www.cert.br/",
+      "email": "cert@cert.br",
+      "phone": "+55-11-5509-3548",
+      "fax": "+55-11-5509-3512",
+      "timezone": "UTC-0300",
+      "timezone-dst": "UTC-0200",
+      "other-communication": "INOC-DBA: 22548*800"
+    },
+    {
+      "id": "defenda_cert",
+      "team": "Defenda CERT",
+      "team-full": "Defenda CERT",
+      "host": "Defenda",
+      "country": "BR",
+      "website": "www.defenda.com.br",
+      "email": "cert@defenda.com.br",
+      "phone": "+55-51-3091-6342",
+      "phone-emergency": "+55-51-3091-6342"
+    }
+  ]
+}
+
+```
 
 ### Maintainers
 
