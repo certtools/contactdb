@@ -493,7 +493,7 @@ Needs a manual sync with CERT/CCs national CSIRT database.
 
 
 ### Overview
-The RIPE NCC keeps a comprehensive record of all Internet number resources registered within the RIPE NCC service region, called the RIPE Registry (or the RIPE Database). The RIPE Registry contains a set of registration data for all Internet number resources administered by the RIPE NCC. This contains information about IPv4 allocations and assignments, routing information and the associated contact information (more information: http://www.ripe.net/ripe/docs/ripe-508) 
+The RIPE NCC keeps a comprehensive record of all Internet number resources registered within the RIPE NCC service region to ensure that each Resource Holder holds unique and legitimate Internet Protocol (IP) address space and Autonomous System Numbers (ASNs). The collective of this data is generally referred to as the "RIPE Registry". The RIPE Database provides access to the public data of the Registry. (more information: http://www.ripe.net/ripe/docs/ripe-508) 
 
 Following a proposal made by the RIPE community in June 2011 the RIPE policy ripe-563 made it mandatory for every resource object (inetnum, inet6num and aut-num) to have a dedicated abuse contact. This contact is usually referred to as "abuse-c" contact and it is the preferred way to report any form of abuse to.
 
