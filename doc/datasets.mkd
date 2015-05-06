@@ -71,14 +71,11 @@ This document is intended to be a request for input from the Internet community.
 
 
 
-# General remarks and overview of datasets
+# Potential ways for looking up abuse contacts
 
-For all potential datasets, there are two orthogonal approaches which must be considered: looking up abuse contacts for:
-
-  * name based resources (e.g. domain names, host names)
-  * number based resources (IP addresses, AS numbers)
-
-This document assumes that a resource is either a name based resource or a number based resource. 
+Finding the right abuse contact for a name-based or number-based resource can be tricky. Figure 1 shows potential lookups in different datasets.
+Please note that a name based resource (domain name, hostname) can be mapped to IP addresses easily. So for a name based resource, you can always
+find the hoster, server or ASN on which a domain name or hostname is operating. However, the reverse direction might not always be useful. 
 
 
 ![Potential abuse contact lookups](./img/contact-lookup-flow.png)
@@ -188,7 +185,7 @@ Trusted Intorducer confirms the data with each team representative every 12 mont
 
 ### Known issues
 
-Netblock information and domain names are partly free text in the database and not yet useful for automatic contact lookups based on netblocks and domain names
+ASN information is syntactically correct. Netblock information and domain names are partly free text in the database and not yet useful for automatic contact lookups based on netblocks and domain names
 
 
 
