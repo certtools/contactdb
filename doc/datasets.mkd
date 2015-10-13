@@ -1,3 +1,9 @@
+
+********
+NOTE: This document is an older version of a document that is being published as a RIPE Document. Reference will be added as soon as the RIPE Document is published.
+********
+
+
 % Abuse Contact datasets for IT security incident handling
 % L. Aaron Kaplan <kaplan@cert.at>; Mirjam Kuehne <mirjam.kuehne@ripe.net>; Christian Teuschel <christian.teuschel@ripe.net>, 
 % 2014/09/18
