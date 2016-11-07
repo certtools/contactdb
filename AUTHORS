@@ -3,7 +3,18 @@ David Durvaux <david [dot] durvaux [at] cert [dot] be>
 Mauro Silva <mauro [dot] silva [at] cert [dot] pt>
 Tomás Lima <tomas [dot] lima [at] cert [dot] pt>
 Romain Bourgue <romain [dot] bourgue [at] enisa [dot] europa [dot] eu>
+Stefan Lenzhofer <lenzhofer[dot] cert.at>
 
-This project started in our spare time.
+History
+=======
+This project started in our spare time. 
+It is closely related to the IHAP project, [intelmq](http://intelmq.org) and incident handling topics in general.
+
+It then added code done by [Intevation GmbH for BSI in 2016](https://github.com/Intevation/intelmq/tree/certbund-contact).
+Furthermore this code was enhanced by change requests from CERT.at and added specific fields for personal contact data.
+
+
+
+
 
 

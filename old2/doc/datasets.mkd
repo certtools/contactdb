@@ -1,0 +1,785 @@
+
+********
+NOTE: This document is an older version of a document that is being published as a RIPE Document. Reference will be added as soon as the RIPE Document is published.
+********
+
+
+% Abuse Contact datasets for IT security incident handling
+% L. Aaron Kaplan <kaplan@cert.at>; Mirjam Kuehne <mirjam.kuehne@ripe.net>; Christian Teuschel <christian.teuschel@ripe.net>, 
+% 2014/09/18
+
+# Abstract
+
+This document aims at listing the different datasets listing abuse contacts and
+CERTs. The goal is to give the audience an overview of datasets and show where
+this data can be found, who has access to the data and list known issues with
+the data sets.
+
+The authors accept git pull requests, please help and enrich this document.
+
+
+
+
+# Terminology
+
+
+| Term           | Explanation                                                            |
+|:---------------|:-----------------------------------------------------------------------|
+|ASN     		 | Autonmomous System Number, see rfc1771, rfc4893 |
+|BGP     		 | BOrder Gateway Protocol, see rfc4271 | 
+|CERT     		 | Computer Emergency Response Team. Synonymous with CSIRT |
+|Constituency    | In this context, by constituency we mean the group of people, networks, ASNs, etc. a CERT addresses as their responsibility | 
+|CSIRT    		 | Computer Security Incident Response Team  |
+|FIRST			 | First.org - Forum for Incident Response and Security Teams |
+|LIR      		 | Local Internet Registry; see (1) for more details  |
+|Object			 | As defined by RIPE: a XXX RIPE: please define XXX |
+|Network Resource | 	Or "Netresource". An ASN, netblock, IP address, domain name or hostname |
+|Registrant 	 | 	A person registering a domain name for individual or business usage   |
+|Registrar 		 | Often called domain registrar. An organisation handling the registration of domain names on behalf of a registrant  |
+|RIPE NCC 		 | RIR serving Europe, Central Asia and the Middle East; see (2)  |
+|RIR      		 | Regional Internet Registry; see (1) for more details  |
+|RIS      		 | Routing Information Service  |
+|TI       		 | Trusted Introducer  |
+
+Table: Terminology
+
+
+(1) [http://www.ripe.net/internet-coordination/internet-governance/internet-technical-community/the-rir-system](http://www.ripe.net/internet-coordination/internet-governance/internet-technical-community/the-rir-system)         
+(2) [http://www.ripe.net](http://www.ripe.net)
+
+# Intended Audience
+
+CERTs and IT security incident abuse handlers as well as professionals working on automating IT security incident handling. 
+
+
+# Problem description and motivation
+
+CERTs - especially national CERTs - need to look up contact information very frequently for different resources on the Internet.  Examples of such lookups might be: given the IP address 1.2.3.4, give me the best matching abuse contact email address. Or given the domain www.example.com, what is the best contact for sending IT security incident notifications to?  
+
+There are two fundamental ways to look up contacts for abuse reporting:
+
+* name-based whois services for looking up domain name related contacts
+* number-based whois services for looking up IP or ASN related contacts
+
+Each lookup mechanism has its own issues to find high-quality contact information.
+
+* Issues with name-based services:
+  * information in whois quickly gets outdated 
+  * different services use different API and output formats
+* Issues with number-based services:
+  * contacts for abuse reporting can be unresponsive or invalid 
+  * most RIR whois services have limitations on the amount of retrievable information (especially personal information which contact information might account to)
+  * APIs and output formats are not coherent among RIRs
+
+This document aims at describing these different datasets in order to provide an overview. The document "abuse-lookups.mkd" deals with how to query these datasets.
+
+This document is intended to be a request for input from the Internet community. The hope is to eventually define a standard for abuse contact lookups.
+
+
+
+# Potential ways for looking up abuse contacts
+
+Finding the right abuse contact for a name-based or number-based resource can be tricky. Figure 1 shows potential lookups in different datasets.
+Please note that a name based resource (domain name, hostname) can be mapped to IP addresses easily. So for a name based resource, you can always
+find the hoster, server or ASN on which a domain name or hostname is operating. However, the reverse direction might not always be useful. 
+
+
+![Potential abuse contact lookups](./img/contact-lookup-flow.png)
+
+
+Figure 1 describes possible paths in looking up abuse contact information based
+on the given resources and some of the datasets involved.  Depending on the
+case and depending on the resource, there might be multiple paths for lookups.
+This will always be a case-by-case decision on behalf of the incident reporter. 
+
+*Example:* the incident reporter finds a hacked webpage. Naturally, he will try
+to contact the domain owner (name based resource lookup) - the admin\_c and
+possibly also the tech\_c.  However, as time passes, the incident reporter
+notices more and more hacked webpages. Incidentally, they all turn out to be
+hosted on the very same IP address block.  After some investigations, the
+incident reporter decides that there must be something wrong with the web page
+hoster's servers. Hence, he decides to contact the owner of the IP block (the
+hoster) in order to hand him over a long CSV file of all web pages which are
+hacked and residing on the hosters' IP range.
+
+In practice, often enough it is not clear, which path to choose. 
+
+Sometimes, an incident report might want to contact a single point of contact
+(PoC) for a whole country. Typically this would be a national CERT which in
+turn will use some kind of contact lookup mechanism (possibly more accurate) to
+assign the incident report to a locally trusted and well known incident
+handler. For this case (sending incident reports to a national CERT), the
+report must find out the country a resource is assigned to. Since there is a
+well known dataset of national CERTs (see CERT/CCs national CSIRT database),
+the problem thus can be reduced to finding the country code of the resource
+(for example: given an IP address 1.2.3.4, what is the country this IP address
+resides in?).  We will discuss this special case in the section on supporting
+databases.
+
+Whoever, we must remember that the problem of whom to contact is a choice which
+must be made on a case-by-case basis. Therefore any framework must be flexible
+enough to support both approaches.
+
+
+# Existing datasets
+
+
+## Trusted Introducer
+
+### Overview
+
+Trusted Introducer
+([http://trusted-introducer.org/](http://trusted-introducer.org/)) ("TI")
+maintains a directory of IT security teams and TI members. While the database
+is worldwide, there is a strong focus on Europe. TI assigns different maturity
+levels to CERTs: listed, accredited and certified.  TI also offers a CSV Export
+of its database to TI members (you need to be logged into the TI website to
+access this CSV list).  The CSV list is searchable by netresources such as ASN,
+country code or IP range.  However, at the time of writing this document, there
+are still some issues with automating the querying of the TI data.
+
+### Data in the dataset
+
+The data in the TI database contains amongst other fields the following information:
+
+
+  * Team name
+  * TI Level (Listed, Accredited, ...)
+  * URL of the team description on the TI webpage
+  * Country
+  * The constituency of the CERT:
+    * ASN
+    * netblocks
+    * domains
+  * Email Address(es) of the CERT
+  * PGP key IDs of the CERT's team key
+  * Telephone number
+  * Postal address
+  * Business hours
+  * Time Zone
+  * Team Representative
+  * Website (URL) of the CERT
+
+**Example**: one example can be seen at http://trusted-introducer.org/directory/teams/certat.html
+
+
+### Original or synthetic data?
+This is an original dataset.
+
+### Where to find it?
+
+http://trusted-introducer.org/
+
+
+### Who has access?
+
+The public has access to a searchable list of teams via the website. 
+TI members have access to the members view and can download a CSV file export of the database.
+
+### APIs / automatic querying
+
+Currently, a logged in user (TI member) can download a CSV file dump of the database in the internal section and query the (downloaded CSV) data automatically.
+
+### Maintainers
+
+Trusted Introducer.
+
+### Liveliness
+
+Trusted Intorducer confirms the data with each team representative every 12 months (XXX FIXME: check this XXX).
+
+
+### Known issues
+
+ASN information is syntactically correct. Netblock information and domain names are partly free text in the database and not yet useful for automatic contact lookups based on netblocks and domain names
+
+
+
+---------------------------------------
+
+
+
+
+
+## FIRST.org
+
+### Overview
+FIRST (Forum for Incident Response and Security Teams) is one of the oldest IT security forums in the world. For a history, see http://first.org/about/history.
+As such, FIRST maintains an extensive list of IT Security teams (FIRST's members) around the world. 
+
+
+
+### Data in the dataset
+
+The data in the FIRST directory contains amongst other fields the following information:
+
+  * Team Info
+    * Short team name
+    * Team representative
+    * Membership type
+    * Date of establishment
+    * Website (URL)
+  * Constituency
+    * Type of constituency
+    * ASNs
+    * Internet domain addresses
+    * Country of constituency
+  * Team contact information
+    * Tel number
+    * Email address
+    * Postal address
+    * Time zone
+  * Business hours
+    * Business hours
+    * Reachability outside of business hours
+  * Services
+    * Textual description: reactive, proactive, ...
+  * Cryptography
+    * PGP key ID
+    * PGP fingerprint
+    * The full team PGP key (ascii armored)
+  * Team members
+    *  A list of names of team members
+
+**Example**: one example can be seen at https://www.first.org/members/teams/cert-at
+
+
+
+### Original or synthetic data?
+Original data
+
+### Where to find it?
+
+http://www.first.org -> members
+
+### Who has access?
+
+Access is public 
+
+
+### APIs / automatic querying
+
+At the time of this writing, there is an experimental  API which is inspired by the RIPE stat API.
+
+The API is documented at https://www.first.org/global/standardisation.
+
+Example for an output:
+
+Query: ```wget "https://www.first.org/data/teams.json?country=BR"```
+
+Output:
+```
+{
+  "status": 200,
+  "length": 3,
+  "data": [
+    {
+      "id": "cais-rnp",
+      "team": "CAIS/RNP",
+      "team-full": "Brazilian Academic and Research Network CSIRT",
+      "host": "Brazilian Academic and Research Network",
+      "country": "BR",
+      "website": "http://www.cais.rnp.br/",
+      "email": "cais@cais.rnp.br",
+      "phone": "+55-19-3787-3300",
+      "fax": "+55-19-3787-3301",
+      "phone-emergency": "+55-19-8173-0668",
+      "timezone": "UTC-03",
+      "timezone-dst": "UTC-02",
+      "other-communication": "INOC-DBA: 1916*800"
+    },
+    {
+      "id": "cert-br",
+      "team": "CERT.br",
+      "team-full": "Computer Emergency Response Team Brazil",
+      "host": "The Brazilian Internet Steering Committee",
+      "country": "BR",
+      "website": "http://www.cert.br/",
+      "email": "cert@cert.br",
+      "phone": "+55-11-5509-3548",
+      "fax": "+55-11-5509-3512",
+      "timezone": "UTC-0300",
+      "timezone-dst": "UTC-0200",
+      "other-communication": "INOC-DBA: 22548*800"
+    },
+    {
+      "id": "defenda_cert",
+      "team": "Defenda CERT",
+      "team-full": "Defenda CERT",
+      "host": "Defenda",
+      "country": "BR",
+      "website": "www.defenda.com.br",
+      "email": "cert@defenda.com.br",
+      "phone": "+55-51-3091-6342",
+      "phone-emergency": "+55-51-3091-6342"
+    }
+  ]
+}
+
+```
+
+### Maintainers
+
+FIRST.org Inc. maintains the database.
+
+### Liveliness
+
+FIRST members can update their data via web form.
+
+### Known issues
+
+The First directory is often lacking ASNs for FIRST team members.
+
+
+---------------------------------------
+
+
+## CERT/CC's national CERT database
+
+### Overview
+
+CERT/CC hosts a yearly national CERT (CSIRT) meeting([https://www.cert.org/incident-management/national-csirts/meeting/](https://www.cert.org/incident-management/national-csirts/meeting/). As part of these meetings, CERT/CC also maintains a fairly accurate list of national CERTs ([https://www.cert.org/incident-management/national-csirts/national-csirts.cfm](https://www.cert.org/incident-management/national-csirts/national-csirts.cfm)).
+
+
+Please note that the definition of "national CERT" is not 100% clear. 
+
+
+### Data in the dataset
+
+  * Organisation (i.e. the CERT)
+    * Team name
+    * Team short name
+    * Country
+    * Tel Hotline
+    * Email address
+    * Website
+  * Organisational Units
+  * Groups
+  * Personal data on CERT team members
+  * Cryptography 
+    * S/Mime or PGP or Kerberos infos
+    * PGP key id
+
+  
+**Example** (from the publicly visible website):
+
+| Field            | Value |
+|:-----------------|-------|
+| Country          | Austria | 
+| Team short name  | CERT.at  | 
+| Team name        | National Computer Emergency Response Team of Austria |
+| Website          | http://www.cert.at |
+
+
+
+### Original or synthetic data?
+
+
+Original 
+
+### Where to find it?
+
+https://nationalcsirts.cert.org/
+
+and 
+
+https://www.cert.org/incident-management/national-csirts/national-csirts.cfm
+
+
+
+
+### Who has access?
+
+Some of the data is publicly available at https://www.cert.org/incident-management/national-csirts/national-csirts.cfm
+
+
+
+### APIs / automatic querying
+
+
+CERT.org is working on creating a CSV export file of the database on a public webserver.
+
+
+### Maintainers
+
+
+CERT.org 
+CERT Coordination Center
+Software Engineering Institute
+Carnegie Mellon University
+Office: +1 412 268 8876
+CERT Hotline: +1 412 268 7090
+
+
+### Liveliness
+
+Somewhat up to date: the yearly National CSIRT conference helps in keeping the directory up to date.
+Teams are encouraged to update their contact info via email or webform at https://www.cert.org/incident-management/contact.cfm
+
+### Known issues
+
+
+
+
+
+
+---------------------------------------
+
+
+
+
+## ENISAs CERT Inventory
+
+### Overview
+
+ENISA collected a list of CERTs in Europe on their website. The list comes from TI as well as FIRST.
+
+### Data in the dataset
+
+  * CERT Name 
+  * CERT Country
+  * Constituency - National, Governamental etc.
+  * Established date
+  * Team website (for contact)
+  * TI / FIRST Status
+  * Mandate
+
+**Example**:
+
+| Field         | Value        |
+|:--------------|:-------------|
+| Country       | Austria      |
+| Name          | CERT.at  |
+| CERT type     | National |
+| Establishment date | 01/01/2008 |
+| Contact |  http://www.cert.at |
+| TI Status |  accredited |
+| FIRST Membership |  member |
+| Mandate |  Official | 
+
+
+
+### Original or synthetic data?
+
+Synthetic.
+
+### Where to find it?
+
+https://www.enisa.europa.eu/activities/cert/background/inv
+
+(needs Javascript)
+
+### Who has access?
+
+Public.
+
+
+### APIs / automatic querying
+
+There is no API
+
+### Maintainers
+
+ENISA
+
+### Liveliness
+
+Bi-yearly
+
+### Known issues
+
+  * Manually updated
+  * Dependent on Javascript
+  * Lack of abuse contact & IP block/ASN information
+
+
+
+---------------------------------------
+
+
+
+## CERT.at's national CERT database
+
+
+### Overview
+CERT.at created this national CERT database and offers an online lookup tool at [https://contacts.cert.at](https://contacts.cert.at) to the public.
+
+
+### Data in the dataset
+
+This dataset is a merge of the CERT/CCs' national CSIRT database and some manually mantained data (CERTs which are known to CERT.at).
+
+### Original or synthetic data?
+
+Synthetic
+
+### Where to find it?
+
+httpS://contacts.cert.at/
+
+### Who has access?
+
+Public
+
+
+### APIs / automatic querying
+
+You can submit any textual data (for example a log file) which contains IP addresses (IPv4 and v6 are supported) in a form. Submission to this form can be either manually or via script (curl, wget, ...). The result of the form submission will be a the national CERTs email address for the specific IP address.
+
+**Example**: 
+
+
+In your browser, enter https://contacts.cert.at/cgi-bin/abuse-nationalcert.pl?ip=8.8.8.8&bShowNationalCERT=on&sep=TAB
+Answer:
+```
+8.8.8.8	US	US-CERT	soc@us-cert.gov
+```
+
+
+
+### Maintainers
+
+CERT.at
+
+### Liveliness
+
+Tends to get outdated.
+
+### Known issues
+
+Needs a manual sync with CERT/CCs national CSIRT database.
+
+
+
+---------------------------------------
+
+
+
+
+
+## RIPE/RIPE NCC Data Sets
+
+
+### Overview
+The RIPE NCC keeps a comprehensive record of all Internet number resources registered within the RIPE NCC service region to ensure that each Resource Holder holds unique and legitimate Internet Protocol (IP) address space and Autonomous System Numbers (ASNs). The collective of this data is generally referred to as the "RIPE Registry". The RIPE Database provides access to the public data of the Registry. (more information: https://www.ripe.net/publications/docs/ripe-508) 
+
+Following a proposal made by the RIPE community in June 2011 the RIPE policy ripe-563 made it mandatory for every resource object (inetnum, inet6num and aut-num) to have a dedicated abuse contact. This contact is usually referred to as "abuse-c" contact and it is the preferred way to report any form of abuse to.
+
+The IRT (incident response team) object was created with a similar idea in mind but its deployment is, even being around for years, very low and so is it is not widely used. Chances are high that this object will be dismissed and its functionality be replaced by another object type. 
+
+Apart from the registration data the RIPE NCC collects routing information and provides access to it. Routing data is collected by 13  bgp route reflectors called Routing Information Service (RIS) route collectors (https://www.ripe.net/data-tools/stats/ris/).
+
+
+### Data in the dataset
+Registration data:
+
+  * RIPE DB (containing IP resource information and contact data)
+  * RIPE Routing Registry (containing routing policy information)
+  * Regional Internet Registry Statistics (RIRSTATS): 
+    Holds information about the date and the resource holder's location (on country level) for each allocated resource in the  RIR's service region.
+ 
+
+### Original or synthetic data?
+Original
+
+### Where to find it?
+The **RIPE Database** can be searched by using the web interface (https://apps.db.ripe.net/search/query.html) or by directing your whois client to whois.ripe.net. A full-text search is also available https://apps.db.ripe.net/search/full-text.html.
+
+FAQ: http://www.ripe.net/data-tools/db/faq Documentation: http://www.ripe.net/data-tools/support/documentation
+
+The RIPE Database is also accessible via RIPEstat as a widget and as a data call. Widget API: https://stat.ripe.net/widget/registry-browser Data API: https://stat.ripe.net/docs/data_api#RegistryBrowser
+
+Additionally, RIPEstat provides an API that is tailored towards retrieving abuse contacts. The Abuse-Contact-Finder is described in more details at https://stat.ripe.net/docs/data_api#AbuseContactFinder. As with most data calls on RIPEstat there is a visual frontend (widget) too, https://stat.ripe.net/widget/abuse-contact-finder
+
+
+
+*Routing information* comes in different variations to accommodate multiple use-cases, see these examples to get an idea about the available data:
+* https://stat.ripe.net/docs/data_api#AnnouncedPrefixes
+Lists what prefixes are/were announced from a given AS.
+* https://stat.ripe.net/docs/data_api#LookingGlass
+Provides a direct view into the current status of live routing tables. The output is filtered on a given prefix / IP address.
+* https://stat.ripe.net/docs/data_api#PrefixOverview
+Simple returns if an IP address/prefix has been seen in the routing table. If it is announced the network from which it is originated will be included in the result.
+
+More examples can be found under https://stat.ripe.net/docs/data_api
+
+### Who has access?
+Public
+
+### APIs / automatic querying
+RIPEstat provides interfaces to provide access to this data sets as mentioned in the paragraph on "Where to find it?".
+More details on the RIPEstat data API can be found under https://stat.ripe.net/docs/data_api
+
+
+### Maintainers
+RIPE NCC and RIPE NCC members
+
+### Liveliness
+Continuously
+
+### Known issues
+
+
+---------------------------------------
+
+
+## OAS.org's list of CSIRTs
+
+### Overview
+
+The Organisation of American States (OAS.org) keeps a list of CERTs on their web page in the form of a google map.
+
+
+### Data in the dataset
+
+
+  * Short CERT Name
+  * official team name
+  * Team website (for contact)
+  * Email
+  * CERT Country
+  * exact location (GPS) - probably based on the address (which is not displayed to the public)
+
+**Example**:
+
+| Field         | Value        |
+|:--------------|:-------------|
+| Short team name | CERT.at  |
+| Official team name| National Computer Emergency Response Team of Austria |
+| Country       | Austria      |
+| Website |   http://cert.at/about/contact/contact_en.html |
+
+
+### Original or synthetic data?
+
+Unknown
+
+### Where to find it?
+
+http://www.oas.org/en/sms/cyber/Map/map_en.asp
+
+### Who has access?
+
+Public
+
+### APIs / automatic querying
+
+No
+
+### Maintainers
+
+Organization of American States
+Inter-American Committee against Terrorism
+Cyber Security Program
+1889 F Street, N.W. (8th Floor)
+Washington, DC 20006
+
+
+### Liveliness
+
+Unknown.
+
+
+### Known issues
+
+There seems to be only a google map available but no list which could be queried automatically.
+
+-------------------------------------
+
+
+# Supporting databases
+
+Often enough, there is a requirement to transform one network resource (e.g. an IP address) into a different network ressource (e.g. a country code) in order to look up the abuse contact (e.g. the national CERT) for the IP address. 
+This section describes these supporting additional databases.
+
+
+
+## Country Code lookups
+
+As discussed in section 'General remarks on abuse contact lookups', some
+incident reports should simply go to the national CERT. For this task, it is
+important to find the country code of an IP address or a domain.
+
+In the case of IP addresses, there are a couple of databases which will be discussed below.
+
+
+### Maxmind
+
+[Maxmind](https://www.maxmind.com/) is one of the most well known databases for IP to country code mappings. 
+There are a couple of versions of Maxmind with varying degrees of accuracy and costs: 
+
+* GeoIP City
+* GeoIP Country
+* GeoIP Lite
+* GeoIP Legacy
+
+We advise the reader to check Maxminds webpage for current offerings. The full description on this service can be found at http://dev.maxmind.com/geoip/geoip2/geolite2/
+
+Using the GeoIP database in a wide variety of languages is very straightforward. In this document we give an example in Python (from [Readthedocs](http://geoip2.readthedocs.org/en/latest/)).
+
+```
+>>> import geoip2.database
+>>> reader = geoip2.database.Reader('/path/to/GeoLite2-City.mmdb')
+>>> response = reader.city('8.8.8.8')
+>>> response.country.iso_code
+'US'
+```
+
+
+
+
+### Team Cymru
+
+[Team Cyrmu](https://www.team-cymru.org/Services/ip-to-asn.html) provides an IP address to ASN mapping service via whois ([RFC3912](https://tools.ietf.org/html/rfc3912)) as well as via netcat, http(s) or DNS based lookups. As part of this lookup mechanism, there are options to also get the country code of a given IP address. To the best of the authors knowledge, the IP to country mapping is done via the RIR databases.
+
+The full description on how to use this service can be found at https://www.team-cymru.org/Services/ip-to-asn.html
+
+*Example lookup*: 
+```
+$ whois -h whois.cymru.com  " -c   8.8.8.8"
+
+AS      | IP               | CC | AS Name
+15169   | 8.8.8.8          | US | GOOGLE - Google Inc.,US
+```
+
+or as a shell script:
+```
+#!/bin/bash
+
+ip=$1
+cmd=$(cat <<EOT;
+begin
+verbose
+ -c
+$ip
+end
+EOT)
+
+echo "$cmd" | nc whois.cymru.com 43
+
+```
+Example output:
+
+```
+Bulk mode; whois.cymru.com [2014-05-12 19:30:14 +0000]
+Error: no ASN or IP match on line 3.
+15169   | 8.8.8.8          | 8.8.8.0/24          | US | arin     |            | GOOGLE - Google Inc.,US
+```
+
+
+
+## IP 2 ASN
+
+### Team Cyrmu
+
+As described above, Team Cymru also provides an IP2ASN service
+
+### Roll your own IP 2 ASN lookup via BGP routing tables
+
+If you have access to a BGP full feed, you can easily make your own IP 2 ASN lookup mechansim with Quagga (http://www.nongnu.org/quagga/). 
+
+Needed components:
+  * Quagga routing daemon with a BGP full feed in read only mode (i.e. make sure that it does not announce routes anywhere)
+  * a small script which will query Quagga and listen on port 43 (whois).
+
+
