@@ -24,11 +24,11 @@ CREATE TABLE format (
 CREATE TABLE address (
     id SERIAL PRIMARY KEY,
     -- main postal address
-    is_postal_address BOOLEAN NOT NULL default 0,
+    is_postal_address BOOLEAN NOT NULL default False,
     address  VARCHAR(1000) NOT NULL,
     zip      INTEGER NOT NULL,
     country  VARCHAR(2) NOT NULL,
-    comment TEXT,
+    comment TEXT
 );
 
 
