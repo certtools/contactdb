@@ -1,4 +1,4 @@
-BEGIN;
+﻿BEGIN;
 
 /*
  Template table containing with elements for automatic tables 
@@ -14,7 +14,6 @@ CREATE TEMP TABLE automatic_templ (
 CREATE TABLE format (
     id SERIAL PRIMARY KEY,
 
-
     -- Most likely a WKT or MIME-Type
     name VARCHAR(80) UNIQUE NOT NULL
 );
@@ -24,11 +23,12 @@ CREATE TABLE format (
 */
 CREATE TABLE address (
     id SERIAL PRIMARY KEY,
-    postal_address  VARCHAR(1000) NOT NULL DEFAULT '',
-    zip             INTEGER NOT NULL,
-    country         VARCHAR(2) NOT NULL,
-    tel             VARCHAR(200) NOT NULL DEFAULT '',
-    comment TEXT NOT NULL DEFAULT ''
+    -- main postal address
+    is_postal_address BOOLEAN NOT NULL default 0,
+    address  VARCHAR(1000) NOT NULL,
+    zip      INTEGER NOT NULL,
+    country  VARCHAR(2) NOT NULL,
+    comment TEXT,
 );
 
 
@@ -55,10 +55,13 @@ CREATE TABLE organisation (
     -- organisation, so we can not make this key unique.
     name VARCHAR(500) NOT NULL,
 
+    -- main tel number at the organisation
+    tel  VARCHAR(200) NOT NULL,
+
     -- The sector the organisation belongs to.
     sector_id INTEGER,
 
-    comment TEXT NOT NULL DEFAULT '',
+    comment TEXT,
 
     -- CHANGE stelen: moved address information to address table
     
@@ -73,18 +76,18 @@ CREATE TABLE organisation (
 
     -- The FIRST.org handle or URL: for example
     -- https://api.first.org/data/v1/teams?q=aconet-cert
-    first_handle    VARCHAR(500),
+    first_handle VARCHAR(500),
 	address_id INTEGER,
     FOREIGN KEY (sector_id) REFERENCES sector(id),
 	FOREIGN KEY (address_id) REFERENCES address(id)
 );
 
 CREATE TABLE org_sector (
-  id SERIAL PRIMARY KEY,
-  organisation_id INTEGER, 
-  sector_id INTEGER,
-  FOREIGN KEY (sector_id) REFERENCES sector(id),
-  FOREIGN KEY (organisation_id) REFERENCES organisation(id)
+    id SERIAL PRIMARY KEY,
+    organisation_id INTEGER, 
+    sector_id INTEGER,
+    FOREIGN KEY (sector_id) REFERENCES sector(id),
+    FOREIGN KEY (organisation_id) REFERENCES organisation(id)
 );
 
 
@@ -97,52 +100,67 @@ CREATE TABLE organisation_automatic (
 
 CREATE TABLE contact (
     id SERIAL PRIMARY KEY,
-	-- is contact active
+    -- is contact active
+    -- for historical data
+    first_seen timestamp NOT NULL default now(),
+    last_updated timestamp NOT NULL default now(),
+
+    -- one contact can have multiple roles and therefore contacts
+    -- but will always have 1 primary contact information
+    -- if null then its the primary contact
+    primary_contact_id INTEGER, -- XXX FIXME, needs more thought
+
     active BOOLEAN NOT NULL DEFAULT 'true',
-	firstname VARCHAR (500) NOT NULL,
-    lastname  VARCHAR (500) NOT NULL,
-	-- telephone number business
-    tel       VARCHAR (500), 
-	-- fax number business
-	fax VARCHAR (500),
-	-- mobile number business
-	mobile    VARCHAR (500),
-	-- telephone number private
-	tel_priv  VARCHAR (500),
-	-- mobile_priv
-	mobile_priv VARCHAR (500), 
-    pgp_key_id VARCHAR(128), 
+    firstname VARCHAR (500) NOT NULL DEFAULT '',
+    lastname  VARCHAR (500) NOT NULL DEFAULT '',
+    -- telephone number business
+    tel VARCHAR (500),
+    -- fax number business
+    fax VARCHAR (500),
+    -- mobile number business
+    mobile    VARCHAR (500),
+    -- telephone number private
+    tel_priv  VARCHAR (500),
+    -- mobile_priv
+    mobile_priv VARCHAR (500),
+    pgp_key_id VARCHAR(128),
+    pgp_key_fingerprint VARCHAR(128),
     -- the email-address of the contact
     email VARCHAR(100) NOT NULL,
-	email_priv VARCHAR(100),
-	-- CHANGE add more information for quality contacts
-	-- title (not position)
-	title VARCHAR (500),
-	-- birth date
-	-- birthdate timestamp, -- might add this later... just an idea
+    email_priv VARCHAR(100),
+    -- CHANGE add more information for quality contacts
+    -- title (not position)
+    title VARCHAR (500),
+    -- birthdate timestamp, -- might want to add this later, not needed now
 
     -- The data format to be used in emails sent to this contact.
     format_id INTEGER,
-    organisation_id INTEGER,
     comment TEXT,
-	
-	-- Binary data for picture
-	picture BYTEA,
-	-- Binary data for smime_certificate	
-	smime_certificate BYTEA,
+    -- Binary data for picture
+    picture BYTEA,
+    -- Binary data for smime_certificate	
+    smime_certificate BYTEA,
     -- address
     address_id INTEGER,	
-	-- who did create that contact can not be null
+    -- who did create that contact. If NULL, then this is not considered to be a "qualitative contact"
     vouched_by INTEGER,
-	-- who maintains the contact if not null
-	maintained_by INTEGER,
-	-- 
-	FOREIGN KEY (format_id) REFERENCES format (id), 
-	FOREIGN KEY (address_id) REFERENCES address(id),
-	FOREIGN KEY (vouched_by) REFERENCES contact(id),
-	FOREIGN KEY (maintained_by) REFERENCES contact(id),
-	FOREIGN KEY (organisation_id) REFERENCES organisation(id)
+    -- who maintains the contact. If NULL, the contact needs to be maintained by itself. 
+    maintained_by INTEGER,
+
+    FOREIGN KEY (format_id) REFERENCES format (id), 
+    FOREIGN KEY (address_id) REFERENCES address(id),
+    FOREIGN KEY (vouched_by) REFERENCES contact(id),
+    FOREIGN KEY (maintained_by) REFERENCES contact(id),
+    FOREIGN KEY (primary_contact_id) REFERENCES contact(id)
 );
+
+CREATE TABLE bounced_contacts(
+    id SERIAL PRIMARY KEY,
+    contact_id INTEGER NOT NULL,
+    bounced_at  timestamp NOT NULL DEFAULT now(),
+    FOREIGN KEY (contact_id) REFERENCES contact(id)
+);
+
 
 CREATE TABLE contact_automatic (
     LIKE automatic_templ INCLUDING ALL,
