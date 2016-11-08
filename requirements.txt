@@ -1,0 +1,4 @@
+django
+djangorestframework
+psycopg2
+ldif3

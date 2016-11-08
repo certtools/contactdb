@@ -99,32 +99,32 @@ CREATE TABLE contact (
     id SERIAL PRIMARY KEY,
 	-- is contact active
     active BOOLEAN NOT NULL DEFAULT 'true',
-	firstname VARCHAR (500) NOT NULL DEFAULT '',
-    lastname  VARCHAR (500) NOT NULL DEFAULT '',
+	firstname VARCHAR (500) NOT NULL,
+    lastname  VARCHAR (500) NOT NULL,
 	-- telephone number business
-    tel       VARCHAR (500) NOT NULL DEFAULT '',
+    tel       VARCHAR (500), 
 	-- fax number business
-	fax VARCHAR (500) NOT NULL DEFAULT '',
+	fax VARCHAR (500),
 	-- mobile number business
-	mobile    VARCHAR (500) NOT NULL DEFAULT '',
+	mobile    VARCHAR (500),
 	-- telephone number private
-	tel_priv  VARCHAR (500) NOT NULL DEFAULT '',
+	tel_priv  VARCHAR (500),
 	-- mobile_priv
-	mobile_priv VARCHAR (500) NOT NULL DEFAULT '',
-    pgp_key_id VARCHAR(128) NOT NULL DEFAULT '',
+	mobile_priv VARCHAR (500), 
+    pgp_key_id VARCHAR(128), 
     -- the email-address of the contact
     email VARCHAR(100) NOT NULL,
 	email_priv VARCHAR(100),
 	-- CHANGE add more information for quality contacts
 	-- title (not position)
-	title VARCHAR (500) NOT NULL DEFAULT '',
+	title VARCHAR (500),
 	-- birth date
-	birthdate timestamp,
+	-- birthdate timestamp, -- might add this later... just an idea
 
     -- The data format to be used in emails sent to this contact.
-    format_id INTEGER NOT NULL,
+    format_id INTEGER,
     organisation_id INTEGER,
-    comment TEXT NOT NULL DEFAULT '',
+    comment TEXT,
 	
 	-- Binary data for picture
 	picture BYTEA,
@@ -133,7 +133,7 @@ CREATE TABLE contact (
     -- address
     address_id INTEGER,	
 	-- who did create that contact can not be null
-    vouched_by INTEGER NOT NULL,
+    vouched_by INTEGER,
 	-- who maintains the contact if not null
 	maintained_by INTEGER,
 	-- 
