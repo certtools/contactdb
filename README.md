@@ -1,3 +1,9 @@
+# ARCHIVED PROJECT!
+
+**This project is archived. Development focus moved to other, similar projects such as [tuency](https://gitlab.com/intevation/tuency/tuency).
+Also have a look at [contacts.cert.at](https://github.com/aaronkaplan/contacts.cert.at) which does a nice mapping between IP 2 country code -> national CERT lookup.
+**
+
 # Contact DB
 
 ## Database Setup
